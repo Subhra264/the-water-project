@@ -1,0 +1,8 @@
+{
+  "short_name": "The water project",
+  "name": "Front end for the water project",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
