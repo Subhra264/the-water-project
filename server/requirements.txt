@@ -1,0 +1,11 @@
+asgiref==3.3.4
+atomicwrites==1.4.0
+colorama==0.4.4
+Django==3.2.4
+pip-tools==6.1.0
+pluggy==0.13.1
+py==1.10.0
+pytest==6.2.3
+pytz==2021.1
+sqlparse==0.4.1
+urllib3==1.26.4
