@@ -14,8 +14,11 @@
 }
 
 .sub-navbar-container {
+    position: relative;
 
     .selected-bar {
+        position: relative;
+        transition: all 0.7s;
         content: '';
         width: 3.7em;
         height: 0.1em;
