@@ -1,0 +1,24 @@
+.sub-navbar {
+    display: flex;
+    .sub-navbar-item {
+        a {
+            display: block;
+            padding: 0.5em;
+            text-decoration: none;
+
+            &:hover {
+                background-color: #ece6e6;
+            }
+        }
+    }
+}
+
+.sub-navbar-container {
+
+    .selected-bar {
+        content: '';
+        width: 3.7em;
+        height: 0.1em;
+        background-color: #77e75b;        
+    }
+}
