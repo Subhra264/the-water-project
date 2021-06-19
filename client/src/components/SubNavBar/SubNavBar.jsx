@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './SubNavBar.scss';
 
 export default function SubNavBar(props) {
     const offsetWidths = useRef([]);
     const linkRefs = useRef([useRef(null), useRef(null), useRef(null), useRef(null)]);
     const selectedBar = useRef(null);
+    const location = useLocation();
+    console.log('location', location);
 
     const barItems = [
         ['/', 'Home'],
@@ -15,15 +17,24 @@ export default function SubNavBar(props) {
     ];
 
     useEffect(() => {
-        offsetWidths.current[0] = linkRefs.current[0].current.offsetWidth;
-        offsetWidths.current[1] = linkRefs.current[1].current.offsetWidth;
-        offsetWidths.current[2] = linkRefs.current[2].current.offsetWidth;
-        offsetWidths.current[3] = linkRefs.current[3].current.offsetWidth;
-        console.log(offsetWidths.current);
+        for (let i = 0; i <= 3; i++) {
+            offsetWidths.current[i] = linkRefs.current[i].current.offsetWidth;
+        }
     }, [offsetWidths, linkRefs]);
 
+    useEffect(() => {
+        let currentRouteIndex = 0;
+        for (let i in barItems) {
+            if (barItems[i][0] === location.pathname) {
+                currentRouteIndex = i;
+                break;
+            }
+        }
+        
+        onSelect(currentRouteIndex);
+    }, []);
+
     const onSelect = (index) => {
-        console.log('hello from onSelect', offsetWidths.current);
         if (!selectedBar.current) return;
         selectedBar.current.style.width = offsetWidths.current[index] + 'px';
         let leftPos = 0;
