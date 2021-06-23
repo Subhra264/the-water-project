@@ -1,6 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './SubNavBar.scss';
+
+const subNavBarContainerMobStyle = {
+    position: 'absolute',
+    bottom: '0px'
+}
 
 export default function SubNavBar(props) {
     const offsetWidths = useRef([]);
@@ -10,10 +16,10 @@ export default function SubNavBar(props) {
     console.log('location', location);
 
     const barItems = [
-        ['/', 'Home'],
-        ['/problems', 'Problems'],
-        ['/solutions', 'Solutions'],
-        ['/discussion', 'Discussion'],
+        ['/', <FontAwesomeIcon icon='home' />, 'Home'],
+        ['/problems', <FontAwesomeIcon icon='exclamation-circle' />, 'Problems'],
+        ['/solutions', <FontAwesomeIcon icon='check-circle' />, 'Solutions'],
+        ['/discussion', <FontAwesomeIcon icon='comments' />, 'Discussion']
     ];
 
     useEffect(() => {
@@ -47,11 +53,10 @@ export default function SubNavBar(props) {
     return (
         <div className='sub-navbar-container'>
             <div className='sub-navbar'>
-                {console.log('I am rendered again')}
                 {
                     barItems.map((link, index) => (
-                        <div className='sub-navbar-item' key={link[1]} ref={linkRefs.current[index]} onClick={() => { onSelect(index) }}>
-                            <Link to={link[0]}>{link[1]}</Link>
+                        <div className='sub-navbar-item' key={link[2]} ref={linkRefs.current[index]} onClick={() => { onSelect(index) }}>
+                            <Link to={link[0]}>{link[2]}</Link>
                         </div>
                     ))
                 }

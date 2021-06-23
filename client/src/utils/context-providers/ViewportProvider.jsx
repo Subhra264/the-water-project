@@ -1,4 +1,5 @@
 import { ViewportContext } from "../contexts";
+import { useState, useEffect } from "react";
 
 export default function ViewportProvider({ children }) { 
     const [width, setWidth] = useState();
