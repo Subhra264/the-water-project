@@ -2,18 +2,14 @@ import { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './SubNavBar.scss';
-
-const subNavBarContainerMobStyle = {
-    position: 'absolute',
-    bottom: '0px'
-}
+import useViewport from '../../hooks/useViewport';
 
 export default function SubNavBar(props) {
     const offsetWidths = useRef([]);
     const linkRefs = useRef([useRef(null), useRef(null), useRef(null), useRef(null)]);
     const selectedBar = useRef(null);
     const location = useLocation();
-    console.log('location', location);
+    const { isMobile, width } = useViewport();
 
     const barItems = [
         ['/', <FontAwesomeIcon icon='home' />, 'Home'],
@@ -22,13 +18,7 @@ export default function SubNavBar(props) {
         ['/discussion', <FontAwesomeIcon icon='comments' />, 'Discussion']
     ];
 
-    useEffect(() => {
-        for (let i = 0; i <= 3; i++) {
-            offsetWidths.current[i] = linkRefs.current[i].current.offsetWidth;
-        }
-    }, [offsetWidths, linkRefs]);
-
-    useEffect(() => {
+    const currentRouteIndex = () => {
         let currentRouteIndex = 0;
         for (let i in barItems) {
             if (barItems[i][0] === location.pathname) {
@@ -36,9 +26,9 @@ export default function SubNavBar(props) {
                 break;
             }
         }
-        
-        onSelect(currentRouteIndex);
-    }, []);
+
+        return currentRouteIndex;
+    };
 
     const onSelect = (index) => {
         if (!selectedBar.current) return;
@@ -50,13 +40,31 @@ export default function SubNavBar(props) {
         selectedBar.current.style.left = leftPos + 'px';
     };
 
+    const determineBarPosition = () => {
+        for (let i in linkRefs.current) {
+            offsetWidths.current[i] = linkRefs.current[i].current.offsetWidth;
+        }
+
+        onSelect(currentRouteIndex());
+    };
+
+    useEffect(() => {
+        determineBarPosition();
+    }, [isMobile]);
+
+    useEffect(() => {       
+        if (isMobile) determineBarPosition();
+    }, [width, isMobile]);
+
     return (
-        <div className='sub-navbar-container'>
+        <div className={`sub-navbar-container ${isMobile? 'mobile' : ''}`} >
             <div className='sub-navbar'>
                 {
                     barItems.map((link, index) => (
                         <div className='sub-navbar-item' key={link[2]} ref={linkRefs.current[index]} onClick={() => { onSelect(index) }}>
-                            <Link to={link[0]}>{link[2]}</Link>
+                            <Link to={link[0]}>
+                                {link[isMobile? 1 : 2]}
+                            </Link>
                         </div>
                     ))
                 }

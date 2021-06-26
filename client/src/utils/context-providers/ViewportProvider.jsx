@@ -6,10 +6,14 @@ export default function ViewportProvider({ children }) {
     const [height, setHeight] = useState();
 
     useEffect(() => {
+        console.log('Viewport provider...');
+
         const handleResizeWindow = () => {
             setWidth(window.innerWidth);
             setHeight(window.innerHeight);
         };
+
+        handleResizeWindow();
         window.addEventListener('resize', handleResizeWindow);
 
         return () => window.removeEventListener('resize', handleResizeWindow);

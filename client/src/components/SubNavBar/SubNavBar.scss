@@ -1,13 +1,31 @@
 .sub-navbar {
     display: flex;
-    .sub-navbar-item {
-        a {
-            display: block;
-            padding: 0.5em;
-            text-decoration: none;
+}
 
-            &:hover {
-                background-color: #ece6e6;
+.sub-navbar-item {
+    a {
+        display: block;
+        padding: 0.5em;
+        text-decoration: none;
+
+        &:hover {
+            background-color: #ece6e6;
+        }
+    }
+}
+
+.mobile {
+    &.sub-navbar-container {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+
+        .sub-navbar {
+            justify-content: space-evenly;
+
+            .sub-navbar-item { 
+                flex: 1;
+                text-align: center;
             }
         }
     }
@@ -18,7 +36,7 @@
 
     .selected-bar {
         position: relative;
-        transition: all 0.7s;
+        transition: all 0.5s;
         content: '';
         width: 3.7em;
         height: 0.1em;
