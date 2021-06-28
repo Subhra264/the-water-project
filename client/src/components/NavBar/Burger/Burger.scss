@@ -1,0 +1,34 @@
+.burger {
+    flex-grow: 1;
+    cursor: pointer;
+
+    .burger-bar {
+        width: 30px;
+        height: 3px;
+        border-radius: 1px;
+        background-color: #77e75b;
+        margin: 0.2em;
+    }
+
+}
+
+.display-none {
+    display: none;
+}
+
+.nav-link {
+    flex-grow: 1;
+    margin: 0.2em;
+    padding: 0.4em 0.6em;
+}
+
+.nav-links {
+    display: flex;
+}
+
+.display-nav-links {
+    position: absolute;
+    top: 2.5em;
+    right: 0;
+}
+
