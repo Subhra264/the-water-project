@@ -1,3 +1,5 @@
+@import 'src/utils/styles.scss';
+
 .sub-navbar {
     display: flex;
 }
@@ -9,7 +11,7 @@
         text-decoration: none;
 
         &:hover {
-            background-color: #ece6e6;
+            background-color: $whiteHoverColor;
         }
     }
 }
@@ -19,6 +21,7 @@
         position: fixed;
         bottom: 0px;
         width: 100%;
+        border-top: 1px solid $yellowOchre;
 
         .sub-navbar {
             justify-content: space-evenly;
@@ -40,6 +43,6 @@
         content: '';
         width: 3.7em;
         height: 0.1em;
-        background-color: #77e75b;        
+        background-color: $yellowOchre;        
     }
 }

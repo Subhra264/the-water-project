@@ -1,3 +1,5 @@
+@import 'src/utils/styles.scss';
+
 .burger {
     flex-grow: 1;
     cursor: pointer;
@@ -6,7 +8,7 @@
         width: 30px;
         height: 3px;
         border-radius: 1px;
-        background-color: #77e75b;
+        background-color: $yellowOchre;
         margin: 0.2em;
     }
 
@@ -16,19 +18,42 @@
     display: none;
 }
 
-.nav-link {
+.nav-links> .nav-link {
     flex-grow: 1;
-    margin: 0.2em;
-    padding: 0.4em 0.6em;
+    margin: 0.2em 0.6em;
+    padding: 0.4em 0.8em;
+    background-color: $blue;
+    border-radius: 20px;
+    box-shadow: 0px 0px 11px #9a9cc3;
+
+    a {
+        color: $light;
+        text-decoration: none;
+    }
 }
 
 .nav-links {
     display: flex;
 }
 
+.nav-link a {
+    display: block;
+}
+
 .display-nav-links {
     position: absolute;
     top: 2.5em;
     right: 0;
+    background-color: #ebdbdb;
+
+    .nav-link {
+        padding: 0.4em 0.5em;
+        margin: 0.2em;
+        border-bottom: 1px solid $dark;
+
+        &:hover {
+            background-color: #c2b3b3;
+        }
+    }
 }
 
