@@ -1,0 +1,97 @@
+@import 'src/utils/styles.scss';
+
+.search-field-container {
+    padding: 0.4em;
+
+    .search-bar {
+        display: flex;
+        padding: 0.2em 0.8em;
+        justify-content: space-between;
+
+        .search-form-container {
+            width: 60%;
+            max-width: 25em;
+            min-width: 8em;
+
+            .search-form {
+                display: flex;
+
+                .text-input {
+                    width: 100%;
+                    padding: .7em 1.8em;
+                    border: none;
+                    outline: none;
+                    display: inline-block;
+                    background: #C4C4C42f;
+                    border-radius: 1.8em;
+                }
+
+                .search-submit-button {
+                    display: inline-block;
+                    border: none;
+                    outline: none;
+                    background: none;
+                    padding: 0.5em;
+                }
+            }
+        }
+
+        .new-topic {
+            >button {
+                display: block;
+                height: 100%;
+                padding: 0.4em 1em;
+                background-color: #77e75b;
+                color: #f3ecec;
+                border: none;
+                outline: none;
+                border-radius: 1.5em;
+            }
+        }
+    }
+
+    .labels-container {
+        padding: 0.3em;
+        display: flex;
+        .clear-filters {
+            display: inline-flex;
+            padding: 0.2em;
+            justify-content: center;
+            align-items: center;
+            color: #c54949;
+            cursor: pointer;
+        }
+
+        .labels {
+            flex-grow: 4;
+            padding: 0.2em;
+            display: flex;
+            overflow-x: auto;
+
+            .label {
+                display: inline-flex;
+                border-radius: 12px;
+                margin: 0 0.4em;
+                background: #fdfafa;
+                padding: 0.3em;
+
+                .clear-filter {
+                    display: flex;
+                    width: 1.2em;
+                    height: 1.2em;
+                    border-radius: 50%;
+                    justify-content: center;
+                    background: #C4C4C42f;
+                    align-items: center;
+                    color: $darkRed;
+                    cursor: pointer;
+                }
+
+                .label-name {
+                    padding: 0 0.3em;
+                    color: $yellowOchre;
+                }
+            }
+        }
+    }
+}
