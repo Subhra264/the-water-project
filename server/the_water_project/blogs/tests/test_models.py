@@ -1,4 +1,3 @@
-from django.db import transaction
 from django.test import TestCase
 from the_water_project.blogs.models import Blog
 from the_water_project.tags.models import Tag
@@ -26,9 +25,3 @@ class TestModels(TestCase):
         self.assertEqual(blog1.likes, 0)
         self.assertEqual(blog1.tags.get(id=1), tag)
         self.assertEqual(blog1._type, "success_stories")
-        with transaction.atomic():
-            self.assertRaises(Exception, Blog.objects.create(user=self.user, title="empty blog", _type="others"))
-            self.assertRaises(
-                Exception, Blog.objects.create(user=self.user, title="", content="empty title", _type="others")
-            )
-            self.assertRaises(Exception, Blog.objects.create(user=self.user, title="no type", content="no type"))

@@ -7,18 +7,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
 
-class TopicManager(models.Manager):
-    def create(self, *args, **extra_fields):
-        if "creator" in extra_fields:
-            creator = extra_fields["creator"]
-            if isinstance(creator, get_user_model()) or isinstance(creator, Organization):
-                content_type = ContentType.objects.get_for_model(creator)
-                content_id = content_type.pk
-                extra_fields["content_type"] = content_type
-                extra_fields["object_id"] = content_id
-        return super().create(*args, **extra_fields)
-
-
 class Topic(models.Model):
     limit = models.Q(app_label="users", model="User") | models.Q(app_label="users", model="Organization")
     content_type = models.ForeignKey(ContentType, limit_choices_to=limit, on_delete=models.CASCADE)
@@ -31,7 +19,18 @@ class Topic(models.Model):
     stars = models.PositiveIntegerField(default=0)
     no_of_issues = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True)
-    objects = TopicManager()
+
+    def save(self, *args, **extra_fields) -> None:
+        if self.creator:
+            if isinstance(self.creator, get_user_model()) or isinstance(self.creator, Organization):
+                print(self.creator, " is the creator")
+                self.content_type = ContentType.objects.get_for_model(self.creator)
+                super().save(*args, **extra_fields)
+                print(self.creator)
+            else:
+                raise Exception("creator must be one of User and Organization")
+        else:
+            raise Exception("creator field must be defined")
 
     def __str__(self) -> str:
         return "Topic - " + self.title
