@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "the_water_project.users.apps.UsersConfig",
+    "the_water_project.tags.apps.TagsConfig",
+    "the_water_project.topics.apps.TopicsConfig",
+    "the_water_project.comments.apps.CommentsConfig",
+    "the_water_project.blogs.apps.BlogsConfig",
 ]
 
 MIDDLEWARE = [
@@ -81,6 +86,9 @@ DATABASES = {
     }
 }
 
+# Use our custom User model
+
+AUTH_USER_MODEL = "users.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
