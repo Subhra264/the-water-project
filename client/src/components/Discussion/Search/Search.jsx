@@ -1,7 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useViewport from '../../../hooks/useViewport';
 import './Search.scss';
 
 export default function Search(props) {
+    const { isMobile } = useViewport();
+
     return (
         <div className='search-field-container'>
             <div className="search-bar">
@@ -11,9 +14,9 @@ export default function Search(props) {
                         <button type='submit' className='search-submit-button'><FontAwesomeIcon icon='search' /></button>
                     </form>
                 </div>
-                <div className="new-topic">
+                <div className="new-problem">
                     <button>
-                        <FontAwesomeIcon icon='plus' /> New Problem
+                        <FontAwesomeIcon icon='plus' /> <i className={`${isMobile? 'display-none' : 'new-problem-label'}`}>New Problem</i>
                     </button>
                 </div>
             </div>

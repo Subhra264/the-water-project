@@ -7,7 +7,9 @@ import { faHome,
     faArrowUp, 
     faCommentAlt, 
     faDotCircle, 
-    faSearch
+    faSearch,
+    faEye,
+    faEllipsisV
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -19,5 +21,7 @@ library.add(
     faArrowUp,
     faCommentAlt,
     faDotCircle,
-    faSearch
+    faSearch,
+    faEye,
+    faEllipsisV
 );

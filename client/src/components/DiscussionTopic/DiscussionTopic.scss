@@ -1,0 +1,66 @@
+@import 'src/utils/styles.scss';
+
+.discussion-topic-container {
+    .associated-ngo {
+        display: flex;
+        align-items: center;
+        padding: 0.3em;
+
+        .ngo-logo {
+            width: 1.5em;
+            height: 1.5em;
+            background: $whiteHoverColor;
+            border-radius: 50%;
+        }
+
+        .ngo-name {
+            padding: 0.3em;
+        }
+    }
+
+    .discussion-topic {
+        display: flex;
+        align-items: baseline;
+
+        .topic-number {
+            color: $yellowOchre;
+            padding: 0.4em;
+            flex-grow: 1;
+            font-size: 1.4em;
+        }
+
+        .topic-details {
+            flex-grow: 9;
+            padding: 0.4em;
+
+            .topic-title {
+                font-size: 1.4em;
+                font-weight: bold;
+                padding: 0.4em 0 0.1em 0;
+            }
+
+            .topic-date {
+                margin-bottom: 0.4em;
+            }
+
+            .topic-labels {
+                font-size: 0.8em;
+                padding: 0.4em 0;
+
+                i {
+                    color: $yellowOchre;
+                    font-style: normal;
+                }
+
+                .topic-label {
+                    padding: 0.2em 0.5em;
+                    border-radius: 1em;
+                    border: 1px solid #1c1c1c;
+                    color: #c54949;
+                    margin: 0.2em 0.6em;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}

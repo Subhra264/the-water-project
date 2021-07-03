@@ -3,7 +3,8 @@ import './utils/font-awesome';
 import { Switch, Route } from 'react-router-dom';
 import SubNavBar from './components/SubNavBar/SubNavBar';
 import NavBar from './components/NavBar/NavBar';
-import Discussion from './components/Discussion/Discussion';
+// import Discussion from './components/Discussion/Discussion';
+import DiscussionTopic from './components/DiscussionTopic/DiscussionTopic';
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
 
         </Route>
         <Route path='/discussion'>
-          <Discussion />
+          {/* <Discussion /> */}
+          <DiscussionTopic />
         </Route>
       </Switch>
     </div>

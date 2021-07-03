@@ -1,0 +1,61 @@
+@import 'src/utils/styles.scss';
+
+.topic-comment-container {
+    width: 75%;
+    border: 1px solid #77e75b;
+    margin: 1em 0;
+
+    .topic-comment-header {
+        display: flex;
+        justify-content: space-between;
+        background-color: $yellowOchre;
+        color: $light;
+
+        .topic-comment-by {
+            padding: 0.3em;
+            display: flex;
+            align-items: center;
+
+            .topic-comment-by-profile-img {
+                width: 1.4em;
+                height: 1.4em;
+                border-radius: 50%;
+                background-color: $whiteHoverColor;
+            }
+
+            .topic-comment-by-username {
+                padding: 0.3em;
+            }
+        }
+
+        .topic-comment-header-menu {
+            padding: 0.5em;
+        }
+    }
+
+    .topic-comment-description {
+        padding: 1em;
+        background-color: #fff5f5;
+    }
+
+    .topic-comment-footer {
+        background-color: #f8e6e6;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.4em;
+
+        .topic-comment-footer-impressions {
+            display: flex;
+            justify-content: space-evenly;
+
+            .topic-comment-footer-impression {
+                padding: 0.2em;
+            }
+        }
+
+        .topic-comment-footer-date {
+            padding: 0.3em;
+            color: $darkYellowOchre;
+        }
+    }
+}
