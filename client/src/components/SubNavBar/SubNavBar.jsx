@@ -50,7 +50,7 @@ export default function SubNavBar(props) {
 
     useEffect(() => {
         determineBarPosition();
-    }, [isMobile]);
+    }, [isMobile, location]);
 
     useEffect(() => {       
         if (isMobile) determineBarPosition();
