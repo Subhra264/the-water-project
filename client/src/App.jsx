@@ -5,12 +5,26 @@ import SubNavBar from './components/SubNavBar/SubNavBar';
 import NavBar from './components/NavBar/NavBar';
 // import Discussion from './components/Discussion/Discussion';
 import DiscussionTopic from './components/DiscussionTopic/DiscussionTopic';
+import useViewport from './hooks/useViewport';
+
+const StickyNavBars = [
+  <NavBar />,
+  <SubNavBar />
+];
 
 function App() {
+  const { isMobile } = useViewport();
+
   return (
     <div className='App'>
-      <NavBar />
-      <SubNavBar />
+      {
+        isMobile?
+          StickyNavBars
+        :
+          <div className="sticky-navbars">
+            {StickyNavBars}
+          </div>
+      }
       <Switch>
         <Route path='/' exact>
 
