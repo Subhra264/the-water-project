@@ -1,15 +1,18 @@
+import useViewport from '../../hooks/useViewport';
 import Comment from './Comment/Comment';
 import './DiscussionTopic.scss';
 
 export default function DiscussionTopic(props) {
+    const { isMobile } = useViewport();
+
     return (
         <div className='discussion-topic-container'>
             <div className="associated-ngo">
                 <div className="ngo-logo"></div>
                 <div className="ngo-name">Mozilla</div>
             </div>
-            <div className="discussion-topic">
-                <div className="topic-number">#14</div>
+            <div className={`discussion-topic ${isMobile? 'mobile' : ''}`}>
+                <div className={`topic-number ${isMobile? 'mobile' : ''}`}>#14</div>
                 <div className="topic-details">
                     <div className="topic-title">
                         The Title that changed my world

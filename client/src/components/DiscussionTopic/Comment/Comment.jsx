@@ -1,9 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useViewport from '../../../hooks/useViewport';
 import './Comment.scss';
 
 export default function (props) {
+    const { isMobile } = useViewport();
+
     return (
-        <div className="topic-comment-container">
+        <div className={`topic-comment-container ${isMobile? 'mobile' : ''}`}>
             <div className="topic-comment-header">
                 <div className="topic-comment-by">
                     <div className="topic-comment-by-profile-img"></div>

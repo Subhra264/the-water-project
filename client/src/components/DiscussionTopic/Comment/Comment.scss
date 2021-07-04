@@ -5,6 +5,10 @@
     border: 1px solid #77e75b;
     margin: 1em 0;
 
+    &.mobile {
+        width: auto;
+    }
+
     .topic-comment-header {
         display: flex;
         justify-content: space-between;
@@ -43,6 +47,7 @@
         display: flex;
         justify-content: space-between;
         padding: 0.4em;
+        font-size: 0.8em;
 
         .topic-comment-footer-impressions {
             display: flex;
