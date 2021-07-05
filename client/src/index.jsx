@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './App';
+import ViewportProvider from './utils/context-providers/ViewportProvider';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <ViewportProvider>
+        <App />
+      </ViewportProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

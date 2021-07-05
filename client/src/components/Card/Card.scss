@@ -1,0 +1,31 @@
+@import 'src/utils/styles.scss';
+
+.card {
+    width: 80%;
+    padding: 0.4em;
+    margin: 1em auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .card-img {
+        width: 45em;
+        height: 11em;
+        padding: 0.5em;
+        background-color: $whiteHoverColor;
+    }
+    
+    .card-details {
+        padding: 0.5em;
+        
+    }
+    
+    &.mobile {
+        flex-direction: column;
+    
+        .card-img {
+            width: 100%;
+            // height;
+        }
+    }
+}

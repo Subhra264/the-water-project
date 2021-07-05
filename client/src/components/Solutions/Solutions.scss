@@ -1,0 +1,49 @@
+@import 'src/utils/styles.scss';
+
+.solutions {
+    padding: 0.5em;
+    
+    .card-body {
+        padding: 0.4em;
+    }
+
+    .card-article-link {
+        padding: 0.5em;
+        width: fit-content;
+        cursor: pointer;
+        color: $light;
+        background-color: $blue;
+        margin: 0.3em auto;
+    }
+
+    .blog-group-container {
+        margin: 0.4em;
+
+        .blog-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+
+            .blog-group-name {
+                padding: 0.2em 0.5em 0.2em 0.1em;
+                border-bottom: 1px solid $blue;
+                font-size: 1.2em;
+            }
+
+            .blog-group-see-more {
+                padding: 0.5em;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $whiteHoverColor;
+                }
+            }
+        }
+
+        .blog-group {
+            display: flex;
+            overflow-x: auto;
+            padding: 0.3em;
+        }
+    }
+}
