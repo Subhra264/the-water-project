@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "the_water_project.users.apps.UsersConfig",
     "the_water_project.tags.apps.TagsConfig",
     "the_water_project.topics.apps.TopicsConfig",
