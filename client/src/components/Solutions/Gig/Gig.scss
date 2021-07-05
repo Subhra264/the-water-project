@@ -1,0 +1,59 @@
+@import 'src/utils/styles.scss';
+
+.gig {
+    width: 15em;
+    min-width: 13em;
+    padding: 0.4em;
+    font-size: 0.9em;
+    margin: 0.4em 0.6em;
+    display: inline-block;
+
+    .gig-img {
+        width: 100%;
+        height: 10em;
+        background-color: $whiteHoverColor;
+    }
+
+    .gig-details {
+        .gig-information {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+
+            .gig-by {
+
+                .gig-by-img {
+                    position: relative;
+                    top: -0.4em;
+                    width: 2em;
+                    height: 2em;
+                    background-color: $blue;
+                    border-radius: 50%;
+                }
+
+                // .gig-by-name {
+                //     padding: 0.2em;
+                // }
+            }
+
+            .gig-last-updated-date {
+                padding: 0.4em;
+                font-size: 0.9em;
+            }
+        }
+
+        .gig-brief-description {
+            padding: 0.4em;
+            text-align: center;
+        }
+
+        .gig-article-link {
+            padding: 0.4em;
+            color: $light;
+            background-color: $blue;
+            width: fit-content;
+            margin: 0.4em auto;
+            cursor: pointer;
+        }
+    }
+}

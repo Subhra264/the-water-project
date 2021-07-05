@@ -5,6 +5,7 @@ import SubNavBar from './components/SubNavBar/SubNavBar';
 import NavBar from './components/NavBar/NavBar';
 // import Discussion from './components/Discussion/Discussion';
 import DiscussionTopic from './components/DiscussionTopic/DiscussionTopic';
+import Solutions from './components/Solutions/Solutions';
 import useViewport from './hooks/useViewport';
 
 const StickyNavBars = [
@@ -33,7 +34,7 @@ function App() {
           
         </Route>
         <Route path='/solutions'>
-
+          <Solutions />
         </Route>
         <Route path='/discussion'>
           {/* <Discussion /> */}

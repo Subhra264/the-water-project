@@ -6,6 +6,27 @@
   box-sizing: border-box;
 }
 
+/* Works on Firefox */
+* {
+  scrollbar-width: 0.4em;
+  scrollbar-color: $light $blue;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0.4em;
+  height: 0.4em;
+}
+
+*::-webkit-scrollbar-track {
+  background: $light;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $blue;
+  border-radius: 1.1em;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
