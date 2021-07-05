@@ -1,0 +1,25 @@
+@import 'src/utils/styles.scss';
+
+.loader-container {
+    width: 100%;
+    height: 100%;
+    background-color: #f1f1f189;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .loader {
+        width: 10em;
+        height: 10em;
+        border-radius: 50%;
+        border: 5px solid #fff;
+        border-top: 5px solid $yellowOchre;
+        animation: spin 2s linear infinite;
+    }
+}
+
+@keyframes spin {
+    0%  { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
