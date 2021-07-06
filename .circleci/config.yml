@@ -1,0 +1,37 @@
+version: 2.1
+
+# Define the jobs we want to run for this project
+jobs:
+  test_py:
+    docker:
+      - image: cimg/python:3.9.5
+
+    steps:
+      - checkout
+      - run:
+          name: "Run python tests"
+          command: |
+            cd server/
+            pip install -r requirements.txt
+            python -m flake8 .
+            black --check .
+            python manage.py migrate
+            python -m pytest .
+
+  test_js:
+    docker:
+      - image: cimg/node:15.1
+    steps:
+      - checkout
+      - run:
+          name: "Run Javascript tests"
+          command: |
+            cd client/
+            yarn
+            yarn test
+
+workflows:
+  test:
+    jobs:
+      - test_py
+      - test_js
