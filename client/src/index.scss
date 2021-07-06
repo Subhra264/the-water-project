@@ -8,14 +8,14 @@
 
 /* Works on Firefox */
 * {
-  scrollbar-width: 0.4em;
+  scrollbar-width: 0.2em;
   scrollbar-color: $light $blue;
 }
 
 /* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 0.4em;
-  height: 0.4em;
+  width: 0.2em;
+  height: 0.2em;
 }
 
 *::-webkit-scrollbar-track {

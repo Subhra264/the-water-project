@@ -2,9 +2,7 @@
 
 .result-box {
     width: 95%;
-    margin: 1.2em auto;
     border: 1px solid $yellowOchre;
-    display: flex;
 
     .result-image {
         width: 100%;
@@ -17,14 +15,18 @@
         }
     }
 
-    .result-data {
-        display: flex;
-        flex-direction: column;
-        padding: 0.3em;
+    // .result-data {
+    //     display: flex;
+    //     flex-direction: column;
+    //     padding: 0.3em;
 
         .result-description-container {
             display: flex;
             padding: 0.5em;
+
+            &.mobile {
+                display: block;
+            }
 
             .result-description {
                 padding: 0.2em;
@@ -68,6 +70,12 @@
 
                     }
                 }
+
+                &.mobile {
+                    .result-opener {
+                        display: inline-flex;
+                    }
+                }
             }
         }
 
@@ -104,5 +112,5 @@
                 }
             }
         }
-    }
+    // }
 }

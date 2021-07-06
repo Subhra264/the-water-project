@@ -1,19 +1,23 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useViewport from '../../../hooks/useViewport';
+import Card from '../../Card/Card';
 import './SearchResult.scss';
 
 export default function SearchResult(props) {
+    const { isMobile } = useViewport();
+
     return (
         <div className='search-result'>
-            <div className='result-box'>
-                <div className='result-image'><div className="result-img"></div></div>
-                <div className='result-data'>
-                    <div className="result-description-container">
+            <Card className='result-box'>
+                <Card.CardImg className='result-image'><div className="result-img"></div></Card.CardImg>
+                <Card.CardDetails>
+                    <div className={`result-description-container ${isMobile? 'mobile' : ''}`}>
                         <div className="result-description">
                             <div className="result-title">This title changed my life</div>
                             <div className="result-date"><i className='result-issue-number'>#14</i> opened on 25th June</div>
-                            <div className="result-brief-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident quasi magni nesciunt eligendi at ducimus exercitationem distinctio, quidem voluptas quisquam voluptatem tempore praesentium libero facere repellat corrupti error officia quia itaque dignissimos illum cupiditate iste cumque veritatis? Magnam, libero sint?</div>
+                            <div className="result-brief-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident quasi magni nesciunt eligendi at ducimus exercitationem distinctio, quidem voluptas.</div>
                         </div>
-                        <div className="result-opened-by">
+                        <div className={`result-opened-by ${isMobile? 'mobile' : ''}`}>
                             <div className="result-opener">
                                 <div className="result-opener-profile-pic"></div>
                                 <div className="result-opener-name">Mozilla</div>
@@ -45,8 +49,8 @@ export default function SearchResult(props) {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </Card.CardDetails>
+            </Card>
         </div>
     );
 }

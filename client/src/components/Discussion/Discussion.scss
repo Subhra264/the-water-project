@@ -4,4 +4,9 @@
     margin: 1em 2em 0;
     display: flex;
     border-top: 1px solid $yellowOchre;
+
+    &.mobile {
+        display: block;
+        margin: 1em 0;
+    }
 }

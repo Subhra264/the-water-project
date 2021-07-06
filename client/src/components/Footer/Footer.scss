@@ -1,0 +1,15 @@
+@import 'src/utils/styles.scss';
+
+.footer {
+    padding: 0.4em 0.5em 0.8em;
+    background-color: $blue;
+    
+
+    .footer-copyright {
+        color: $light;
+        padding: 0.7em;
+        width: fit-content;
+        margin: 0 auto;
+        border-top: 1px solid $light;
+    }
+}
