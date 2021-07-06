@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from the_water_project.users.models import Organization
-from .models import Topic, Issue
+from .models import Topic, Issue, Contribution
 from django.contrib.auth import get_user_model
 
 
@@ -25,4 +25,10 @@ class TopicSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
+        fields = "__all__"
+
+
+class ContributionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contribution
         fields = "__all__"

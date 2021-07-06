@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "the_water_project.users.apps.UsersConfig",
     "the_water_project.tags.apps.TagsConfig",
     "the_water_project.topics.apps.TopicsConfig",
+    "the_water_project.progress_report.apps.ProgressReportConfig",
     "the_water_project.comments.apps.CommentsConfig",
     "the_water_project.blogs.apps.BlogsConfig",
 ]
