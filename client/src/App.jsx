@@ -7,6 +7,8 @@ import Discussion from './components/Discussion/Discussion';
 // import DiscussionTopic from './components/DiscussionTopic/DiscussionTopic';
 import Solutions from './components/Solutions/Solutions';
 import Footer from './components/Footer/Footer';
+import SignUp from './components/SignUp/SignUp';
+import SignIn from './components/SignIn/SignIn';
 import useViewport from './hooks/useViewport';
 
 const StickyNavBars = [
@@ -30,6 +32,12 @@ function App() {
       <Switch>
         <Route path='/' exact>
 
+        </Route>
+        <Route path='/sign-in'>
+          <SignIn />
+        </Route>
+        <Route path='/sign-up'>
+          <SignUp />
         </Route>
         <Route path='/problems'>
           
