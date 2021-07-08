@@ -1,0 +1,19 @@
+{
+    "topic": "The title that changed my life",
+    "topic_id": "2132fkjajf3rjf345",
+    "no-of-results": 20,
+    "comments": [
+        {
+            "_id": "1232rdfjfaerj",
+            "comment-by": {
+                "profile-pic": "https://the-water-project.com/user/john12/profile-pic",
+                "username": "john12"
+            },
+            "comment": "The comment that changed my view",
+            "comment-meta-data": {
+                "likes": "1.4k",
+                "comment-date": "25th June"
+            }
+        }
+    ]
+}

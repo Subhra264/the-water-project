@@ -1,0 +1,20 @@
+{
+    "number-of-results": 20,
+    "gigs": [
+        {
+            "_id": "1234efdaf23434",
+            "img": "https://the-water-project.com/solution/gig/234/display-image",
+            "gig-details": {
+                "gig-meta-data": {
+                    "gig-by": {
+                        "img": "https://the-water-project.com/solution/gig/234/display-image",
+                        "name": "john12"
+                    },
+                    "gig-last-updated": "15/08/2012"
+                },
+                "gig-brief-description": "Lorem did something suspicious",
+                "gig-article-link": "https://the-water-project.com/solutions/article/234"
+            }
+        }
+    ]
+}

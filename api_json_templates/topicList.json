@@ -1,0 +1,36 @@
+{
+    "no-of-results": 20,
+    "topics": [
+        {
+            "_id": "34kljejao45353tjkj45j",
+            "img": "https://media.the-water-project.com/images/some-image.jpg",
+            "topic-details": {
+                "result-description-container": {
+                    "result-description": {
+                        "result-title": "This title changed my life",
+                        "result-date": "25th June",
+                        "result-brief-description": "Lorem ipsum did something unusual to me"
+                    },
+                    "result-opened-by": [
+                        {
+                            "name": "Mozilla",
+                            "profile-pic": "https://media.the-water-project.com/mozilla/profile-pic"
+                        },
+                        {
+                            "name": "john12",
+                            "profile-pic": "https://media.the-water-project.com/mozilla/profile-pic"
+                        }
+                    ]
+                },
+                "result-meta-data": {
+                    "tags": [
+                        "India", "India", "India"
+                    ],
+                    "open": true,
+                    "comments": "45",
+                    "upvotes": "1.3k"
+                }
+            }
+        }
+    ]
+}
