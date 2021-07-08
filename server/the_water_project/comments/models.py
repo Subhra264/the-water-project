@@ -11,7 +11,7 @@ class Comment(models.Model):
     reply_to = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True, related_name="replies")
 
     def __str__(self):
-        return self.user + "- comment_id: " + self.id
+        return self.user.username + "- comment_id: " + str(self.id)
 
     class Meta:
         abstract = True

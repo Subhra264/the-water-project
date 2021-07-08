@@ -30,6 +30,7 @@ class TestModels(TestCase):
         self.assertEqual(self.progress_report.task_set.first().title, "create this")
         self.progress_report.remove_task(id=1)
         self.assertEqual(self.progress_report.total_no_of_tasks, 0)
+        self.assertEqual(self.progress_report.no_of_tasks_completed, 0)
         self.progress_report.total_no_of_tasks = 5
         self.progress_report.no_of_tasks_completed = 4
         self.progress_report.save()
