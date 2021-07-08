@@ -1,5 +1,5 @@
 from the_water_project.comments.models import StartingComment
-from the_water_project.topics.models import Topic, Issue
+from the_water_project.topics.models import Topic, Issue, Contribution
 from the_water_project.users.models import Organization
 from the_water_project.tags.models import Tag
 from django.contrib.auth import get_user_model
@@ -10,8 +10,10 @@ User = get_user_model()
 
 
 class TestModels(TestCase):
-    def setUp(self) -> None:
-        self.user = User.objects.create_user(
+    @classmethod
+    def setUpTestData(cls) -> None:
+        super().setUpTestData()
+        cls.user = User.objects.create_user(
             username="John545",
             first_name="John",
             last_name="Doe",
@@ -19,7 +21,7 @@ class TestModels(TestCase):
             password="Password@2020",
             country="IN",
         )
-        self.owner = User.objects.create_user(
+        cls.owner = User.objects.create_user(
             username="Jack1245",
             first_name="Jack",
             last_name="Dude",
@@ -27,17 +29,17 @@ class TestModels(TestCase):
             password="Password@2021",
             country="US",
         )
-        self.org = Organization.objects.create_org(
+        cls.org = Organization.objects.create_org(
             name="The NGO",
             email="ngo@email.com",
             password="org@3423",
             address="bla bla bla",
             phone_number="+919999999999",
-            owner=self.owner,
+            owner=cls.owner,
         )
-        self.description1 = StartingComment.objects.create(user=self.owner, content="bla bla bla")
-        self.description2 = StartingComment.objects.create(user=self.user, content="bla bla bla...")
-        self.topic = Topic.objects.create(title="How to start", description=self.description1, creator=self.org)
+        cls.description1 = StartingComment.objects.create(user=cls.owner, content="bla bla bla")
+        cls.description2 = StartingComment.objects.create(user=cls.user, content="bla bla bla...")
+        cls.topic = Topic.objects.create(title="How to start", description=cls.description1, creator=cls.org)
 
     def test_topic_models(self):
         topic2 = Topic.objects.create(title="So how to start?", description=self.description2, creator=self.user)
@@ -75,3 +77,16 @@ class TestModels(TestCase):
         self.assertEqual(issue1.no_of_comments, 0)
         self.assertEqual(issue1.is_closed, False)
         self.assertEqual(issue1.description, self.description1)
+
+    def test_contribution_models(self):
+        contribution = Contribution.objects.create(contributor=self.user, topic=self.topic)
+        self.assertEqual(self.topic.contributors.first(), contribution.contributor)
+        self.assertEqual(self.topic.contributors.get(id=2), self.owner)
+        self.assertEqual(self.topic.contributors.count(), 2)
+        self.assertEqual(contribution.no_of_contributions, 0)
+        contribution.no_of_contributions = 15
+        contribution.save()
+        self.assertEqual(contribution.no_of_contributions, 15)
+        with self.assertRaises(Exception):
+            contribution.no_of_contributions = -1
+            contribution.save()

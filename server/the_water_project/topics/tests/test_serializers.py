@@ -2,8 +2,8 @@ import json
 from the_water_project.users.models import Organization
 from django.test import TestCase
 from rest_framework.renderers import JSONRenderer
-from the_water_project.topics.models import Topic, Issue
-from the_water_project.topics.serializers import TopicSerializer, IssueSerializer
+from the_water_project.topics.models import Topic, Issue, Contribution
+from the_water_project.topics.serializers import TopicSerializer, IssueSerializer, ContributionSerializer
 from the_water_project.comments.models import StartingComment
 from django.contrib.auth import get_user_model
 from freezegun import freeze_time
@@ -80,3 +80,25 @@ class TestSerializers(TestCase):
         self.assertJSONEqual(json_data, expected_json_data)
         # with transaction.atomic():
         #     self.assertRaises(Exception, issue.creator = self.topic)
+
+    def test_contribution_serializers(self):
+        user = User.objects.create(
+            username="Jack1245",
+            first_name="Jack",
+            last_name="Dude",
+            email="jack@email.com",
+            password="Password@2021",
+            country="US",
+        )
+        contribution = Contribution.objects.create(contributor=user, topic=self.topic)
+        json_data = JSONRenderer().render(ContributionSerializer(contribution).data)
+        expected_data = {"id": 2, "topic": 1, "contributor": 2, "no_of_contributions": 0}
+        expected_json_data = json.dumps(expected_data)
+        self.assertJSONEqual(json_data, expected_json_data)
+        expected_data = [
+            {"id": 1, "topic": 1, "contributor": 1, "no_of_contributions": 1},
+            {"id": 2, "topic": 1, "contributor": 2, "no_of_contributions": 0},
+        ]
+        expected_json_data = json.dumps(expected_data)
+        json_data = JSONRenderer().render(ContributionSerializer(Contribution.objects.all(), many=True).data)
+        self.assertJSONEqual(json_data, expected_json_data)
