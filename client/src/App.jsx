@@ -33,10 +33,10 @@ function App() {
         <Route path='/' exact>
 
         </Route>
-        <Route path='/sign-in'>
+        <Route path='/sign-in' exact>
           <SignIn />
         </Route>
-        <Route path='/sign-up'>
+        <Route path='/sign-up' exact>
           <SignUp />
         </Route>
         <Route path='/problems'>
