@@ -1,117 +1,127 @@
 @import 'src/utils/styles.scss';
 
-.result-box {
-    width: 95%;
-    border: 1px solid $yellowOchre;
 
-    .result-image {
-        width: 100%;
-        padding: 0.5em;
-
-        .result-img {
-            width: 100%;
-            background: antiquewhite;
-            height: 100%;
-        }
+.search-result {
+    >a {
+        display: block;
+        width: 95%;
+        margin: 1em auto;
     }
+    
+    .result-box {
+        width: 100%;
+        margin: 0.5em;
+        border: 1px solid $yellowOchre;
 
-    // .result-data {
-    //     display: flex;
-    //     flex-direction: column;
-    //     padding: 0.3em;
-
-        .result-description-container {
-            display: flex;
+        .result-image {
+            width: 100%;
             padding: 0.5em;
 
-            &.mobile {
-                display: block;
-                padding: 0;
+            .result-img {
+                width: 100%;
+                background: antiquewhite;
+                height: 100%;
             }
+        }
 
-            .result-description {
-                padding: 0.2em;
+        // .result-data {
+        //     display: flex;
+        //     flex-direction: column;
+        //     padding: 0.3em;
 
-                .result-title {
-                    font-size: 1.5em;
-                    font-weight: bold;
-                }
-
-                .result-date {
-                    color: $yellowOchre;
-                    font-size: 0.8em;
-                    padding: 0.3em 0;
-
-                    .result-issue-number {
-                        color: $darkYellowOchre;
-                        font-weight: bold;
-                    }
-                }
-            }
-
-            .result-opened-by {
-                padding: 0.4em;
-                margin-top: 0.2em;
-                border-left: 1px solid $yellowOchre;
-                height: fit-content;
-
-                .result-opener {
-                    display: flex;
-                    align-items: center;
-
-                    .result-opener-profile-pic {
-                        width: 1.2em;
-                        height: 1.2em;
-                        border-radius: 50%;
-                        background-color: $whiteHoverColor;
-                    }
-
-                    .result-opener-name {
-                        padding: 0.2em;
-
-                    }
-                }
+            .result-description-container {
+                display: flex;
+                padding: 0.5em;
 
                 &.mobile {
+                    display: block;
+                    padding: 0;
+                }
+
+                .result-description {
+                    padding: 0.2em;
+
+                    .result-title {
+                        font-size: 1.5em;
+                        font-weight: bold;
+                    }
+
+                    .result-date {
+                        color: $yellowOchre;
+                        font-size: 0.8em;
+                        padding: 0.3em 0;
+
+                        .result-issue-number {
+                            color: $darkYellowOchre;
+                            font-weight: bold;
+                        }
+                    }
+                }
+
+                .result-opened-by {
+                    padding: 0.4em;
+                    margin-top: 0.2em;
+                    border-left: 1px solid $yellowOchre;
+                    height: fit-content;
+
                     .result-opener {
-                        display: inline-flex;
+                        display: flex;
+                        align-items: center;
+
+                        .result-opener-profile-pic {
+                            width: 1.2em;
+                            height: 1.2em;
+                            border-radius: 50%;
+                            background-color: $whiteHoverColor;
+                        }
+
+                        .result-opener-name {
+                            padding: 0.2em;
+
+                        }
+                    }
+
+                    &.mobile {
+                        .result-opener {
+                            display: inline-flex;
+                        }
                     }
                 }
             }
-        }
 
-        .result-meta-information {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.4em;
-            font-size: 0.8em;
+            .result-meta-information {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.4em;
+                font-size: 0.8em;
 
-            .result-tags-container {
+                .result-tags-container {
 
-                .result-tag {
-                    display: inline-block;
-                    padding: 0.2em 0.5em;
-                    margin: 0 0.4em;
-                    border-radius: 0.8em;
-                    border: 1px solid $dark;
-                }
-            }
-
-            .result-impressions {
-                font-weight: lighter;
-                color: $darkRed;
-
-                .result-impression {
-                    display: inline-block;
-
-                    i {
+                    .result-tag {
                         display: inline-block;
-                        padding: 0 0.4em;
-                        font-style: normal;
+                        padding: 0.2em 0.5em;
+                        margin: 0 0.4em;
+                        border-radius: 0.8em;
+                        border: 1px solid $dark;
+                    }
+                }
+
+                .result-impressions {
+                    font-weight: lighter;
+                    color: $darkRed;
+
+                    .result-impression {
+                        display: inline-block;
+
+                        i {
+                            display: inline-block;
+                            padding: 0 0.4em;
+                            font-style: normal;
+                        }
                     }
                 }
             }
-        }
-    // }
+        // }
+    }
 }
