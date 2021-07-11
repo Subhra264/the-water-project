@@ -20,8 +20,12 @@ export default function SubNavBar(props) {
 
     const currentRouteIndex = () => {
         let currentRouteIndex = 0;
+
         for (let i in barItems) {
-            if (barItems[i][0] === location.pathname) {
+            if (barItems[i][0] === location.pathname
+                || (barItems[i][0] !== '/'
+                    && location.pathname.startsWith(barItems[i][0])
+                )) {
                 currentRouteIndex = i;
                 break;
             }
@@ -32,6 +36,7 @@ export default function SubNavBar(props) {
 
     const onSelect = (index) => {
         if (!selectedBar.current) return;
+        console.log('onselect subnavbar index', index);
         selectedBar.current.style.width = offsetWidths.current[index] + 'px';
         let leftPos = 0;
         for (let i = 0; i < index; i++) {
