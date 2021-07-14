@@ -4,6 +4,7 @@ import useViewport from '../../hooks/useViewport';
 import Comment from './Comment/Comment';
 import Slider from '../Slider/Slider';
 import './DiscussionTopic.scss';
+import Issues from './Issues/Issues';
 
 export default function DiscussionTopic(props) {
     const { isMobile } = useViewport();
@@ -73,7 +74,7 @@ export default function DiscussionTopic(props) {
                             <Comment />
                         </Route>
                         <Route path={`${match.url}/issues`}>
-                            This is for issues section
+                            <Issues />
                         </Route>
                         <Route path={`${match.url}/progress-report`}>
                             This is the progress Report

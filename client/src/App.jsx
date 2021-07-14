@@ -10,6 +10,7 @@ import Footer from './components/Footer/Footer';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
 import useViewport from './hooks/useViewport';
+import Editor from './components/Editor/Editor';
 
 const StickyNavBars = [
   <NavBar />,
@@ -31,7 +32,7 @@ function App() {
       }
       <Switch>
         <Route path='/' exact>
-
+          <Editor />
         </Route>
         <Route path='/sign-in' exact>
           <SignIn />

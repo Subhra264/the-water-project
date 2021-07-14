@@ -1,0 +1,49 @@
+@import 'src/utils/styles.scss';
+
+.discussion-topic-issue {
+    padding: 0.4em;
+
+    .discussion-topic-issue-header {
+        position: sticky;
+        top: 6em;
+        background-color: #fff;
+        padding: 0.6em;
+        display: flex;
+        align-items: center;
+        border: 2px solid $yellowOchre;
+
+        &.mobile {
+            top: 3em;
+        }
+
+        .discussion-topic-issue-is-closed {
+            flex-grow: 1;
+            font-size: 0.9em;
+        }
+
+        .discussion-topic-issue-title {
+            flex-grow: 20;
+
+            .issue-title {
+                font-size: 1.1em;
+                font-weight: bold;
+            }
+
+            .issue-meta-data {
+                margin: 0.3em 0;
+                font-size: 0.8em;
+            }
+        }
+
+        .discussion-topic-issue-toggle {
+            flex-grow: 1;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+
+    .discussion-topic-issue-comments {
+        padding: 0.4em;
+        
+    }
+}

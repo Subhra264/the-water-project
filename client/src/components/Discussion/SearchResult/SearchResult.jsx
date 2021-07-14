@@ -39,7 +39,7 @@ export default function SearchResult(props) {
                             </div>
                             <div className="result-impressions">
                                 <div className="result-impression result-status">
-                                    <FontAwesomeIcon icon='dot-circle' />
+                                    <FontAwesomeIcon icon={['far', 'dot-circle']} />
                                     <i>Open</i>
                                 </div>
                                 <div className="result-impression result-comments">

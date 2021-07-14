@@ -6,11 +6,15 @@ import { faHome,
     faPlus, 
     faArrowUp, 
     faCommentAlt, 
-    faDotCircle, 
+    // faDotCircle, 
     faSearch,
     faEye,
-    faEllipsisV
+    faEllipsisV,
+    faChevronDown,
+    faChevronUp
 } from '@fortawesome/free-solid-svg-icons';
+
+import { faDotCircle } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
     faHome, 
@@ -23,5 +27,7 @@ library.add(
     faDotCircle,
     faSearch,
     faEye,
-    faEllipsisV
+    faEllipsisV,
+    faChevronDown,
+    faChevronUp
 );
