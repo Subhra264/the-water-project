@@ -1,16 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRouteMatch, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useMatchURL } from '../../../hooks/useMatch';
 import useViewport from '../../../hooks/useViewport';
 import Card from '../../Card/Card';
 import './SearchResult.scss';
 
 export default function SearchResult(props) {
     const { isMobile } = useViewport();
-    const match = useRouteMatch();
+    const matchURL = useMatchURL();
 
     return (
         <div className='search-result'>
-            <Link to={`${match.url}/topic/1/description`}>
+            <Link to={`${matchURL}/topic/1/description`}>
                 <Card className='result-box'>
                     <Card.CardImg className='result-image'><div className="result-img"></div></Card.CardImg>
                     <Card.CardDetails>

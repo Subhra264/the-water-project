@@ -1,17 +1,18 @@
-import { useRouteMatch, Link, Switch, Route } from "react-router-dom";
-import Issue from "./Issue/Issue";
+import { Link, Switch, Route } from 'react-router-dom';
+import { useMatchURL } from '../../../hooks/useMatch';
+import Issue from './Issue/Issue';
 import './Issues.scss';
 
 export default function Issues (props) {
-    const match = useRouteMatch();
+    const matchURL = useMatchURL();
 
     return (
         <div className='discussion-topic-issues'>
             <Switch>
-                <Route path={`${match.url}`} exact>
+                <Route path={`${matchURL}`} exact>
                     <>
                         <div className="create-issue-container">
-                            <div className="create-issue"><Link to={`${match.url}/new-issue`}>Create Issue</Link></div>
+                            <div className="create-issue"><Link to={`${matchURL}/new-issue`}>Create Issue</Link></div>
                         </div>
                         <Issue />
                         <Issue />
@@ -20,8 +21,8 @@ export default function Issues (props) {
                         <Issue />
                     </>
                 </Route>
-                <Route path={`${match.url}/new-issue`}>
-
+                <Route path={`${matchURL}/new-issue`}>
+                    Hello all the best stay strong stay motivated
                 </Route>
             </Switch>
         </div>
