@@ -6,7 +6,6 @@ import useViewport from '../../hooks/useViewport';
 
 export default function Editor (props) {
   const { isMobile } = useViewport();
-  const [editorContent, setEditorContent] = useState('');
 
   return (
     <div className="editor-container">
@@ -16,19 +15,15 @@ export default function Editor (props) {
         config={{
           toolbar: {
             viewportTopOffset: isMobile? 45 : 100
-            // viewportTopOffset: 100
-          }
+          },
+          placeholder: props.placeholder
         }}
-        data={editorContent}
+        data={props.editorContent}
         onReady={editor => {
           // You can store the "editor" and use when it is needed.
           console.log( 'Editor is ready to use!', editor );
         }}
-        onChange={(event, editor ) => {
-          const data = editor.getData();
-          setEditorContent(data);
-          console.log( { event, editor, data } );
-        }}
+        onChange={props.onContentChange}
         onBlur={(event, editor ) => {
           console.log( 'Blur.', editor );
         }}

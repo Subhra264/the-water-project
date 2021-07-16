@@ -52,9 +52,11 @@
         .topic-comment-footer-impressions {
             display: flex;
             justify-content: space-evenly;
+            margin-left: 0.9em;
 
             .topic-comment-footer-impression {
                 padding: 0.2em;
+                margin-left: 0.4em;
             }
         }
 
