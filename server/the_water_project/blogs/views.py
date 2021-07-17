@@ -15,6 +15,13 @@ class BlogViewSet(ModelViewSet):
             kwargs["context"] = {"is_list": True}
         return super().get_serializer(*args, **kwargs)
 
+    def list(self, request, *args, **kwargs):
+        shown_list = {}
+        for name, _ in BLOG_CHOICES:
+            blogs = Blog.objects.filter(_type=name).order_by("date")[:10]
+            shown_list[name] = [BlogSerializer(blog).data for blog in blogs]
+        return Response(shown_list)
+
     def create(self, request, *args, **kwargs):
         if request.user:
             try:
@@ -75,3 +82,43 @@ def add_or_remove_likes(request, **kwargs):
         return Response(BlogSerializer(blog).data)
     else:
         raise APIException("The user not signed in.")
+
+
+class TypeOfBlogsViewSet(ModelViewSet):
+    serializer_class = BlogSerializer
+    http_method_names = [
+        "get",
+    ]
+
+    def get_serializer(self, *args, **kwargs):
+        if self.action == "list":
+            kwargs["context"] = {"is_list": True}
+        return super().get_serializer(*args, **kwargs)
+
+    def get_queryset(self):
+        blogs = Blog.objects.filter(_type=self._type)
+        return blogs
+
+
+class InnovationViewSet(TypeOfBlogsViewSet):
+    _type = "i"
+
+
+class SuccessStoriesViewSet(TypeOfBlogsViewSet):
+    _type = "su"
+
+
+class AchievementViewSet(TypeOfBlogsViewSet):
+    _type = "a"
+
+
+class SolutionViewSet(TypeOfBlogsViewSet):
+    _type = "so"
+
+
+class ProblemViewSet(TypeOfBlogsViewSet):
+    _type = "p"
+
+
+class OthersViewSet(TypeOfBlogsViewSet):
+    _type = "o"

@@ -2,6 +2,7 @@
 ## List of available APIs
 
 ### most important APIs
+```
 localhost:8000/topics/
 localhost:8000/topics/<topic_id>/
 localhost:8000/topics/<topic_id>/issues/
@@ -23,9 +24,16 @@ localhost:8000/topics/<topic_id>/issues/close-topic/
 localhost:8000/topics/close-topic
 localhost:8000/tags/
 localhost:8000/tags/<tag_id>/
-
+```
 ### less important
+```
 localhost:8000/blogs/
+localhost:8000/blogs/success-stories/
+localhost:8000/blogs/innovations/
+localhost:8000/blogs/achievment/
+localhost:8000/blogs/solutions/
+localhost:8000/blogs/problems/
+localhost:8000/blogs/others/
 localhost:8000/blogs/<blog_id>/
 localhost:8000/blogs/types-of-blogs/
 localhost:8000/blogs/<blog_id>/add-remove-likes/
@@ -33,8 +41,9 @@ localhost:8000/users/
 localhost:8000/users/<user_id>/
 localhost:8000/orgs/
 localhost:8000/orgs/<org_id>/
-
+```
 ### No use till now
+```
 localhost:8000/contributions/
 localhost:8000/contributions/<contribution_id>/
 localhost:8000/issues/
@@ -49,7 +58,7 @@ localhost:8000/progress-reports/
 localhost:8000/progress-reports/<progress_report_id>/
 localhost:8000/tasks/
 localhost:8000/tasks/<task_id>/
-
+```
 
 ## details of each APIs
 

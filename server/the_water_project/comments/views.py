@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.utils import timezone
 from the_water_project.topics.models import Topic
 from .models import StartingComment, IssueComment, TopicDiscussion
 from .serializers import StartingCommentSerializer, IssueCommentSerializer, TopicDiscussionSerializer
@@ -12,21 +13,6 @@ from .serializers import StartingCommentSerializer, IssueCommentSerializer, Topi
 class StartingCommentViewSet(ModelViewSet):
     queryset = StartingComment.objects.all()
     serializer_class = StartingCommentSerializer
-
-
-# class TopicDescriptionApiView(RetrieveAPIView):
-#     queryset = StartingComment.objects.all()
-#     serializer_class = StartingCommentSerializer
-
-#     def retrieve(self, request, *args, **kwargs):
-#         try:
-#             topic = Topic.objects.get(id=kwargs["id"])
-#         except ObjectDoesNotExist:
-#             raise NotFound("topic with the specified id not exist")
-#         else:
-#             description = topic.description
-#             description_serialized = StartingCommentSerializer(description).data
-#             return Response(description_serialized)
 
 
 class IssueCommentViewSet(ModelViewSet):
@@ -52,6 +38,9 @@ class TopicDiscussionApiView(RetrieveAPIView, UpdateAPIView):
             if request.data.get("content"):
                 description.content = request.data.get("content")
                 description.save()
+                if not isinstance(self, IssueDescriptionApiView):
+                    description.topic.updated_on = timezone.now()
+                    description.topic.save()
                 return Response(self.get_serializer(description).data)
             else:
                 raise APIException("content key cannot be null")
@@ -111,10 +100,6 @@ class TopicCommentsViewSet(ModelViewSet):
 
     def partial_update(self, request, *args, **kwargs):
         should_pass = False
-        # if "content" in request.data and request.data["content"]:
-        #     should_pass = True
-        # if "likes" in request.data and request.data["content"]:
-        #     should_pass = True
         keys = request.data.copy()
         for key in keys:
             if key == "content" and request.data["content"]:
@@ -127,8 +112,6 @@ class TopicCommentsViewSet(ModelViewSet):
             return super().partial_update(request, *args, **kwargs)
         else:
             raise APIException("request body has some keys that can not edited", code=403)
-
-    # def update(self, request, *args, **kwargs):
 
 
 @api_view(
