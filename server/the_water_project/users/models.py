@@ -5,7 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, UserManager
-from .utils import COUNTRY_CHOICES
+from the_water_project.utils import COUNTRY_CHOICES
 from django.core.validators import RegexValidator
 
 

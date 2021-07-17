@@ -1,3 +1,4 @@
+from django.utils import timezone
 from the_water_project.topics.models import Contribution
 from rest_framework.exceptions import APIException, NotFound
 from rest_framework.generics import CreateAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
@@ -55,6 +56,7 @@ class TopicProgressReportApiView(RetrieveAPIView, CreateAPIView):
             except Exception:
                 raise APIException("Something went wrong while saving progress report")
             topic.progress_report = progress_report
+            topic.updated_on = timezone.now()
             topic.save()
             if request.user in topic.contributors.all():
                 contributor = Contribution.objects.get(contributor=request.user, topic=topic)
@@ -86,6 +88,8 @@ class AddTaskApiView(CreateAPIView):
             raise APIException("title or/and description is/are not defined properly")
         if topic.progress_report:
             task = topic.progress_report.add_task(title=title, description=description)
+            topic.updated_on = timezone.now()
+            topic.save()
             if request.user in topic.contributors.all():
                 contributor = Contribution.objects.get(contributor=request.user, topic=topic)
                 contributor.no_of_contributions += 1
@@ -118,6 +122,8 @@ class RemoveTaskApiView(DestroyAPIView):
             try:
                 id = request.data.get("id")
                 topic.progress_report.remove_task(id=id)
+                topic.updated_on = timezone.now()
+                topic.save()
                 return Response({"success": "task has been deleted"})
             except Exception:
                 raise APIException("task object not found")
@@ -154,6 +160,8 @@ class TaskSaveChangesApiView(UpdateAPIView):
                         contribution.save()
                     else:
                         Contribution.objects.create(contributor=request.user, topic=topic, no_of_contributions=1)
+            topic.updated_on = timezone.now()
+            topic.save()
         except Exception:
             raise APIException("Something went wrong while saving the task/tasks.")
         return Response("task/tasks successfully updated")

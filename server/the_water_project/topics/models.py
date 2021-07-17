@@ -1,8 +1,10 @@
+from django.utils import timezone
 from the_water_project.progress_report.models import ProgressReport
 from the_water_project.users.models import Organization
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
+from the_water_project.utils import COUNTRY_CHOICES
 from the_water_project.tags.models import Tag
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -20,8 +22,11 @@ class Topic(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     description = models.OneToOneField("comments.StartingComment", on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
-    # closed_on = models.DateTimeField(blank=True, null=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    closed_on = models.DateTimeField(blank=True, null=True)
+    updated_on = models.DateTimeField()
+    country = models.CharField(choices=COUNTRY_CHOICES, max_length=60)
+    city_or_area = models.CharField(max_length=30)
+    address = models.CharField(max_length=150)
     stars = models.PositiveIntegerField(default=0)
     no_of_issues = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True)
@@ -34,6 +39,8 @@ class Topic(models.Model):
                 type_of_creator = type(self.creator)
                 print(self.creator, " is the creator")
                 self.content_type = ContentType.objects.get_for_model(self.creator)
+                if not self.updated_on:
+                    self.updated_on = timezone.now()
                 super().save(*args, **extra_fields)
                 print(self.creator)
             else:
@@ -68,7 +75,7 @@ class Issue(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     description = models.OneToOneField("comments.StartingComment", on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
-    # closed_on = models.DateTimeField(blank=True, null=True)
+    closed_on = models.DateTimeField(blank=True, null=True)
     no_of_comments = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)

@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework.generics import ListAPIView, UpdateAPIView
 from the_water_project.tags.models import Tag
 from the_water_project.users.models import Organization
@@ -72,8 +73,14 @@ class TopicViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         if request.user:
-            title = request.data.get("title")
-            description = request.data.get("description")
+            try:
+                title = request.data.get("title")
+                description = request.data.get("description")
+                country = request.data.get("country")
+                city_or_area = request.data.get("city_or_area")
+                address = request.data.get("address")
+            except Exception:
+                raise APIException("You didn't provide essential data to create a topic")
             associated_ngo_id = None
             if "associated_ngo" in request.data:
                 if request.data.get("associated_ngo"):
@@ -88,11 +95,31 @@ class TopicViewSet(ModelViewSet):
                     return e
                 else:
                     if self.check_membership(associated_ngo, creator):
-                        topic = Topic.objects.create(title=title, description=starting_comment, creator=associated_ngo)
+                        try:
+                            topic = Topic.objects.create(
+                                title=title,
+                                description=starting_comment,
+                                creator=associated_ngo,
+                                country=country,
+                                city_or_area=city_or_area,
+                                address=address,
+                            )
+                        except Exception:
+                            raise APIException("Something went wrong while creating the topic")
                     else:
                         raise ValueError("The user is not the part of the ngo")
             else:
-                topic = Topic.objects.create(title=title, description=starting_comment, creator=creator)
+                try:
+                    topic = Topic.objects.create(
+                        title=title,
+                        description=starting_comment,
+                        creator=creator,
+                        country=country,
+                        city_or_area=city_or_area,
+                        address=address,
+                    )
+                except Exception:
+                    raise APIException("Something went wrong while creating the topic")
             return Response(self.get_serializer(topic).data)
         return super().create(request, *args, **kwargs)
 
@@ -114,7 +141,7 @@ class TopicViewSet(ModelViewSet):
                 topic.title = request.data.get("title")
                 topic.save()
         else:
-            raise Exception("This field can not be edited")
+            raise APIException("This field can not be edited")
         topic_serialized = TopicSerializer(topic).data
         return Response(topic_serialized)
 
@@ -232,6 +259,8 @@ class TopicCloseApiView(UpdateAPIView):
         # else:
         #     topic.is_closed = True
         topic.is_closed = not topic.is_closed
+        topic.closed_on = timezone.now() if topic.is_closed else None
+        topic.updated_on = timezone.now()
         topic.save()
         return Response({"is_closed": topic.is_closed})
 
@@ -245,16 +274,21 @@ class IssueCloseApiView(UpdateAPIView):
     def get_object(self):
         try:
             topic = Topic.objects.get(id=self.kwargs["topic_id"])
-            issue = topic.issue_set.get(id=self.request.data.get("issue_id"))
+            issue = topic.issue_set.get(id=self.request.data.get("id"))
         except Exception:
             NotFound("topic/issue not found")
-        return issue
+        else:
+            return issue
 
     def partial_update(self, request, *args, **kwargs):
         issue = self.get_object()
-        issue.is_closed = not issue.is_closed
-        issue.save()
-        return Response({"is_closed": issue.is_closed})
+        if issue:
+            issue.is_closed = not issue.is_closed
+            issue.closed_on = timezone.now() if issue.is_closed else None
+            issue.save()
+            return Response({"is_closed": issue.is_closed})
+        else:
+            raise APIException("issue object not provided")
 
 
 class TopicContributors(ListAPIView):
@@ -269,18 +303,12 @@ class TopicContributors(ListAPIView):
         return topic.contributors.all()
 
 
-# TODO: 1. first I have to make all get lists just like the template  (mostly completed)
-# 2. location for topics
-# 3. Add views for every request  (completed)
-# 4. have to add contributors to topics  (completed)
-# 5. issues has their own numbering system for their respective topic
-# 6. add updated_on field to models and rich-text-editor
-# 7. add media to the api
-# 8. add gravatar icon to profiles
-# 9. Have to add search functionality
-# 10. add assignees for the topic
-# 11. rating system for user/ngo (NOTE: only user can rate others)
-# 12. Have to add authentication and permissions to this
-# 13. use of django-signals and JWT
-# 14. truncate words in lists  (completed)
-# 15. Add closed_on date in topic and issue
+# TODO:
+# 2. issues has their own numbering system for their respective topic
+# 3. add media to the api
+# 4. add gravatar icon to profiles
+# 5. Have to add search functionality
+# 6. add assignees for the topic
+# 7. rating system for user/ngo (NOTE: only user can rate others)
+# 8. Have to add authentication and permissions to this
+# 9. use of django-signals and JWT
