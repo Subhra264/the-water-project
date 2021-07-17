@@ -31,6 +31,7 @@
             padding: 0.4em;
             flex-grow: 1;
             font-size: 1.4em;
+            max-width: 3em;
 
             &.mobile {
                 float: left;
@@ -46,15 +47,20 @@
                 font-size: 1.4em;
                 font-weight: bold;
                 padding: 0.4em 0 0.1em 0;
+                color: #5E3131;
+                margin-bottom: 0.7em;
             }
 
             .topic-date {
                 margin-bottom: 0.4em;
+                font-weight: 500;
+                opacity: 0.6;
             }
 
             .topic-labels {
                 font-size: 0.8em;
                 padding: 0.4em 0;
+                margin-top: 0.9em;
 
                 i {
                     color: $yellowOchre;

@@ -1,0 +1,20 @@
+@import 'src/utils/styles.scss';
+
+.discussion-topic-issues {
+    .create-issue-container {
+        text-align: right;
+
+        .create-issue {
+            display: inline-block;
+            margin: 0.6em;
+
+            a {
+                display: block;
+                padding: 0.4em 1em;
+                color: #fff;
+                background-color: $darkRed;
+                cursor: pointer;
+            }
+        }
+    }
+}

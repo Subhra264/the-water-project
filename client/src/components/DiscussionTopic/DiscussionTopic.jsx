@@ -1,39 +1,39 @@
-import { useRouteMatch, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { useMatchURL } from '../../hooks/useMatch';
 import { useRef } from 'react';
 import useViewport from '../../hooks/useViewport';
 import Comment from './Comment/Comment';
 import Slider from '../Slider/Slider';
 import './DiscussionTopic.scss';
+import Issues from './Issues/Issues';
 
 export default function DiscussionTopic(props) {
     const { isMobile } = useViewport();
-    const match = useRouteMatch();
+    const matchURL = useMatchURL();
     
     // Labels for the Slider component
     const labels = useRef([
         {
             name: 'Description',
-            linkTo: `${match.url}/description`,
+            linkTo: `${matchURL}/description`,
             ref: useRef()
         },
         {
             name: 'Issues',
-            linkTo: `${match.url}/issues`,
+            linkTo: `${matchURL}/issues`,
             ref: useRef()
         },
         {
             name: 'Progress Report',
-            linkTo: `${match.url}/progress-report`,
+            linkTo: `${matchURL}/progress-report`,
             ref: useRef()
         },
         {
             name: 'Discussion',
-            linkTo: `${match.url}/discussion`,
+            linkTo: `${matchURL}/discussion`,
             ref: useRef()
         }
     ]);
-
-    console.log('Match URL for DiscussionTopic :', match.url);
 
     return (
         <div className='discussion-topic-container'>
@@ -59,26 +59,26 @@ export default function DiscussionTopic(props) {
                     {
                         /* TODO:  */
                     // <Slider>
-                    //     <Slider.Label linkTo={`${match.url}/description`}>Description</Slider.Label>
-                    //     <Slider.Label linkTo={`${match.url}/issues`}>Issues</Slider.Label>
-                    //     <Slider.Label linkTo={`${match.url}/progress-report`}>Progress Report</Slider.Label>
-                    //     <Slider.Label linkTo={`${match.url}/discussion`}>Discussion</Slider.Label>
+                    //     <Slider.Label linkTo={`${matchURL}/description`}>Description</Slider.Label>
+                    //     <Slider.Label linkTo={`${matchURL}/issues`}>Issues</Slider.Label>
+                    //     <Slider.Label linkTo={`${matchURL}/progress-report`}>Progress Report</Slider.Label>
+                    //     <Slider.Label linkTo={`${matchURL}/discussion`}>Discussion</Slider.Label>
                     // </Slider> 
                     }
 
                     <Slider labels={labels.current}/>
 
                     <Switch>
-                        <Route path={`${match.url}/description`}>
+                        <Route path={`${matchURL}/description`}>
                             <Comment />
                         </Route>
-                        <Route path={`${match.url}/issues`}>
-                            This is for issues section
+                        <Route path={`${matchURL}/issues`}>
+                            <Issues />
                         </Route>
-                        <Route path={`${match.url}/progress-report`}>
+                        <Route path={`${matchURL}/progress-report`}>
                             This is the progress Report
                         </Route>
-                        <Route path={`${match.url}/discussion`}>
+                        <Route path={`${matchURL}/discussion`}>
                             <Comment />
                             <Comment />
                             <Comment />
@@ -88,5 +88,5 @@ export default function DiscussionTopic(props) {
                 </div>
             </div>
         </div>
-    )
+    );
 }

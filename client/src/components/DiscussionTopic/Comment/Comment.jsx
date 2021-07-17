@@ -19,8 +19,8 @@ export default function (props) {
             </div>
             <div className="topic-comment-footer">
                 <div className="topic-comment-footer-impressions">
-                    <div className="topic-comment-footer-impression"><FontAwesomeIcon icon='arrow-up' /> 1.5k</div>
-                    <div className="topic-comment-footer-impression"><FontAwesomeIcon icon='eye' /> 1.5k</div>
+                    <div className="topic-comment-footer-impression"><FontAwesomeIcon icon='arrow-up' color="#37731B"/> <b>1.5k</b></div>
+                    <div className="topic-comment-footer-impression"><FontAwesomeIcon icon='eye' color="#37731B" /> <b>1.5k</b></div>
                 </div>
                 <div className="topic-comment-footer-date">Commented on 25th June</div>
             </div>

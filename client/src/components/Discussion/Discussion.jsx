@@ -1,4 +1,5 @@
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { useMatchURL } from '../../hooks/useMatch';
 import Filters from './Filters/Filters';
 import TopicFinder from './TopicFinder/TopicFinder';
 import DiscussionTopic from '../DiscussionTopic/DiscussionTopic';
@@ -7,18 +8,18 @@ import useViewport from '../../hooks/useViewport';
 
 export default function Discussion(props) {
     const { isMobile } = useViewport();
-    const match = useRouteMatch();
+    const matchURL = useMatchURL();
 
     return (
         <div className="discussion">
             <Switch>
-                <Route path={`${match.url}`} exact>
+                <Route path={`${matchURL}`} exact>
                     <div className={`discussion-home ${isMobile? 'mobile' : ''}`}>
                         <Filters />
                         <TopicFinder />
                     </div>
                 </Route>
-                <Route path={`${match.url}/topic/:topicId`}>
+                <Route path={`${matchURL}/topic/:topicId`}>
                     <DiscussionTopic />
                 </Route>
             </Switch>
