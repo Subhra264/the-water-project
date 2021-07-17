@@ -57,7 +57,7 @@ export default function Slider (props) {
                         labelRefs.current[index] = label.ref;
 
                         return (
-                            <div className="slider-label" ref={label.ref} onClick={() => { onSelect(index) }}>
+                            <div className="slider-label" ref={label.ref} key={label.name} onClick={() => { onSelect(index) }}>
                                 <Link to={label.linkTo}>
                                     {label.name}
                                 </Link>

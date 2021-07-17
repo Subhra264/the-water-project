@@ -28,3 +28,8 @@ routers.register(r"blogs/problems", ProblemViewSet, basename="problems")
 routers.register(r"blogs/success-stories", SuccessStoriesViewSet, basename="success_stories")
 routers.register(r"blogs/others", OthersViewSet, basename="others")
 routers.register(r"blogs", BlogViewSet, basename="blogs")
+
+urlpatterns = [
+    path("blogs/types-of-blogs/", types_of_blogs),
+    path("blogs/<int:blog_id>/add-remove-likes/", add_or_remove_likes),
+]

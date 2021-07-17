@@ -1,0 +1,30 @@
+@import 'src/utils/styles.scss';
+
+.blog-category {
+    padding: 0.4em;
+
+    .blog-category-label {
+        margin: 0.4em 0;
+        font-weight: bold;
+    }
+
+    .blog-category-select {
+        margin-bottom: 0.5em;
+
+        >select {
+            display: block;
+            width: 100%;
+            padding: 0.4em;
+            border: 1px solid $yellowOchre;
+            outline: none;
+            background-color: #fff;
+
+            >option {
+                padding: 0.4em;
+                background-color: $whiteHoverColor;
+                border: none;
+                outline: none;
+            }
+        }
+    }
+}

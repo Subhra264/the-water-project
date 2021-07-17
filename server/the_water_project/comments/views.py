@@ -15,6 +15,21 @@ class StartingCommentViewSet(ModelViewSet):
     serializer_class = StartingCommentSerializer
 
 
+# class TopicDescriptionApiView(RetrieveAPIView):
+#     queryset = StartingComment.objects.all()
+#     serializer_class = StartingCommentSerializer
+
+#     def retrieve(self, request, *args, **kwargs):
+#         try:
+#             topic = Topic.objects.get(id=kwargs["id"])
+#         except ObjectDoesNotExist:
+#             raise NotFound("topic with the specified id not exist")
+#         else:
+#             description = topic.description
+#             description_serialized = StartingCommentSerializer(description).data
+#             return Response(description_serialized)
+
+
 class IssueCommentViewSet(ModelViewSet):
     queryset = IssueComment.objects.all()
     serializer_class = IssueCommentSerializer

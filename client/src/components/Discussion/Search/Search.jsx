@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useViewport from '../../../hooks/useViewport';
+import { useMatchURL } from '../../../hooks/useMatch';
 import './Search.scss';
 
 export default function Search(props) {
     const { isMobile } = useViewport();
+    const matchURL = useMatchURL();
 
     return (
         <div className='search-field-container'>
@@ -15,9 +18,9 @@ export default function Search(props) {
                     </form>
                 </div>
                 <div className="new-problem">
-                    <button>
+                    <Link to={`${matchURL}/new-topic`}>
                         <FontAwesomeIcon icon='plus' /> <i className={`${isMobile? 'display-none' : 'new-problem-label'}`}>New Problem</i>
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className='labels-container'>
