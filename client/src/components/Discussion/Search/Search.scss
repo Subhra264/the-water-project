@@ -37,14 +37,12 @@
         }
 
         .new-problem {
-            >button {
+            a {
                 display: block;
                 height: 100%;
                 padding: 0.4em 1em;
                 background-color: #77e75b;
                 color: #f3ecec;
-                border: none;
-                outline: none;
                 border-radius: 1.5em;
 
                 .new-problem-label {

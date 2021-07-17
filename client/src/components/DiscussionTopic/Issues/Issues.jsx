@@ -1,5 +1,6 @@
 import { Link, Switch, Route } from 'react-router-dom';
 import { useMatchURL } from '../../../hooks/useMatch';
+import IssueEditor from '../../ContentEditor/IssueEditor/IssueEditor';
 import Issue from './Issue/Issue';
 import './Issues.scss';
 
@@ -22,7 +23,7 @@ export default function Issues (props) {
                     </>
                 </Route>
                 <Route path={`${matchURL}/new-issue`}>
-                    Hello all the best stay strong stay motivated
+                    <IssueEditor />
                 </Route>
             </Switch>
         </div>

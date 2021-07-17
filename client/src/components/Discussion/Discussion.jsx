@@ -2,6 +2,7 @@ import { Switch, Route } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
 import Filters from './Filters/Filters';
 import TopicFinder from './TopicFinder/TopicFinder';
+import TopicEditor from '../ContentEditor/TopicEditor/TopicEditor';
 import DiscussionTopic from '../DiscussionTopic/DiscussionTopic';
 import './Discussion.scss';
 import useViewport from '../../hooks/useViewport';
@@ -18,6 +19,9 @@ export default function Discussion(props) {
                         <Filters />
                         <TopicFinder />
                     </div>
+                </Route>
+                <Route path={`${matchURL}/new-topic`}>
+                    <TopicEditor />
                 </Route>
                 <Route path={`${matchURL}/topic/:topicId`}>
                     <DiscussionTopic />

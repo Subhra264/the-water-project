@@ -8,7 +8,7 @@ export default function Editor (props) {
   const { isMobile } = useViewport();
 
   return (
-    <div className="editor-container">
+    <div className={`editor-container ${props.editorClass? props.editorClass : ''}`}>
       <CKEditor
         editor={ ClassicEditor }
         key={isMobile}

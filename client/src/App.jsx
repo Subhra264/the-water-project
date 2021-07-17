@@ -13,8 +13,8 @@ import useViewport from './hooks/useViewport';
 import Editor from './components/Editor/Editor';
 
 const StickyNavBars = [
-  <NavBar />,
-  <SubNavBar />
+  <NavBar key='navbar' />,
+  <SubNavBar key='subnavbar' />
 ];
 
 function App() {

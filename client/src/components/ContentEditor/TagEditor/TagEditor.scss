@@ -1,0 +1,62 @@
+@import 'src/utils/styles.scss';
+
+.tag-editor-container {
+    padding: 0.4em;
+    
+    .tag-editor {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .tag-editor-datalist {
+            width: 60%;
+
+            >input {
+                display: inline-block;
+                width: 100%;
+                padding: 0.5em 0.7em;
+                border: 1px solid $yellowOchre;
+                outline: none;
+            }
+        }
+
+        .add-tag {
+            cursor: pointer;
+            padding: 0.4em 0.6em;
+            color: #fff;
+            background-color: $yellowOchre;
+        }
+    }
+
+    .added-tags {
+        // display: flex;
+        margin: 0.5em 0;
+
+        .selected-tag {
+            display: inline-flex;
+            margin-right: 0.5em;
+            margin-top: 0.2em;
+            background: #fbf8f8;
+            padding: 0.2em 0.3em;
+            align-items: center;
+            border-radius: 0.7em;
+
+            .remove-tag {
+                display: flex;
+                width: 1.2em;
+                height: 1.2em;
+                border-radius: 50%;
+                justify-content: center;
+                background: #C4C4C42f;
+                align-items: center;
+                color: $darkRed;
+                cursor: pointer;
+            }
+
+            .tag-label {
+                padding: 0 0.3em;
+                color: $darkYellowOchre;
+            }
+        }
+    }
+}
