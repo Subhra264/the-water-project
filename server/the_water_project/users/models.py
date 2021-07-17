@@ -71,7 +71,7 @@ class Organization(AbstractBaseUser):
     date_joined = models.DateTimeField(auto_now_add=True)
     rating = models.FloatField(default=0.0)
     topics = GenericRelation("topics.Topic", "object_id", "content_type", related_query_name="orgs")
-    USER_FIELD = "email"
+    USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
     REQUIRED_FIELDS = ["phone_number", "owner", "address", "name"]
 

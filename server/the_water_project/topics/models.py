@@ -1,3 +1,4 @@
+from the_water_project.progress_report.models import ProgressReport
 from the_water_project.users.models import Organization
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -13,9 +14,14 @@ class Topic(models.Model):
     object_id = models.PositiveIntegerField()
     creator = GenericForeignKey("content_type", "object_id")
     title = models.CharField(max_length=150)
+    progress_report = models.OneToOneField(
+        ProgressReport, on_delete=models.CASCADE, blank=True, null=True, related_name="topic"
+    )
     date = models.DateTimeField(auto_now_add=True)
     description = models.OneToOneField("comments.StartingComment", on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
+    # closed_on = models.DateTimeField(blank=True, null=True)
+    updated_on = models.DateTimeField(auto_now=True)
     stars = models.PositiveIntegerField(default=0)
     no_of_issues = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True)
@@ -62,6 +68,7 @@ class Issue(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     description = models.OneToOneField("comments.StartingComment", on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
+    # closed_on = models.DateTimeField(blank=True, null=True)
     no_of_comments = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
