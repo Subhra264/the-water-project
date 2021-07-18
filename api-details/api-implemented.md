@@ -28,12 +28,12 @@ localhost:8000/tags/<tag_id>/
 ### less important
 ```
 localhost:8000/blogs/
-localhost:8000/blogs/success-stories/
-localhost:8000/blogs/innovations/
-localhost:8000/blogs/achievment/
-localhost:8000/blogs/solutions/
-localhost:8000/blogs/problems/
-localhost:8000/blogs/others/
+localhost:8000/blogs/su/
+localhost:8000/blogs/i/
+localhost:8000/blogs/a/
+localhost:8000/blogs/so/
+localhost:8000/blogs/p/
+localhost:8000/blogs/o/
 localhost:8000/blogs/<blog_id>/
 localhost:8000/blogs/types-of-blogs/
 localhost:8000/blogs/<blog_id>/add-remove-likes/
