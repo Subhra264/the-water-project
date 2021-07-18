@@ -1,3 +1,4 @@
+from the_water_project.users.serializers import OnlyIdAndNameUserSerializer
 from .models import (
     IssueComment,
     StartingComment,
@@ -17,6 +18,7 @@ class OnlyLikeNumStartingCommentSerializer(serializers.ModelSerializer):
 
 class StartingCommentSerializer(serializers.ModelSerializer):
     likes = OnlyLikeNumStartingCommentSerializer()
+    user = OnlyIdAndNameUserSerializer()
 
     class Meta:
         model = StartingComment
@@ -31,6 +33,7 @@ class OnlyLikeNumIssueCommentSerializer(serializers.ModelSerializer):
 
 class IssueCommentSerializer(serializers.ModelSerializer):
     likes = OnlyLikeNumIssueCommentSerializer()
+    user = OnlyIdAndNameUserSerializer()
 
     class Meta:
         model = IssueComment
@@ -45,6 +48,7 @@ class OnlyLikeNumTopicCommentSerializer(serializers.ModelSerializer):
 
 class TopicDiscussionSerializer(serializers.ModelSerializer):
     likes = OnlyLikeNumTopicCommentSerializer()
+    user = OnlyIdAndNameUserSerializer()
 
     class Meta:
         model = TopicDiscussion

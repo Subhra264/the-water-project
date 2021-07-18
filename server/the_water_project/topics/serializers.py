@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from the_water_project.tags.models import Tag
 from the_water_project.users.models import Organization
-from the_water_project.users.serializers import UserSerializer, OrgSerializer
+from the_water_project.users.serializers import OnlyIdAndNameUserSerializer, OnlyIdAndNameOrgSerializer
 from the_water_project.comments.serializers import StartingCommentSerializer
 from the_water_project.tags.serializers import TagSerializer
 from django.utils.text import Truncator
@@ -12,13 +12,19 @@ from django.contrib.auth import get_user_model
 class CreatorField(serializers.RelatedField):
     def to_representation(self, value):
         if isinstance(value, get_user_model()):
-            user_serializer = UserSerializer(value)
+            user_serializer = OnlyIdAndNameUserSerializer(value)
             return {"user": user_serializer.data}
         elif isinstance(value, Organization):
-            org = OrgSerializer(value)
+            org = OnlyIdAndNameOrgSerializer(value)
             return {"org": org.data}
         else:
             raise Exception("can not serialize creator field")
+
+
+class ContributorField(serializers.RelatedField):
+    def to_representation(self, value):
+        serialized_data = OnlyIdAndNameUserSerializer(value, many=True).data
+        return serialized_data
 
 
 class StartingCommentField(serializers.RelatedField):
@@ -39,6 +45,7 @@ class TagField(serializers.RelatedField):
 
 class TopicSerializer(serializers.ModelSerializer):
     creator = CreatorField(read_only=True)
+    contributors = ContributorField(queryset=get_user_model().objects.all())
     description = StartingCommentField(read_only=True)
     tags = TagField(queryset=Tag.objects.all(), required=False)
 
@@ -65,6 +72,8 @@ class TopicSerializer(serializers.ModelSerializer):
 
 
 class IssueSerializer(serializers.ModelSerializer):
+    creator = CreatorField(read_only=True)
+    tags = TagField(queryset=Tag.objects.all(), required=False)
     class Meta:
         model = Issue
         fields = "__all__"
