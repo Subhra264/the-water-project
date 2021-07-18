@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "corsheaders",
     "the_water_project.users.apps.UsersConfig",
     "the_water_project.tags.apps.TagsConfig",
     "the_water_project.topics.apps.TopicsConfig",
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -56,6 +58,17 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'EXCEPTION_HANDLER': 'the_water_project.utils.exception_handler.custom_exception_handler',
+}
+
 
 ROOT_URLCONF = "the_water_project.urls"
 
@@ -76,6 +89,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "the_water_project.wsgi.application"
+
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:3000",
+)
+
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Database

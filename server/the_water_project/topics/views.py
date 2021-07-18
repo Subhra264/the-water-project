@@ -57,14 +57,15 @@ class TopicViewSet(ModelViewSet):
             }
             if data["tags"]:
                 instance_data["topic-details"]["result-meta-data"]["tags"] = [tag["name"] for tag in data["tags"]]
-            username = get_user_model().objects.get(id=data["description"]["user"]).username
             instance_data["topic-details"]["result-description-container"]["result-opened-by"]["user"] = {
-                "username": username,
+                "username": data["description"]["user"]["username"],
+                "id": data["description"]["user"]["id"],
                 "profile-pic": None,
             }
             if "org" in data["creator"]:
                 instance_data["topic-details"]["result-description-container"]["result-opened-by"]["org"] = {
                     "name": data["creator"]["org"]["name"],
+                    "id": data["creator"]["org"]["id"],
                     "profile-pic": None,
                 }
 
@@ -74,13 +75,13 @@ class TopicViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         if request.user:
             try:
-                title = request.data.get("title")
-                description = request.data.get("description")
-                country = request.data.get("country")
-                city_or_area = request.data.get("city_or_area")
-                address = request.data.get("address")
+                title = request["title"]
+                description = request["description"]
+                country = request["country"]
+                city_or_area = request["city_or_area"]
+                address = request["address"]
             except Exception:
-                raise APIException("You didn't provide essential data to create a topic")
+                raise APIException("You didn't provide essential data to create a topic", code=500)
             associated_ngo_id = None
             if "associated_ngo" in request.data:
                 if request.data.get("associated_ngo"):
@@ -119,7 +120,16 @@ class TopicViewSet(ModelViewSet):
                         address=address,
                     )
                 except Exception:
-                    raise APIException("Something went wrong while creating the topic")
+                    raise APIException("Something went wrong while creating the topic", code=500)
+            if "tags" in request.data and isinstance(request.data["tags"], list):
+                for tag in request.data.get("tags"):
+                    tag = tag.lower()
+                    try:
+                        tag, _ = Tag.objects.get_or_create(name=tag)
+                    except Exception:
+                        raise APIException("tag is not string or have characters greater than 25")
+                    else:
+                        tag.topic_set.add(topic)
             return Response(self.get_serializer(topic).data)
         return super().create(request, *args, **kwargs)
 
@@ -175,8 +185,8 @@ class TopicIssueViewSet(ModelViewSet):
         except Exception:
             raise APIException("topic not exists")
         try:
-            title = request.data.get("title")
-            description = request.data.get("description")
+            title = request.data["title"]
+            description = request.data["description"]
         except Exception:
             raise APIException("title and/or description is not properly specified")
         else:
