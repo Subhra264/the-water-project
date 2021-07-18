@@ -74,6 +74,7 @@ class TopicSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     creator = CreatorField(read_only=True)
     tags = TagField(queryset=Tag.objects.all(), required=False)
+
     class Meta:
         model = Issue
         fields = "__all__"

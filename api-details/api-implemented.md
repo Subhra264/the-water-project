@@ -75,25 +75,23 @@ When using `GET`, it provide response json containing all topics -
         {
             "id": 1,
             "img": null,
-            "topic-details": {
-                "result-description-container": {
-                    "result-description": {
-                        "result-title": "Water level is increasing day by day",
-                        "result-date": "2021-07-08T10:17:13.933625Z",
-                        "result-brief-description": "A topic is created"
-                    },
-                    "result-opened-by": {
-                        "org": null,
-                        "user": {
-                            "username": "riter79",
-                            "profile-pic": null
-                        }
+            "topic_details": {
+                "description": {
+                    "title": "Water level is increasing day by day",
+                    "date": "2021-07-08T10:17:13.933625Z",
+                    "brief_description": "A topic is created"
+                },
+                "opened_by": {
+                    "org": null,
+                    "user": {
+                        "username": "riter79",
+                        "profile_pic": null
                     }
                 },
-                "result-meta-data": {
+                "meta_data": {
                     "tags": [],
-                    "is-closed": false,
-                    "no-of-issues": 0,
+                    "is_closed": false,
+                    "no_of_issues": 0,
                     "upvotes": 0
                 }
             }

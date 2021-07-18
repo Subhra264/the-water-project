@@ -2,7 +2,6 @@ from django.utils import timezone
 from rest_framework.generics import ListAPIView, UpdateAPIView
 from the_water_project.tags.models import Tag
 from the_water_project.users.models import Organization
-from django.contrib.auth import get_user_model
 from the_water_project.users.serializers import UserSerializer
 from .models import Topic, Issue, Contribution
 from rest_framework.exceptions import NotFound, APIException
@@ -35,38 +34,36 @@ class TopicViewSet(ModelViewSet):
             instance_data = {
                 "id": data["id"],
                 "img": None,
-                "topic-details": {
-                    "result-description-container": {
-                        "result-description": {
-                            "result-title": data["title"],
-                            "result-date": data["date"],
-                            "result-brief-description": data["description"]["content"],
-                        },
-                        "result-opened-by": {
-                            "org": None,
-                            "user": None,
-                        },
+                "topic_details": {
+                    "description": {
+                        "title": data["title"],
+                        "date": data["date"],
+                        "brief_description": data["description"]["content"],
                     },
-                    "result-meta-data": {
+                    "opened_by": {
+                        "org": None,
+                        "user": None,
+                    },
+                    "meta_data": {
                         "tags": [],
-                        "is-closed": data["is_closed"],
-                        "no-of-issues": data["no_of_issues"],
+                        "is_closed": data["is_closed"],
+                        "no_of_issues": data["no_of_issues"],
                         "upvotes": data["stars"],
                     },
                 },
             }
             if data["tags"]:
-                instance_data["topic-details"]["result-meta-data"]["tags"] = [tag["name"] for tag in data["tags"]]
-            instance_data["topic-details"]["result-description-container"]["result-opened-by"]["user"] = {
+                instance_data["topic_details"]["meta_data"]["tags"] = [tag["name"] for tag in data["tags"]]
+            instance_data["topic_details"]["opened_by"]["user"] = {
                 "username": data["description"]["user"]["username"],
                 "id": data["description"]["user"]["id"],
-                "profile-pic": None,
+                "profile_pic": None,
             }
             if "org" in data["creator"]:
-                instance_data["topic-details"]["result-description-container"]["result-opened-by"]["org"] = {
+                instance_data["topic_details"]["opened_by"]["org"] = {
                     "name": data["creator"]["org"]["name"],
                     "id": data["creator"]["org"]["id"],
-                    "profile-pic": None,
+                    "profile_pic": None,
                 }
 
             listed_data["topics"].append(instance_data)

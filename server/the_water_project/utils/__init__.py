@@ -1,13 +1,18 @@
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
 COUNTRY_CHOICES = [
     ("IN", "INDIA"),
     ("US", "USA"),
     # will be extended
 ]
 
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
-@api_view(["GET", ])
+@api_view(
+    [
+        "GET",
+    ]
+)
 def country_view(request):
     countries = {"countries": []}
     for _, country in COUNTRY_CHOICES:
