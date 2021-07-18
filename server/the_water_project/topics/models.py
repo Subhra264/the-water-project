@@ -32,6 +32,9 @@ class Topic(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     contributors = models.ManyToManyField(settings.AUTH_USER_MODEL, through="Contribution")
 
+    class Meta:
+        ordering = ("-updated_on", "-stars")
+
     def save(self, *args, **extra_fields) -> None:
         type_of_creator = None
         if self.creator:
@@ -79,6 +82,9 @@ class Issue(models.Model):
     no_of_comments = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ("-date",)
 
     def __str__(self) -> str:
         return self.title

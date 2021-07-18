@@ -28,12 +28,12 @@ localhost:8000/tags/<tag_id>/
 ### less important
 ```
 localhost:8000/blogs/
-localhost:8000/blogs/success-stories/
-localhost:8000/blogs/innovations/
-localhost:8000/blogs/achievment/
-localhost:8000/blogs/solutions/
-localhost:8000/blogs/problems/
-localhost:8000/blogs/others/
+localhost:8000/blogs/su/
+localhost:8000/blogs/i/
+localhost:8000/blogs/a/
+localhost:8000/blogs/so/
+localhost:8000/blogs/p/
+localhost:8000/blogs/o/
 localhost:8000/blogs/<blog_id>/
 localhost:8000/blogs/types-of-blogs/
 localhost:8000/blogs/<blog_id>/add-remove-likes/
@@ -75,25 +75,23 @@ When using `GET`, it provide response json containing all topics -
         {
             "id": 1,
             "img": null,
-            "topic-details": {
-                "result-description-container": {
-                    "result-description": {
-                        "result-title": "Water level is increasing day by day",
-                        "result-date": "2021-07-08T10:17:13.933625Z",
-                        "result-brief-description": "A topic is created"
-                    },
-                    "result-opened-by": {
-                        "org": null,
-                        "user": {
-                            "username": "riter79",
-                            "profile-pic": null
-                        }
+            "topic_details": {
+                "description": {
+                    "title": "Water level is increasing day by day",
+                    "date": "2021-07-08T10:17:13.933625Z",
+                    "brief_description": "A topic is created"
+                },
+                "opened_by": {
+                    "org": null,
+                    "user": {
+                        "username": "riter79",
+                        "profile_pic": null
                     }
                 },
-                "result-meta-data": {
+                "meta_data": {
                     "tags": [],
-                    "is-closed": false,
-                    "no-of-issues": 0,
+                    "is_closed": false,
+                    "no_of_issues": 0,
                     "upvotes": 0
                 }
             }

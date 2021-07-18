@@ -61,12 +61,12 @@ MIDDLEWARE = [
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
     ],
-    'EXCEPTION_HANDLER': 'the_water_project.utils.exception_handler.custom_exception_handler',
+    "EXCEPTION_HANDLER": "the_water_project.utils.exception_handler.custom_exception_handler",
 }
 
 
@@ -90,9 +90,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "the_water_project.wsgi.application"
 
-CORS_ORIGIN_WHITELIST = (
-    "http://localhost:3000",
-)
+CORS_ORIGIN_WHITELIST = ("http://localhost:3000",)
 
 CORS_ALLOW_CREDENTIALS = True
 

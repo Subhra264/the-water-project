@@ -49,6 +49,7 @@ class User(AbstractUser):
     def get_no_of_contributions(self):
         no_of_contributions = 0
         from the_water_project.topics.models import Contribution
+
         contributions = Contribution.objects.filter(contributor=self)
         for contribution in contributions:
             no_of_contributions += contribution.no_of_contributions
