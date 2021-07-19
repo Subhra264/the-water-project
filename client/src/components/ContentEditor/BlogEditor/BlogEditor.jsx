@@ -1,15 +1,7 @@
 import { useRef } from 'react';
 import ContentEditor from '../ContentEditor';
 import './BlogEditor.scss';
-
-const categories = [
-    ['su', 'Success Stories'],
-    ['i', 'Innovation'],
-    ['o', 'Others'],
-    ['a', 'Achievement'],
-    ['so', 'Solution'],
-    ['p', 'Problem'],
-];
+import categories from '../../../utils/blog-categories';
 
 export default function BlogEditor (props) {
     const selectedCategory = useRef(null);

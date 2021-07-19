@@ -1,6 +1,8 @@
 @import 'src/utils/styles.scss';
 
 .discussion-topic-container {
+    min-height: 15em;
+
     .associated-ngo {
         display: flex;
         align-items: center;

@@ -14,6 +14,10 @@
 
         &.mobile {
             top: 3em;
+
+            .discussion-topic-issue-meta {
+                flex-direction: column;
+            }
         }
 
         .discussion-topic-issue-is-closed {
@@ -35,15 +39,19 @@
             }
         }
 
-        .discussion-topic-issue-toggle {
+        .discussion-topic-issue-meta {
             flex-grow: 1;
-            text-align: center;
-            cursor: pointer;
+            display: flex;
+            align-items: center;
+
+            .discussion-topic-issue-meta-data {
+                text-align: center;
+                cursor: pointer;
+            }
         }
     }
 
-    .discussion-topic-issue-comments {
-        padding: 0.4em;
-        
+    .discussion-topic-issue-description {
+        min-height: 5em;
     }
 }

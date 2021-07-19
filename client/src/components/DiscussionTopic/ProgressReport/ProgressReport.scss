@@ -1,0 +1,83 @@
+@import 'src/utils/styles.scss';
+
+.progress-report {
+    padding: 0.6em;
+    min-height: 10em;
+
+    button {
+        display: inline-block;
+        background-color: $darkYellowOchre;
+        color: white;
+        padding: 0.4em 0.6em;
+        border: none;
+        outline: none;
+    }
+
+    .create-progress-report {
+        .create-progress-report-banner {
+            padding: 0.6em;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    }
+
+    .create-progress-report-form {
+        padding: 0.4em;
+        margin: 0.4em auto;
+        width: 50%;
+        min-width: 15em;
+
+        .create-progress-report-title {
+            >input {
+                display: block;
+                width: 100%;
+                border: 1px solid $yellowOchre;
+                outline: none;
+                padding: 0.4em 0.6em;
+            }
+        }
+
+        .create-progress-report-submit {
+            text-align: right;
+            margin: 0.5em 0;
+        }
+    }
+
+    .progress-report-tasks {
+        .progress-report-task {
+            margin: 0.6em 0;
+
+            .task-title,.task-description {
+                padding: 0.4em 0.6em;
+                border: 1px solid $darkYellowOchre;
+            }
+
+            .task-buttons-container {
+                display: flex;
+                justify-content: right;
+
+                .task-buttons {
+                    border: 1px solid $darkYellowOchre;
+
+                    .task-button {
+                        display: inline-block;
+                        padding: 0.4em;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: $whiteHoverColor;
+                        }
+                    }
+
+                    .done-button {
+                        color: $yellowOchre;
+                    }
+                }
+            }
+        }
+
+        .save-changes {
+            text-align: right;
+        }
+    }
+}

@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom';
 import SubNavBar from './components/SubNavBar/SubNavBar';
 import NavBar from './components/NavBar/NavBar';
 import Discussion from './components/Discussion/Discussion';
-// import DiscussionTopic from './components/DiscussionTopic/DiscussionTopic';
 import Solutions from './components/Solutions/Solutions';
 import Footer from './components/Footer/Footer';
 import SignUp from './components/SignUp/SignUp';

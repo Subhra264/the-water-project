@@ -11,15 +11,23 @@ import { faHome,
     faEye,
     faEllipsisV,
     faChevronDown,
-    faChevronUp
+    faChevronUp,
+    faHeart,
+    faCheckSquare,
+    faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 
-import { faDotCircle } from '@fortawesome/free-regular-svg-icons';
+import { faDotCircle, 
+    faCheckCircle as farCheckCircle,
+    faHeart as farHeart,
+    faCheckSquare as farCheckSquare
+} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
     faHome, 
     faExclamationCircle, 
-    faCheckCircle, 
+    faCheckCircle,
+    farCheckCircle,
     faComments,
     faPlus,
     faArrowUp,
@@ -29,5 +37,10 @@ library.add(
     faEye,
     faEllipsisV,
     faChevronDown,
-    faChevronUp
+    faChevronUp,
+    faHeart,
+    farHeart,
+    faCheckSquare,
+    farCheckSquare,
+    faTrashAlt
 );

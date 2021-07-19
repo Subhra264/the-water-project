@@ -1,9 +1,11 @@
-import Gig from './Gig/Gig';
+import Gig from './Gigs/Gig/Gig';
 import Card from '../Card/Card';
 import './Solutions.scss';
 import { Link, Switch, Route } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
 import BlogEditor from '../ContentEditor/BlogEditor/BlogEditor';
+import Gigs from './Gigs/Gigs';
+import Blog from './Blog/Blog';
 
 export default function Solutions (props) {
     const matchURL = useMatchURL();
@@ -25,7 +27,7 @@ export default function Solutions (props) {
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque, dolorem fuga accusamus voluptatum eius a sequi suscipit ipsam id quibusdam, placeat doloribus repellendus mollitia eligendi.
                             </div>
                             <div className="card-article-link">
-                                <Link to={`${matchURL}/the-water-project-blogs`}>
+                                <Link to={`${matchURL}/blogs/the-water-project/`}>
                                     Show More
                                 </Link>
                             </div>
@@ -37,10 +39,7 @@ export default function Solutions (props) {
                             <div className="blog-group-see-more">See More</div>
                         </div>
                         <div className="blog-group">
-                            <Gig /> 
-                            <Gig /> 
-                            <Gig /> 
-                            <Gig /> 
+                            <Gigs fetchURI='/blogs/su' />
                         </div>
                     </div>
                     <div className="blog-group-container success-stories">
@@ -49,15 +48,15 @@ export default function Solutions (props) {
                             <div className="blog-group-see-more">See More</div>
                         </div>
                         <div className="blog-group">
-                            <Gig /> 
-                            <Gig /> 
-                            <Gig /> 
-                            <Gig /> 
+                            <Gigs fetchURI='/blogs/' />
                         </div>
                     </div>
                 </Route>
                 <Route path={`${matchURL}/new-blog`}>
                     <BlogEditor />
+                </Route>
+                <Route path={`${matchURL}/blogs/:blogId`}>
+                    <Blog />
                 </Route>
             </Switch>
         </div>

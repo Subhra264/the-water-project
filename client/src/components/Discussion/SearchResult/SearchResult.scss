@@ -32,6 +32,7 @@
             .result-description-container {
                 display: flex;
                 padding: 0.5em;
+                justify-content: space-between;
 
                 &.mobile {
                     display: block;
