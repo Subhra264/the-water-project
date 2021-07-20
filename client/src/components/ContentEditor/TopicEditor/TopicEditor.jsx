@@ -1,20 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import ContentEditor from '../ContentEditor';
 import './TopicEditor.scss';
 
 function TopicLocation (props) {
     const [countries, setCountries] = useState([]);
-    const selectedCountry = useRef(null);
 
     useEffect(() => {
         // TODO: Fetch the countries API
+        fetch('/available-countries')
+        .then(res => res.json())
+        .then(result => {
+            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            console.log('Countries', result);
+            setCountries(result.countries);
+        }).catch(err => {
+            console.log('Error fetching country names', err.message);
+        });
     }, []);
 
     return (
         <div className="topic-address">
             <div className="topic-address-label">Country</div>
             <div className="topic-address-input">
-                <select name='category' id='category' ref={selectedCountry} placeholder='Choose Country' >
+                <select name='category' id='category' ref={props.selectedCountry} placeholder='Choose Country' >
                     {
                         countries.map(country => (
                             <option key={country} value={country}>{country}</option>
@@ -29,6 +38,10 @@ function TopicLocation (props) {
 export default function TopicEditor (props) {
     const [address, setAddress] = useState('');
     const [cityOrArea, setCityOrArea] = useState('');
+    const selectedCountry = useRef('');
+    const onSubmitClick = useRef(null);
+    const contentEditorProps = useRef(null);
+    const history = useHistory();
 
     const onAddressChange = (ev) => {
         setAddress(ev.target.value);
@@ -38,38 +51,48 @@ export default function TopicEditor (props) {
         setCityOrArea(ev.target.value);
     };
 
-    const onSubmitClick = (content) => {
-        console.log('Creating topic', content);
+    onSubmitClick.current = (topic) => {
+        console.log('Creating topic', topic.content);
         console.log('Creating topic', address);
-        // fetch('/create-topic', {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         ...content,
-        //         address
-        //     })
-        // }).then(res => (
-        //     res.json()
-        // )).then(result => {
-        //     // TODO: Do something
-        // }).catch(err => {
-        //     // TODO: Handle the error
-        // });
-    }
+        fetch('/topics/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: topic.title,
+                description: topic.content,
+                tags: topic.tags,
+                country: selectedCountry.current.value,
+                city_or_area: cityOrArea,
+                address
+            })
+        }).then(res => (
+            res.json()
+        )).then(result => {
+            // TODO: Do something
+            console.log('Created topic', result);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            history.push('/discussion/topics/');
 
-    const contentEditorProps = {
+        }).catch(err => {
+            // TODO: Handle the error
+            console.log('Error creating Topic', err.message);
+        });
+    };
+
+    contentEditorProps.current = {
         submit: {
             label: 'Create Topic',
-            onClick: onSubmitClick
+            onClick: onSubmitClick.current
         },
         contentEditorPlaceholder: 'Describe the topic with as much detail as possible'
-    }
+    };
 
     return (
-        <ContentEditor {...contentEditorProps}>
+        <ContentEditor {...contentEditorProps.current}>
             <div className="topic-address-container">
-                <TopicLocation />
+                <TopicLocation selectedCountry={selectedCountry} />
                 <div className="topic-address">
                     <div className="topic-address-label">
                         City/Area

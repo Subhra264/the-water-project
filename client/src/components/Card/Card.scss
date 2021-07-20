@@ -23,9 +23,13 @@
     &.mobile {
         flex-direction: column;
     
-        .card-img {
-            width: 100%;
+        .card-img, .card-details {
+            width: 100% !important;
             // height;
         }
+
+        // .card-details {
+        //     width: 100;
+        // }
     }
 }

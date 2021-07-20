@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Gig.scss';
 
 export default function Gig (props) {
@@ -8,14 +9,16 @@ export default function Gig (props) {
                 <div className="gig-information">
                     <div className="gig-by">
                         <div className="gig-by-img"></div>
-                        <div className="gig-by-name">John Doe</div>
+                        <div className="gig-by-name">{props.user.username}</div>
                     </div>
                     <div className="gig-last-updated-date">15/08/2019</div>
                 </div>
                 <div className="gig-brief-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, ducimus harum maxime voluptatibus quod.
+                    {props.title}
                 </div>
-                <div className="gig-article-link">Show More</div>
+                <div className="gig-article-link" >
+                    <Link to={`/solutions/blogs/${props.id}`} >Show More</Link>
+                </div>
             </div>
         </div>
     );

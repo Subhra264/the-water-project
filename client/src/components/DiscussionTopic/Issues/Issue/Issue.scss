@@ -9,11 +9,16 @@
         background-color: #fff;
         padding: 0.6em;
         display: flex;
+        z-index: 100;
         align-items: center;
         border: 2px solid $yellowOchre;
 
         &.mobile {
             top: 3em;
+
+            .discussion-topic-issue-meta {
+                flex-direction: column;
+            }
         }
 
         .discussion-topic-issue-is-closed {
@@ -35,15 +40,21 @@
             }
         }
 
-        .discussion-topic-issue-toggle {
+        .discussion-topic-issue-meta {
             flex-grow: 1;
-            text-align: center;
-            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            .discussion-topic-issue-meta-data {
+                text-align: center;
+                cursor: pointer;
+            }
         }
     }
 
-    .discussion-topic-issue-comments {
-        padding: 0.4em;
-        
+    .discussion-topic-issue-description {
+        min-height: 5em;
+        position: relative;
     }
 }

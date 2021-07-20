@@ -2,6 +2,9 @@
 
 
 .search-result {
+    position: relative;
+    min-height: 10em;
+    
     >a {
         display: block;
         width: 95%;
@@ -14,7 +17,7 @@
         border: 1px solid $yellowOchre;
 
         .result-image {
-            width: 100%;
+            width: 35%;
             padding: 0.5em;
 
             .result-img {
@@ -24,7 +27,8 @@
             }
         }
 
-        // .result-data {
+        .result-data {
+            width: 65%;
         //     display: flex;
         //     flex-direction: column;
         //     padding: 0.3em;
@@ -32,6 +36,7 @@
             .result-description-container {
                 display: flex;
                 padding: 0.5em;
+                justify-content: space-between;
 
                 &.mobile {
                     display: block;
@@ -122,6 +127,6 @@
                     }
                 }
             }
-        // }
+        }
     }
 }

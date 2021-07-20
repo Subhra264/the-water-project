@@ -1,35 +1,49 @@
-import ContetntEditor from "../ContentEditor";
+import { useContext, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { TopicContext } from '../../../utils/contexts';
+import ContentEditor from '../ContentEditor';
 
 export default function IssueEditor (props) {
-    const onSubmitClick = (issue) => {
+    const { topicId } = useContext(TopicContext);
+    const history = useHistory();
+    const contentEditorProps = useRef(null);
+    const onSubmitClick = useRef(null);
+    
+    onSubmitClick.current = (issue) => {
         console.log('Clicked Create Issue button!', issue);
 
         // TODO: Make the request to create an issue
-        // fetch('/api', {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         ...issue
-        //     })
-        // }).then(res => (
-        //     res.json()
-        // )).then(result => {
-
-        // }).catch(err => {
-        //     //Properly handle the error
-        // });
+        fetch(`/topics/${topicId}/issues/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: issue.title,
+                description: issue.content,
+                tags: issue.tags
+            })
+        }).then(res => (
+            res.json()
+        )).then(result => {
+            console.log('Created issue', result);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            history.push(`/discussion/topics/${topicId}/issues`);
+        }).catch(err => {
+            //Properly handle the error
+            console.log('Error creating issue', err.message);
+        });
     };
 
-    const contentEditorProps = {
+    contentEditorProps.current = {
         submit: {
             label: 'Create Issue',
-            onClick: onSubmitClick
+            onClick: onSubmitClick.current
         },
         contentEditorPlaceholder: 'Describe the issue'
-    }
+    };
 
     return (
-        <ContetntEditor {...contentEditorProps} />
+        <ContentEditor {...contentEditorProps.current} />
     );
 }

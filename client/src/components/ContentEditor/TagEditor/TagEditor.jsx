@@ -7,6 +7,15 @@ export default function TagEditor (props) {
 
     useEffect(() => {
         // TODO: Fetch all the tags 
+        fetch('/tags/')
+        .then(res => res.json())
+        .then(result => {
+            console.log('All tags', result);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            setAllTags(result);
+        }).catch(err => {
+            console.log('Error fetching tags', err.message);
+        })
     }, []);
 
     const onTagAdd = (ev) => {
@@ -38,7 +47,7 @@ export default function TagEditor (props) {
                     <datalist id='all-tags' >
                         {
                             allTags && allTags.map(tag => (
-                                <option value={tag} key={tag} />
+                                <option value={tag.name} key={tag.id} />
                             ))
                         }
                     </datalist>
