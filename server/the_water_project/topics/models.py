@@ -29,6 +29,7 @@ class Topic(models.Model):
     address = models.CharField(max_length=150)
     stars = models.PositiveIntegerField(default=0)
     no_of_issues = models.PositiveIntegerField(default=0)
+    no_of_comments = models.PositiveBigIntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True)
     contributors = models.ManyToManyField(settings.AUTH_USER_MODEL, through="Contribution")
 
@@ -40,12 +41,10 @@ class Topic(models.Model):
         if self.creator:
             if isinstance(self.creator, get_user_model()) or isinstance(self.creator, Organization):
                 type_of_creator = type(self.creator)
-                print(self.creator, " is the creator")
                 self.content_type = ContentType.objects.get_for_model(self.creator)
                 if not self.updated_on:
                     self.updated_on = timezone.now()
                 super().save(*args, **extra_fields)
-                print(self.creator)
             else:
                 raise Exception("creator must be one of User and Organization")
         else:

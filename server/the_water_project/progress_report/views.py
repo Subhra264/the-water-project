@@ -1,4 +1,6 @@
+from the_water_project.utils.permissions import IsTopicOwnerOrMemberOrReject
 from django.utils import timezone
+from rest_framework.permissions import IsAuthenticated
 from the_water_project.topics.models import Contribution
 from rest_framework.exceptions import APIException, NotFound
 from rest_framework.generics import CreateAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
@@ -7,6 +9,7 @@ from .models import ProgressReport, Task
 from the_water_project.topics.models import Topic
 from .serializers import ProgressReportSerializer, TaskSerializer
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import status
 
 
 class ProgressReportViewSet(ModelViewSet):
@@ -22,6 +25,11 @@ class TaskViewSet(ModelViewSet):
 class TopicProgressReportApiView(RetrieveAPIView, CreateAPIView):
     serializer_class = ProgressReportSerializer
     http_method_names = ["get", "post", "head"]
+
+    def get_permissions(self):
+        if self.request.method == "POST":
+            self.permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
+        return super().get_permissions()
 
     def get_object(self):
         try:
@@ -41,34 +49,39 @@ class TopicProgressReportApiView(RetrieveAPIView, CreateAPIView):
             topic = Topic.objects.get(id=self.kwargs["topic_id"])
         except Exception:
             raise NotFound("topic with specified id not found")
-        if topic.progress_report:
-            raise APIException("progress report already created")
         else:
-            progress_report = ProgressReport.objects.create()
-            task_title = request.data.get("title") if request.data.get("title") and "title" in request.data else None
-            task_description = (
-                request.data.get("description")
-                if request.data.get("description") and "description" in request.data
-                else None
-            )
-            try:
-                progress_report.add_task(title=task_title, description=task_description)
-            except Exception:
-                raise APIException("Something went wrong while saving progress report")
-            topic.progress_report = progress_report
-            topic.updated_on = timezone.now()
-            topic.save()
-            if request.user in topic.contributors.all():
-                contributor = Contribution.objects.get(contributor=request.user, topic=topic)
-                contributor.no_of_contributions += 1
-                contributor.save()
+            if topic.progress_report:
+                raise APIException("progress report already created")
             else:
-                Contribution.objects.create(contributor=request.user, topic=topic, no_of_contributions=1)
-            return Response(self.get_serializer(progress_report).data)
+                self.check_object_permissions(request, topic)
+                progress_report = ProgressReport.objects.create(creator=request.user)
+                task_title = (
+                    request.data.get("title") if request.data.get("title") and "title" in request.data else None
+                )
+                task_description = (
+                    request.data.get("description")
+                    if request.data.get("description") and "description" in request.data
+                    else None
+                )
+                try:
+                    progress_report.add_task(title=task_title, description=task_description, creator=request.user)
+                except Exception:
+                    raise APIException("Something went wrong while saving progress report")
+                topic.progress_report = progress_report
+                topic.updated_on = timezone.now()
+                topic.save()
+                if request.user in topic.contributors.all():
+                    contributor = Contribution.objects.get(contributor=request.user, topic=topic)
+                    contributor.no_of_contributions += 1
+                    contributor.save()
+                else:
+                    Contribution.objects.create(contributor=request.user, topic=topic, no_of_contributions=1)
+                return Response(self.get_serializer(progress_report).data)
 
 
 class AddTaskApiView(CreateAPIView):
     serializer_class = TaskSerializer
+    permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
 
     def get_queryset(self):
         topic_id = self.kwargs["topic_id"]
@@ -80,14 +93,18 @@ class AddTaskApiView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         topic_id = self.kwargs["topic_id"]
-        topic = Topic.objects.get(id=topic_id)
         try:
-            title = request.data.get("title")
-            description = request.data.get("description")
+            topic = Topic.objects.get(id=topic_id)
+        except Exception:
+            raise NotFound("topic with specified id not founc")
+        self.check_object_permissions(request, topic)
+        try:
+            title = request.data["title"]
+            description = request.data["description"]
         except Exception:
             raise APIException("title or/and description is/are not defined properly")
         if topic.progress_report:
-            task = topic.progress_report.add_task(title=title, description=description)
+            task = topic.progress_report.add_task(title=title, description=description, creator=request.user)
             topic.updated_on = timezone.now()
             topic.save()
             if request.user in topic.contributors.all():
@@ -103,6 +120,7 @@ class AddTaskApiView(CreateAPIView):
 
 class RemoveTaskApiView(DestroyAPIView):
     serializer_class = TaskSerializer
+    permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
 
     def get_queryset(self):
         topic_id = self.kwargs["topic_id"]
@@ -118,13 +136,14 @@ class RemoveTaskApiView(DestroyAPIView):
             topic = Topic.objects.get(id=topic_id)
         except Exception:
             raise NotFound("topic with the specified id not found")
+        self.check_object_permissions(request, topic)
         if topic.progress_report:
             try:
                 id = request.data.get("id")
                 topic.progress_report.remove_task(id=id)
                 topic.updated_on = timezone.now()
                 topic.save()
-                return Response({"success": "task has been deleted"})
+                return Response({"success": "task has been deleted", "status_code": status.HTTP_200_OK})
             except Exception:
                 raise APIException("task object not found")
         else:
@@ -136,6 +155,7 @@ class TaskSaveChangesApiView(UpdateAPIView):
     http_method_names = [
         "patch",
     ]
+    permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
 
     def get_queryset(self):
         topic_id = self.kwargs["topic_id"]
@@ -143,6 +163,7 @@ class TaskSaveChangesApiView(UpdateAPIView):
             topic = Topic.objects.get(id=topic_id)
         except Exception:
             raise NotFound("topic with the specified id not found")
+        self.check_object_permissions(self.request, topic)
         return topic.progress_report.task_set.all()
 
     def partial_update(self, request, *args, **kwargs):
@@ -164,4 +185,6 @@ class TaskSaveChangesApiView(UpdateAPIView):
             topic.save()
         except Exception:
             raise APIException("Something went wrong while saving the task/tasks.")
-        return Response("task/tasks successfully updated")
+        return Response(
+            {"success": "task/tasks successfully updated", "status_code": status.HTTP_200_OK}, status=status.HTTP_200_OK
+        )

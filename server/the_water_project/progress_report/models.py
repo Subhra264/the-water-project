@@ -1,9 +1,11 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
 
 class ProgressReport(models.Model):
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     total_no_of_tasks = models.PositiveIntegerField(default=0)
     no_of_tasks_completed = models.PositiveIntegerField(default=0)
     is_completed = models.BooleanField(default=False)
@@ -16,10 +18,10 @@ class ProgressReport(models.Model):
     def has_tasks_been_completed(self):
         return self.total_no_of_tasks == self.no_of_tasks_completed
 
-    def add_task(self, title, description):
+    def add_task(self, title, description, creator):
         if title and description:
             try:
-                task = Task.objects.create(progress_report=self, title=title, description=description)
+                task = Task.objects.create(progress_report=self, title=title, description=description, creator=creator)
             except Exception as e:
                 raise e
             else:
@@ -48,6 +50,7 @@ class ProgressReport(models.Model):
 
 
 class Task(models.Model):
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     progress_report = models.ForeignKey(ProgressReport, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     description = models.TextField()

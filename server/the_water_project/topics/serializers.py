@@ -57,6 +57,7 @@ class TopicSerializer(serializers.ModelSerializer):
             "date",
             "is_closed",
             "no_of_issues",
+            "no_of_comments",
             "progress_report",
             "updated_on",
             "closed_on",

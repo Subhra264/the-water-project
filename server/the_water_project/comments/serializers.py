@@ -11,14 +11,24 @@ from rest_framework import serializers
 
 
 class OnlyLikeNumStartingCommentSerializer(serializers.ModelSerializer):
+    user_liked = serializers.SerializerMethodField()
+
     class Meta:
         model = StartingCommentLike
-        fields = ("no_of_likes",)
+        fields = ("no_of_likes", "user_liked")
+
+    def get_user_liked(self, obj):
+        user = self.parent.context.get("request_user")
+        if user:
+            if user in obj.users.all():
+                return True
+            else:
+                return False
 
 
 class StartingCommentSerializer(serializers.ModelSerializer):
     likes = OnlyLikeNumStartingCommentSerializer()
-    user = OnlyIdAndNameUserSerializer()
+    creator = OnlyIdAndNameUserSerializer()
 
     class Meta:
         model = StartingComment
@@ -26,14 +36,24 @@ class StartingCommentSerializer(serializers.ModelSerializer):
 
 
 class OnlyLikeNumIssueCommentSerializer(serializers.ModelSerializer):
+    user_liked = serializers.SerializerMethodField()
+
     class Meta:
         model = IssueCommentLike
-        fields = ("no_of_likes",)
+        fields = ("no_of_likes", "user_liked")
+
+    def get_user_liked(self, obj):
+        user = self.parent.context.get("request_user")
+        if user:
+            if user in obj.users.all():
+                return True
+            else:
+                return False
 
 
 class IssueCommentSerializer(serializers.ModelSerializer):
     likes = OnlyLikeNumIssueCommentSerializer()
-    user = OnlyIdAndNameUserSerializer()
+    creator = OnlyIdAndNameUserSerializer()
 
     class Meta:
         model = IssueComment
@@ -41,14 +61,24 @@ class IssueCommentSerializer(serializers.ModelSerializer):
 
 
 class OnlyLikeNumTopicCommentSerializer(serializers.ModelSerializer):
+    user_liked = serializers.SerializerMethodField()
+
     class Meta:
         model = TopicCommentLike
-        fields = ("no_of_likes",)
+        fields = ("no_of_likes", "user_liked")
+
+    def get_user_liked(self, obj):
+        user = self.parent.context.get("request_user")
+        if user:
+            if user in obj.users.all():
+                return True
+            else:
+                return False
 
 
 class TopicDiscussionSerializer(serializers.ModelSerializer):
     likes = OnlyLikeNumTopicCommentSerializer()
-    user = OnlyIdAndNameUserSerializer()
+    creator = OnlyIdAndNameUserSerializer()
 
     class Meta:
         model = TopicDiscussion
@@ -61,13 +91,13 @@ class StartingCommentLikeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TopicCommentLike(serializers.ModelSerializer):
+class TopicCommentLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TopicCommentLike
         fields = "__all__"
 
 
-class IssueCommentLike(serializers.ModelSerializer):
+class IssueCommentLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = IssueCommentLike
         fields = "__all__"

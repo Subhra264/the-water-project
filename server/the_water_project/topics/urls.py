@@ -7,6 +7,10 @@ from .views import (
     TopicCloseApiView,
     TopicContributors,
     IssueCloseApiView,
+    TagAddToTopic,
+    TagRemoveFromTopic,
+    TagAddToIssue,
+    TagRemoveFromIssue,
 )
 from rest_framework.routers import DefaultRouter
 
@@ -14,7 +18,11 @@ router = DefaultRouter()
 
 urlpatterns = [
     path("close-topic/", TopicCloseApiView.as_view()),
-    path("<int:topic_id>/issues/close-topic/", IssueCloseApiView.as_view()),
+    path("<int:topic_id>/issues/close-issue/", IssueCloseApiView.as_view()),
+    path("add-tag/", TagAddToTopic.as_view()),
+    path("remove-tag", TagRemoveFromTopic.as_view()),
+    path("<int:topic_id>/issues/add-tag/", TagAddToIssue.as_view()),
+    path("<int:topic_id>/issues/remove-tag/", TagRemoveFromIssue.as_view()),
     path("<int:topic_id>/contributors/", TopicContributors.as_view()),
 ]
 router.register(r"topics", TopicViewSet, basename="topics")

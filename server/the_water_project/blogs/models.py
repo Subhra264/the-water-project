@@ -14,7 +14,7 @@ BLOG_CHOICES = [
 
 
 class Blog(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     content = models.TextField()
     _type = models.CharField(choices=BLOG_CHOICES, max_length=30)

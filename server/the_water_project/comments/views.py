@@ -1,4 +1,6 @@
+from the_water_project.utils.permissions import IsOwnerOrReject, IsTopicOwnerOrMemberOrReject
 from rest_framework.exceptions import NotFound, APIException
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView
@@ -15,21 +17,6 @@ class StartingCommentViewSet(ModelViewSet):
     serializer_class = StartingCommentSerializer
 
 
-# class TopicDescriptionApiView(RetrieveAPIView):
-#     queryset = StartingComment.objects.all()
-#     serializer_class = StartingCommentSerializer
-
-#     def retrieve(self, request, *args, **kwargs):
-#         try:
-#             topic = Topic.objects.get(id=kwargs["id"])
-#         except ObjectDoesNotExist:
-#             raise NotFound("topic with the specified id not exist")
-#         else:
-#             description = topic.description
-#             description_serialized = StartingCommentSerializer(description).data
-#             return Response(description_serialized)
-
-
 class IssueCommentViewSet(ModelViewSet):
     queryset = IssueComment.objects.all()
     serializer_class = IssueCommentSerializer
@@ -37,7 +24,7 @@ class IssueCommentViewSet(ModelViewSet):
 
 class TopicDiscussionApiView(RetrieveAPIView, UpdateAPIView):
     serializer_class = StartingCommentSerializer
-    http_method_names = ["get", "post", "head", "patch"]  # Something has to be reviewed
+    http_method_names = ["get", "head", "patch"]  # Something has to be reviewed
 
     def get_object(self):
         topic_id = self.kwargs["topic_id"]
@@ -45,7 +32,17 @@ class TopicDiscussionApiView(RetrieveAPIView, UpdateAPIView):
             topic = Topic.objects.get(id=topic_id)
         except ObjectDoesNotExist:
             raise NotFound("topic with the specified id not found")
+        self.check_object_permissions(self.request, topic)
         return topic.description
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs["context"] = {"request_user": self.request.user}
+        return super().get_serializer(*args, **kwargs)
+
+    def get_permissions(self):
+        if self.request.method == "PATCH":
+            self.permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
+        return super().get_permissions()
 
     def partial_update(self, request, *args, **kwargs):
         description = self.get_object()
@@ -78,6 +75,16 @@ class TopicCommentsViewSet(ModelViewSet):
     serializer_class = TopicDiscussionSerializer
     http_method_names = ["get", "post", "head", "patch"]
 
+    def get_permissions(self):
+        if self.request.method == "PATCH":
+            self.permission_classes = (IsAuthenticated, IsOwnerOrReject)
+        return super().get_permissions()
+
+    def get_serializer(self, *args, **kwargs):
+        if self.request.method != "POST":
+            kwargs["context"] = {"request_user": self.request.user}
+        return super().get_serializer(*args, **kwargs)
+
     def get_queryset(self):
         try:
             topic = Topic.objects.get(id=self.kwargs["topic_id"])
@@ -96,7 +103,7 @@ class TopicCommentsViewSet(ModelViewSet):
         else:
             if "content" in request.data:
                 if request.data.get("content"):
-                    comment = TopicDiscussion(user=request.user, content=request.data.get("content"), topic=topic)
+                    comment = TopicDiscussion(creator=request.user, content=request.data.get("content"), topic=topic)
                 else:
                     raise APIException("'content' field can not be null")
             else:
@@ -110,6 +117,8 @@ class TopicCommentsViewSet(ModelViewSet):
                     else:
                         comment.reply_to = reply_to_comment
             comment.save()
+            topic.no_of_comments += 1
+            topic.save()
             comment_serialized = self.get_serializer(comment).data
             return Response(comment_serialized)
 
@@ -118,8 +127,6 @@ class TopicCommentsViewSet(ModelViewSet):
         keys = request.data.copy()
         for key in keys:
             if key == "content" and request.data["content"]:
-                should_pass = True
-            elif key == "likes" and request.data["likes"]:
                 should_pass = True
             else:
                 request.data.pop(key)
@@ -144,10 +151,12 @@ def des_add_or_remove_likes(request, **kwargs):
         try:
             if request.user in topic.description.likes.users.all():
                 topic.description.likes.no_of_likes -= 1
+                topic.description.likes.users.remove(request.user)
             else:
                 topic.description.likes.no_of_likes += 1
+                topic.description.likes.users.add(request.user)
             topic.description.likes.save()
-            return Response(StartingCommentSerializer(topic.description).data)
+            return Response(StartingCommentSerializer(topic.description, context={"request_user": request.user}).data)
         except Exception:
             raise APIException("Something went wrong while saving the data")
     else:
@@ -157,6 +166,16 @@ def des_add_or_remove_likes(request, **kwargs):
 class TopicIssueCommentViewSet(ModelViewSet):
     serializer_class = IssueCommentSerializer
     http_method_names = ["get", "post", "patch", "delete", "head"]
+
+    def get_permissions(self):
+        if self.request.method == "PATCH" or self.request.method == "DELETE":
+            self.permission_classes = (IsAuthenticated, IsOwnerOrReject)
+        return super().get_permissions()
+
+    def get_serializer(self, *args, **kwargs):
+        if self.request.method != "POST":
+            kwargs["context"] = {"request_user": self.request.user}
+        return super().get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         topic_id = self.kwargs["topic_id"]
@@ -177,7 +196,7 @@ class TopicIssueCommentViewSet(ModelViewSet):
         else:
             if "content" in request.data:
                 if request.data.get("content"):
-                    comment = IssueComment(user=request.user, content=request.data.get("content"), issue=issue)
+                    comment = IssueComment(creator=request.user, content=request.data.get("content"), issue=issue)
                 else:
                     raise APIException("'content' field can not be null")
             else:
@@ -191,6 +210,8 @@ class TopicIssueCommentViewSet(ModelViewSet):
                     else:
                         comment.reply_to = reply_to_comment
             comment.save()
+            issue.no_of_comments += 1
+            issue.save()
             comment_serialized = self.get_serializer(comment).data
             return Response(comment_serialized)
 
@@ -225,10 +246,12 @@ def topic_com_add_or_remove_likes(request, **kwargs):
         try:
             if request.user in comment.likes.users.all():
                 comment.likes.no_of_likes -= 1
+                comment.likes.users.remove(request.user)
             else:
                 comment.likes.no_of_likes += 1
+                comment.likes.users.add(request.user)
             comment.likes.save()
-            return Response(TopicDiscussionSerializer(comment).data)
+            return Response(TopicDiscussionSerializer(comment, context={"request_user": request.user}).data)
         except Exception:
             raise APIException("Something went wrong while saving the data")
     else:
@@ -260,7 +283,7 @@ def issue_com_add_or_remove_likes(request, **kwargs):
                 comment.likes.no_of_likes += 1
                 comment.likes.users.add(request.user)
             comment.likes.save()
-            return Response(IssueCommentSerializer(comment).data)
+            return Response(IssueCommentSerializer(comment, context={"request_user": request.user}).data)
         except Exception:
             raise APIException("Something went wrong while saving the data")
     else:
@@ -270,6 +293,11 @@ def issue_com_add_or_remove_likes(request, **kwargs):
 class IssueDescriptionApiView(TopicDiscussionApiView):
     serializer_class = StartingCommentSerializer
 
+    def get_permissions(self):
+        if self.request.method == "PATCH":
+            self.permission_classes = (IsAuthenticated, IsOwnerOrReject)
+        return super().get_permissions()
+
     def get_object(self):
         try:
             topic_id = self.kwargs["topic_id"]
@@ -278,4 +306,5 @@ class IssueDescriptionApiView(TopicDiscussionApiView):
             issue = topic.issue_set.get(id=issue_id)
         except Exception:
             raise NotFound("specified topic or/and issue not found")
+        self.check_object_permissions(self.request, issue.description)
         return issue.description

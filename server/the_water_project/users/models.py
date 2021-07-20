@@ -57,10 +57,10 @@ class User(AbstractUser):
 
 
 class OrganizationManager(BaseUserManager):
-    def create_org(self, name, email, address, phone_number, owner, password):
+    def create_org(self, name, email, address, phone_number, owner):
         email = self.normalize_email(email)
         org = self.model(name=name, email=email, address=address, phone_number=phone_number, owner=owner)
-        org.set_password(password)
+        org.set_unusable_password()
         org.save()
         return org
 

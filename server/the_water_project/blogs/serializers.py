@@ -1,3 +1,5 @@
+from the_water_project.tags.serializers import TagSerializer
+from the_water_project.tags.models import Tag
 from the_water_project.users.serializers import OnlyIdAndNameUserSerializer
 from django.utils.text import Truncator
 from .models import Blog, Like
@@ -5,9 +7,19 @@ from rest_framework import serializers
 
 
 class OnlyNumberOfLikesSerializer(serializers.ModelSerializer):
+    user_liked = serializers.SerializerMethodField()
+
     class Meta:
         model = Like
-        fields = ("no_of_likes",)
+        fields = ("no_of_likes", "user_liked")
+
+    def get_user_liked(self, obj):
+        user = self.parent.context.get("request_user")
+        if user:
+            if user in obj.users.all():
+                return True
+            else:
+                return False
 
 
 class LikeSerializer(serializers.ModelSerializer):
@@ -28,7 +40,8 @@ class ContentField(serializers.RelatedField):
 class BlogSerializer(serializers.ModelSerializer):
     likes = OnlyNumberOfLikesSerializer()
     content = ContentField(read_only=True)
-    user = OnlyIdAndNameUserSerializer()
+    creator = OnlyIdAndNameUserSerializer()
+    tags = TagSerializer(Tag.objects.all(), many=True, required=False)
 
     class Meta:
         model = Blog
