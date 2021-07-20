@@ -73,31 +73,39 @@ When using `GET`, it provide response json containing all topics -
 {
     "topics": [
         {
-            "id": 1,
+            "id": 2,
             "img": null,
             "topic_details": {
                 "description": {
-                    "title": "Water level is increasing day by day",
-                    "date": "2021-07-08T10:17:13.933625Z",
-                    "brief_description": "A topic is created"
+                    "title": "First topic from my side",
+                    "date": "2021-07-20T11:17:27.371268Z",
+                    "brief_description": "Hello guys, let's make our earch better"
                 },
                 "opened_by": {
-                    "org": null,
+                    "org": {
+                        "name": "The NGO",
+                        "id": 1,
+                        "profile_pic": null
+                    },
                     "user": {
-                        "username": "riter79",
+                        "username": "Samufa58",
+                        "id": 2,
                         "profile_pic": null
                     }
                 },
                 "meta_data": {
-                    "tags": [],
-                    "is_closed": false,
-                    "no_of_issues": 0,
+                    "tags": [
+                        "water pollution",
+                        "water solution"
+                    ],
+                    "is_closed": true,
+                    "no_of_issues": 1,
+                    "no_of_comments": 2,
                     "upvotes": 0
                 }
             }
         }
     ]
-}
 ```
 If you want to create a new topic, you can do this by using POST request to this api. Your request body must contain `title` and `description`. If an user is creating this topic as an org, then he/she can provide `associated_ngo` containing the id of the org. Backend will varify if the user is a part of the specified ngo or not. If not, Api will throw an error.
 Successful creation will let the api send back the json of the created topic.
@@ -106,54 +114,64 @@ Example request body -
 {
     "title": "hello all",
     "description": "how are you?",
+    "country": "IN",
+    "city_or_area": "blah city",
+    "address": "some dummy address",
     "associated_ngo": 2  //optional
 }
 ```
 respone data -
 ```json
 {
-    "id": 8,
+    "id": 1,
     "description": {
-        "id": 17,
-        "content": "how are you?",
-        "date": "2021-07-15T05:28:54.050762Z",
-        "likes": 0,
-        "views": 0,
-        "user": 3,
+        "id": 1,
+        "likes": {
+            "no_of_likes": 0,
+            "user_liked": null
+        },
+        "creator": {
+            "id": 1,
+            "username": "Abhra303"
+        },
+        "content": "This is my first topic description",
+        "date": "2021-07-20T07:50:25.613664Z",
+        "views": 8,
         "reply_to": null
     },
-    "date": "2021-07-15T05:28:54.277952Z",
+    "date": "2021-07-20T07:50:25.922122Z",
     "is_closed": false,
     "no_of_issues": 0,
+    "no_of_comments": 1,
     "progress_report": null,
+    "updated_on": "2021-07-20T07:50:25.922122Z",
+    "closed_on": null,
+    "country": "IN",
+    "city_or_area": "kolkata",
+    "address": "lokhandwala street, 030377",
     "stars": 0,
-    "title": "hello all",
+    "title": "This is my first topic",
     "creator": {
-        "org": {
-            "id": 2,
-            "topics": [
-                5,
-                6,
-                7,
-                8
-            ],
-            "last_login": null,
-            "name": "Google",
-            "email": "google@email.com",
-            "address": "an address",
-            "phone_number": "+913334444433",
-            "no_of_members": 1,
-            "date_joined": "2021-07-10T10:01:42.645443Z",
-            "rating": 0.0,
-            "owner": 1,
-            "members": [
-                3
-            ]
+        "user": {
+            "id": 1,
+            "username": "Abhra303"
         }
     },
-    "tags": [],
+    "tags": [
+        {
+            "id": 1,
+            "name": "water pollution"
+        }
+    ],
     "contributors": [
-        1
+        {
+            "id": 1,
+            "username": "Abhra303"
+        },
+        {
+            "id": 2,
+            "username": "Samufa58"
+        }
     ]
 }
 ```
@@ -176,27 +194,29 @@ Response body when using `GET`:
 [
     {
         "id": 1,
-        "title": "how to do that",
-        "date": "2021-07-13T04:34:33.978025Z",
-        "is_closed": false,
-        "no_of_comments": 0,
-        "creator": 3,
-        "description": 15,
-        "topic": 3,
-        "tags": []
-    },
-    {
-        "id": 2,
-        "title": "generating my first issue",
-        "date": "2021-07-13T04:43:21.172668Z",
-        "is_closed": false,
-        "no_of_comments": 0,
-        "creator": 3,
-        "description": 16,
-        "topic": 3,
+        "creator": {
+            "user": {
+                "id": 2,
+                "username": "Samufa58"
+            }
+        },
         "tags": [
-            2
-        ]
+            {
+                "id": 1,
+                "name": "water pollution"
+            },
+            {
+                "id": 2,
+                "name": "water solution"
+            }
+        ],
+        "title": "First topic issue from my side",
+        "date": "2021-07-20T11:30:49.527311Z",
+        "is_closed": false,
+        "closed_on": null,
+        "no_of_comments": 0,
+        "description": 3,
+        "topic": 1
     }
 ]
 ```
@@ -211,20 +231,34 @@ Example request body:
 ```
 response body-
 ```json
+
 {
-    "id": 4,
-    "title": "hello all",
-    "date": "2021-07-15T06:21:09.691080Z",
-    "is_closed": false,
-    "no_of_comments": 0,
-    "creator": 3,
-    "description": 19,
-    "topic": 2,
+    "id": 1,
+    "creator": {
+        "user": {
+            "id": 2,
+            "username": "Samufa58"
+        }
+    },
     "tags": [
-        5,
-        6
-    ]
+        {
+            "id": 1,
+            "name": "water pollution"
+        },
+        {
+            "id": 2,
+            "name": "water solution"
+        }
+    ],
+    "title": "First topic issue from my side",
+    "date": "2021-07-20T11:30:49.527311Z",
+    "is_closed": false,
+    "closed_on": null,
+    "no_of_comments": 0,
+    "description": 3,
+    "topic": 1
 }
+
 ```
 Creating an issue in a topic will let the creator of the issue be a contributor of that topic.
 ## localhost:8000/topics/<topic_id>/issues/<issue_id>/
@@ -237,12 +271,33 @@ returns all dicussion comments of a particular topic.
 [
     {
         "id": 1,
-        "content": "hello I would like to contribute here. Can anyone blah blah please guide me?",
-        "date": "2021-07-11T10:04:15.229372Z",
-        "likes": 2,
-        "user": 3,
+        "likes": {
+            "no_of_likes": 0,
+            "user_liked": false
+        },
+        "creator": {
+            "id": 1,
+            "username": "Abhra303"
+        },
+        "content": "hello this is my first comment on a topic",
+        "date": "2021-07-20T07:55:35.691765Z",
         "reply_to": null,
-        "topic": 3
+        "topic": 1
+    },
+    {
+        "id": 2,
+        "likes": {
+            "no_of_likes": 0,
+            "user_liked": false
+        },
+        "creator": {
+            "id": 1,
+            "username": "Abhra303"
+        },
+        "content": "hello this is my first comment on a topic",
+        "date": "2021-07-20T07:58:25.973138Z",
+        "reply_to": null,
+        "topic": 1
     }
 ]
 ```
@@ -258,13 +313,19 @@ Example request body -
 Response data -
 ```json
 {
-    "id": 2,
-    "content": "How can you justify it",
-    "date": "2021-07-15T06:42:24.939277Z",
-    "likes": 0,
-    "user": 3,
-    "reply_to": 1,
-    "topic": 3
+    "id": 1,
+    "likes": {
+        "no_of_likes": 0,
+        "user_liked": false
+    },
+    "creator": {
+        "id": 1,
+        "username": "Abhra303"
+    },
+    "content": "hello this is my first comment on a topic",
+    "date": "2021-07-20T07:55:35.691765Z",
+    "reply_to": null,
+    "topic": 1
 }
 ```
 ## localhost:8000/topics/<topic_id>/comments/<comment_id>
@@ -284,13 +345,19 @@ request body -
 Response body -
 ```json
 {
-    "id": 8,
-    "content": "How can crack it. It is the hardest problem in the world",
-    "date": "2021-07-10T09:50:49.942418Z",
-    "likes": 0,
-    "user": 1,
-    "reply_to": null,
-    "topic": 3
+    "id": 1,
+    "likes": {
+        "no_of_likes": 0,
+        "user_liked": false
+    },
+    "creator": {
+        "id": 1,
+        "username": "Abhra303"
+    },
+    "content": "This is my first topic description",
+    "date": "2021-07-20T07:50:25.613664Z",
+    "views": 9,
+    "reply_to": null
 }
 ```
 ## localhost:8000/topics/<topic_id>/progress-report/
@@ -308,21 +375,29 @@ request data -
 Response body -
 ```json
 {
-    "id": 6,
+    "id": 3,
     "task_set": [
         {
-            "id": 9,
-            "title": "The task is nothing",
-            "description": "passing the task to anyone else",
-            "date": "2021-07-15T07:49:45.417578Z",
+            "id": 1,
+            "creator": {
+                "id": 2,
+                "username": "Samufa58"
+            },
+            "title": "This is my first task",
+            "description": "hello from sam",
+            "date": "2021-07-20T12:46:07.869977Z",
             "is_completed": false
         }
     ],
-    "total_no_of_tasks": 1,
+    "creator": {
+        "id": 2,
+        "username": "Samufa58"
+    },
+    "total_no_of_tasks": 2,
     "no_of_tasks_completed": 0,
     "is_completed": false,
-    "created_on": "2021-07-15T07:49:45.243998Z",
-    "updated_on": "2021-07-15T07:49:45.552557Z"
+    "created_on": "2021-07-20T12:46:07.780977Z",
+    "updated_on": "2021-07-20T14:19:46.981649Z"
 }
 ```
 ## localhost:8000/topics/<topic_id>/contributors/
@@ -333,18 +408,18 @@ Response data-
 ```json
 [
     {
-        "id": 3,
-        "topics": [],
-        "last_login": null,
+        "id": 2,
+        "no_of_contributions": 5,
         "username": "Samufo58",
-        "first_name": "Sam",
-        "last_name": "doe",
-        "email": "same@email.com",
-        "date_joined": "2021-07-08T10:25:11.089009Z",
+        "rating": 0.0,
+        "last_login": null,
+        "first_name": "Abhradeep",
+        "last_name": "",
+        "email": "kaak@email.com",
+        "date_joined": "2021-07-20T08:25:40.169558Z",
         "country": "IN",
         "age": null,
-        "address": null,
-        "rating": 0.0
+        "address": null
     }
 ]
 ```
@@ -362,21 +437,14 @@ Request body -
 Response body -
 ```json
 {
-    "id": 6,
-    "task_set": [
-        {
-            "id": 9,
-            "title": "The task is nothing",
-            "description": "passing the task to anyone else",
-            "date": "2021-07-15T07:49:45.417578Z",
-            "is_completed": false
-        }
-    ],
-    "total_no_of_tasks": 1,
-    "no_of_tasks_completed": 0,
-    "is_completed": false,
-    "created_on": "2021-07-15T07:49:45.243998Z",
-    "updated_on": "2021-07-15T07:49:45.552557Z"
+    "id": 2
+}
+```
+Response while error -
+```json
+{
+    "detail": "title or/and description is/are not defined properly",
+    "status_code": 500
 }
 ```
 ## localhost:8000/topics/<topic_id>/progress-report/delete-task
@@ -392,7 +460,8 @@ Request body -
 Response body -
 ```json
 {
-    "success": "task has been deleted"
+    "success": "task has been deleted",
+    "status_code": 200
 }
 ```
 ## localhost:8000/topics/<topic_id>/tasks/save-changes
@@ -407,7 +476,9 @@ Example request body -
 ```
 Response body -
 ```json
-"task/tasks successfully updated"
+{
+    "success":"task/tasks successfully updated",
+    "status_code": 200
 ```
 ## localhost:8000/topics/close-topic
 Closes or Opens the topic specified in the request body. If the topic is already closed then sending request to this api will open the topic again else close the topic.
@@ -462,6 +533,17 @@ Used for retrieve, update and delete specific tags.
 ## localhost:8000/blogs/
 Returns list of all blogs/solutions.
 **Accepted Requests:** GET, POST
+```json
+{
+    "su": [],
+    "i": [],
+    "o": [],
+    "a": [],
+    "so": [],
+    "p": [],
+    "popular_stories": []
+}
+```
 You must provide `title`, `content` and `type` keys in order to create a blog.
 Request body -
 ```json
@@ -473,22 +555,25 @@ Request body -
 ```
 Response body -
 ```json
-[
-    {
-        "id": 5,
-        "likes": {
-            "no_of_likes": 2
-        },
-        "title": "created it for blog liking",
-        "content": "blog's like is working",
-        "_type": "su",
-        "no_of_comments": 0,
-        "date": "2021-07-15T12:57:51.688287Z",
-        "updated_on": "2021-07-15T13:01:29.533178Z",
-        "user": 3,
-        "tags": []
-    }
-]
+{
+    "id": 1,
+    "likes": {
+        "no_of_likes": 0,
+        "user_liked": false
+    },
+    "content": "some blah blah blah blah blahb blah blah blah blah blah blah blahb  b blah b b: b b ",
+    "creator": {
+        "id": 2,
+        "username": "Samufa58"
+    },
+    "tags": [],
+    "title": "my first blog",
+    "_type": "so",
+    "no_of_comments": 0,
+    "date": "2021-07-20T14:12:10.115200Z",
+    "updated_on": "2021-07-20T14:12:10.115200Z",
+    "views": 0
+}
 ```
 
 ## localhost:8000/blogs/types-of-blogs/
@@ -511,3 +596,131 @@ Response body -
 ## localhost:8000/blogs/<blog_id>/add-remove-likes/
 User can use this api to like a blog. It can be also used to undo a like. Returns json data of that particular blog.
 **Accepted Request:** PATCH
+
+## localhost:8000/users/
+
+Response body - 
+```json
+[
+    {
+        "id": 1,
+        "no_of_contributions": 1,
+        "username": "Abhra303",
+        "rating": 0.0,
+        "last_login": null,
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "date_joined": "2021-07-20T07:37:32.245395Z",
+        "country": "IN",
+        "age": null,
+        "address": null
+    }
+]
+```
+`Post request` - not allowed
+User can update only his profile. Else a permission error will be shown -
+```json
+{
+    "detail": "You do not have permission to perform this action.",
+    "status_code": 403
+}
+```
+request body -
+```json
+{
+    "first_name": "Abhradeep"
+}
+```
+Response body - 
+```json
+{
+    "id": 2,
+    "no_of_contributions": 4,
+    "username": "Samufa58",
+    "rating": 0.0,
+    "last_login": null,
+    "first_name": "Abhradeep",
+    "last_name": "",
+    "email": "kaak@email.com",
+    "date_joined": "2021-07-20T08:25:40.169558Z",
+    "country": "IN",
+    "age": null,
+    "address": null
+}
+```
+## localhost:8000/ngos/
+
+Response -
+```json
+[
+    {
+        "id": 1,
+        "owner": {
+            "id": 2,
+            "username": "Samufa58"
+        },
+        "members": [],
+        "date_joined": "2021-07-20T10:12:04.779604Z",
+        "rating": 0.0,
+        "no_of_members": 0,
+        "name": "The NGO",
+        "email": "ngo@email.com",
+        "address": "kaka 3-3-8008",
+        "phone_number": "+9199999999999"
+    }
+]
+```
+
+## localhost:8000/ngos/<ngo_id>/create-invitation-link/
+No request body should be present. Its a post request.
+Response body -
+```json
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MjY4NzUzNTl9.Nq6ZzNb2WXLydgfTHG4xj327n5kE4eAvNST8EaVsyXw"
+}
+```
+Only owner or members of that ngo can generate this token.
+
+## localhost:8000/ngos/add-member/
+Post request - 
+request body -
+```json
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MjY4NzUzNTl9.Nq6ZzNb2WXLydgfTHG4xj327n5kE4eAvNST8EaVsyXw"
+}
+```
+
+Owner or already member can not request. It will give permission error -
+```json
+{
+    "detail": "owner can not add himself to member list",
+    "status_code": 500
+}
+```
+else:
+```json
+{
+    "success": "User successfully added to member", "status_code": 200
+}
+```
+## localhost:8000/ngos/remove-member/
+delete request.
+Request body -
+```json
+{
+    "ngo_id": 1,
+    "user_id": 1
+}
+```
+If the user is the owner or not in the member list, it will return error code.
+```json
+{
+    "detail": "User is already not a part of the NGO",
+    "status_code": 500
+}
+```
+else:
+```json
+{"success": "User successfully removed", "status_code": 200}
+```

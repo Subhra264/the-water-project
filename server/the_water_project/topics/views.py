@@ -1,6 +1,13 @@
 from django.utils import timezone
 from rest_framework.generics import ListAPIView, UpdateAPIView
+from rest_framework.permissions import IsAuthenticated
+from the_water_project.utils.permissions import (
+    IsTopicOwnerOrMemberOrReject,
+    IsOwnerOrReject,
+    IsIssueOwnerOrMemberOrReject,
+)
 from the_water_project.tags.models import Tag
+from the_water_project.tags.serializers import TagSerializer
 from the_water_project.users.models import Organization
 from the_water_project.users.serializers import UserSerializer
 from .models import Topic, Issue, Contribution
@@ -10,20 +17,21 @@ from .serializers import TopicSerializer, IssueSerializer, ContributionSerialize
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
-# from rest_framework.authentication import BaseAuthentication
-# from rest_framework.permissions import AllowAny
-
 
 class TopicViewSet(ModelViewSet):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
-    # authentication_classes = [BaseAuthentication,]
-    # permission_classes = [AllowAny,]
+    http_method_names = ["get", "patch", "post", "delete", "head"]
 
     def get_serializer(self, *args, **kwargs):
         if self.action == "list":
             kwargs["context"] = {"is_list": True}
         return super().get_serializer(*args, **kwargs)
+
+    def get_permissions(self):
+        if self.request.method == "PATCH" or self.request.method == "DELETE":
+            self.permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
+        return super().get_permissions()
 
     def list(self, request, *args, **kwargs):
         listed_data = {"topics": []}
@@ -48,15 +56,16 @@ class TopicViewSet(ModelViewSet):
                         "tags": [],
                         "is_closed": data["is_closed"],
                         "no_of_issues": data["no_of_issues"],
-                        "upvotes": data["stars"],
+                        "no_of_comments": data["no_of_comments"],
+                        "upvotes": data["description"]["likes"]["no_of_likes"],
                     },
                 },
             }
             if data["tags"]:
                 instance_data["topic_details"]["meta_data"]["tags"] = [tag["name"] for tag in data["tags"]]
             instance_data["topic_details"]["opened_by"]["user"] = {
-                "username": data["description"]["user"]["username"],
-                "id": data["description"]["user"]["id"],
+                "username": data["description"]["creator"]["username"],
+                "id": data["description"]["creator"]["id"],
                 "profile_pic": None,
             }
             if "org" in data["creator"]:
@@ -70,65 +79,69 @@ class TopicViewSet(ModelViewSet):
         return Response(listed_data)
 
     def create(self, request, *args, **kwargs):
-        if request.user:
+        try:
+            title = request.data["title"]
+            description = request.data["description"]
+            country = request.data["country"]
+            city_or_area = request.data["city_or_area"]
+            address = request.data["address"]
+        except Exception:
+            raise APIException("You didn't provide essential data to create a topic", code=500)
+        associated_ngo_id = None
+        if "associated_ngo" in request.data:
+            if request.data.get("associated_ngo"):
+                associated_ngo_id = request.data.get("associated_ngo")
+        starting_comment = StartingComment.objects.create(creator=request.user, content=description)
+        creator = request.user
+        request.data["creator"] = {}
+        if associated_ngo_id:
             try:
-                title = request["title"]
-                description = request["description"]
-                country = request["country"]
-                city_or_area = request["city_or_area"]
-                address = request["address"]
+                associated_ngo = Organization.objects.get(id=associated_ngo_id)
             except Exception:
-                raise APIException("You didn't provide essential data to create a topic", code=500)
-            associated_ngo_id = None
-            if "associated_ngo" in request.data:
-                if request.data.get("associated_ngo"):
-                    associated_ngo_id = request.data.get("associated_ngo")
-            starting_comment = StartingComment.objects.create(user=request.user, content=description)
-            creator = request.user
-            request.data["creator"] = {}
-            if associated_ngo_id:
-                try:
-                    associated_ngo = Organization.objects.get(id=associated_ngo_id)
-                except Exception as e:
-                    return e
-                else:
-                    if self.check_membership(associated_ngo, creator):
-                        try:
-                            topic = Topic.objects.create(
-                                title=title,
-                                description=starting_comment,
-                                creator=associated_ngo,
-                                country=country,
-                                city_or_area=city_or_area,
-                                address=address,
-                            )
-                        except Exception:
-                            raise APIException("Something went wrong while creating the topic")
-                    else:
-                        raise ValueError("The user is not the part of the ngo")
+                raise NotFound("associated ngo not found")
             else:
-                try:
-                    topic = Topic.objects.create(
-                        title=title,
-                        description=starting_comment,
-                        creator=creator,
-                        country=country,
-                        city_or_area=city_or_area,
-                        address=address,
-                    )
-                except Exception:
-                    raise APIException("Something went wrong while creating the topic", code=500)
-            if "tags" in request.data and isinstance(request.data["tags"], list):
-                for tag in request.data.get("tags"):
-                    tag = tag.lower()
+                if self.check_membership(associated_ngo, creator):
                     try:
-                        tag, _ = Tag.objects.get_or_create(name=tag)
+                        topic = Topic.objects.create(
+                            title=title,
+                            description=starting_comment,
+                            creator=associated_ngo,
+                            country=country,
+                            city_or_area=city_or_area,
+                            address=address,
+                        )
                     except Exception:
-                        raise APIException("tag is not string or have characters greater than 25")
-                    else:
-                        tag.topic_set.add(topic)
-            return Response(self.get_serializer(topic).data)
-        return super().create(request, *args, **kwargs)
+                        raise APIException("Something went wrong while creating the topic")
+                else:
+                    raise APIException("The user is not a part of the ngo")
+        else:
+            try:
+                topic = Topic.objects.create(
+                    title=title,
+                    description=starting_comment,
+                    creator=creator,
+                    country=country,
+                    city_or_area=city_or_area,
+                    address=address,
+                )
+            except Exception:
+                raise APIException("Something went wrong while creating the topic", code=500)
+        if "tags" in request.data and isinstance(request.data["tags"], list):
+            for tag in request.data.get("tags"):
+                tag = tag.lower()
+                try:
+                    tag, _ = Tag.objects.get_or_create(name=tag)
+                except Exception:
+                    raise APIException("tag is not string or have characters greater than 25")
+                else:
+                    tag.topic_set.add(topic)
+        return Response(self.get_serializer(topic).data)
+
+    def retrieve(self, request, *args, **kwargs):
+        topic = self.get_object()
+        topic.description.views += 1
+        topic.description.save()
+        return super().retrieve(request, *args, **kwargs)
 
     def check_membership(self, ngo, user):
         if ngo.owner.id == user.id:
@@ -138,7 +151,7 @@ class TopicViewSet(ModelViewSet):
         else:
             return False
 
-    def update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         topic = self.get_object()
         if "description" in request.data or "title" in request.data:
             if "description" in request.data and request.data["description"]:
@@ -176,6 +189,16 @@ class TopicIssueViewSet(ModelViewSet):
             issues = topic.issue_set.all()
             return issues
 
+    def get_serializer(self, *args, **kwargs):
+        if self.action == "list":
+            kwargs["context"] = {"is_list": True}
+        return super().get_serializer(*args, **kwargs)
+
+    def get_permissions(self):
+        if self.request.method == "PATCH" or self.request.method == "DELETE":
+            self.permission_classes = (IsAuthenticated, IsOwnerOrReject)
+        return super().get_permissions()
+
     def create(self, request, *args, **kwargs):
         try:
             topic = Topic.objects.get(id=kwargs["topic_id"])
@@ -188,12 +211,14 @@ class TopicIssueViewSet(ModelViewSet):
             raise APIException("title and/or description is not properly specified")
         else:
             try:
-                starting_description = StartingComment.objects.create(content=description, user=request.user)
+                starting_description = StartingComment.objects.create(content=description, creator=request.user)
                 issue = Issue.objects.create(
                     title=title, description=starting_description, creator=request.user, topic=topic
                 )
             except Exception:
                 raise APIException("something went wrong while saving the data")
+            topic.no_of_issues += 1
+            topic.save()
             if "tags" in request.data and isinstance(request.data["tags"], list):
                 for tag in request.data.get("tags"):
                     tag = tag.lower()
@@ -218,18 +243,14 @@ class TopicIssueViewSet(ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         allowed_fields = [
             "title",
-            "is_closed",
             "description",
         ]  # TODO: issue update/delete tags should have a separate api link
         title = None
         description = None
-        is_closed = None
         for field in request.data:
             if field == allowed_fields[0]:
                 title = request.data.get(field)
             elif field == allowed_fields[1]:
-                is_closed = request.data.get(field)
-            elif field == allowed_fields[2]:
                 description = request.data.get(field)
             else:
                 raise APIException("Some field/fields can not be edited")
@@ -237,10 +258,9 @@ class TopicIssueViewSet(ModelViewSet):
         if title:
             issue.title = title
         if description:
-            issue.description = description
-        if isinstance(is_closed, bool):
-            issue.is_closed = is_closed
+            issue.description.content = description
         try:
+            issue.description.save()
             issue.save()
         except Exception:
             raise APIException("something went wrong while updating the issue.")
@@ -251,20 +271,19 @@ class TopicIssueViewSet(ModelViewSet):
 class TopicCloseApiView(UpdateAPIView):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
+    permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
     http_method_names = [
         "patch",
     ]
 
     def partial_update(self, request, *args, **kwargs):
+
         try:
             id = request.data.get("id")
             topic = Topic.objects.get(id=id)
         except Exception:
             raise NotFound("id is not given or the given id is not valid")
-        # if topic.is_closed:
-        #     topic.is_closed = False
-        # else:
-        #     topic.is_closed = True
+        self.check_object_permissions(self.request, topic)
         topic.is_closed = not topic.is_closed
         topic.closed_on = timezone.now() if topic.is_closed else None
         topic.updated_on = timezone.now()
@@ -274,6 +293,7 @@ class TopicCloseApiView(UpdateAPIView):
 
 class IssueCloseApiView(UpdateAPIView):
     serializer_class = IssueSerializer
+    permission_classes = (IsAuthenticated, IsIssueOwnerOrMemberOrReject)
     http_method_names = [
         "patch",
     ]
@@ -289,6 +309,7 @@ class IssueCloseApiView(UpdateAPIView):
 
     def partial_update(self, request, *args, **kwargs):
         issue = self.get_object()
+        self.check_object_permissions(self.request, issue)
         if issue:
             issue.is_closed = not issue.is_closed
             issue.closed_on = timezone.now() if issue.is_closed else None
@@ -310,6 +331,102 @@ class TopicContributors(ListAPIView):
         return topic.contributors.all()
 
 
+class TagAddToTopic(UpdateAPIView):
+    permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
+    serializer_class = TagSerializer
+
+    def get_object(self):
+        topic_id = self.request.data.get("id")
+        try:
+            topic = Topic.objects.get(id=topic_id)
+            self.topic = topic
+        except Exception:
+            raise NotFound("Either topic with the specified id not found or you not provided the id")
+        else:
+            return topic
+
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            tag_name = request.data["tag"]
+        except Exception:
+            raise APIException("tag is required")
+        else:
+            topic = self.get_object()
+            self.check_object_permissions(request, topic)
+            try:
+                tag_name = tag_name.lower()
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                tag.topic_set.add(topic)
+                return Response(self.get_serializer(tag).data)
+            except Exception:
+                raise APIException("something went wrong while adding tag")
+
+
+class TagRemoveFromTopic(TagAddToTopic):
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            tag_name = request.data["tag"]
+        except Exception:
+            raise APIException("tag is required")
+        else:
+            topic = self.get_object()
+            self.check_object_permissions(request, topic)
+            try:
+                tag_name = tag_name.lower()
+                tag = topic.tag_set.get(name=tag_name)
+                topic.tag_set.remove(tag)
+            except Exception:
+                raise APIException("Something went wrong while remove tag")
+
+
+class TagAddToIssue(UpdateAPIView):
+    permission_classes = (IsAuthenticated, IsIssueOwnerOrMemberOrReject)
+    serializer_class = TagSerializer
+
+    def get_object(self):
+        # topic_id = self.kwargs["topic_id"]
+        issue_id = self.request.data.get("id")
+        try:
+            issue = Issue.objects.get(id=issue_id)
+        except Exception:
+            raise NotFound("Either topic with the specified id not found or you not provided the id")
+        else:
+            return issue
+
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            tag_name = request.data["tag"]
+        except Exception:
+            raise APIException("tag is required")
+        else:
+            issue = self.get_object()
+            self.check_object_permissions(request, issue)
+            try:
+                tag_name = tag_name.lower()
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                tag.issue_set.add(issue)
+                return Response(self.get_serializer(tag).data)
+            except Exception:
+                raise APIException("something went wrong while adding tag")
+
+
+class TagRemoveFromIssue(TagAddToIssue):
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            tag_name = request.data["tag"]
+        except Exception:
+            raise APIException("tag is required")
+        else:
+            issue = self.get_object()
+            self.check_object_permissions(request, issue)
+            try:
+                tag_name = tag_name.lower()
+                tag = issue.tag_set.get(name=tag_name)
+                issue.tag_set.remove(tag)
+            except Exception:
+                raise APIException("Something went wrong while remove tag")
+
+
 # TODO:
 # 2. issues has their own numbering system for their respective topic
 # 3. add media to the api
@@ -317,5 +434,3 @@ class TopicContributors(ListAPIView):
 # 5. Have to add search functionality
 # 6. add assignees for the topic
 # 7. rating system for user/ngo (NOTE: only user can rate others)
-# 8. Have to add authentication and permissions to this
-# 9. use of django-signals and JWT

@@ -4,13 +4,13 @@ from django.db import models
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     reply_to = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True, related_name="replies")
 
     def __str__(self):
-        return self.user.username + "- comment_id: " + str(self.id)
+        return self.creator.username + "- comment_id: " + str(self.id)
 
     def save(self, *args, **kwargs) -> None:
         super().save(*args, **kwargs)
