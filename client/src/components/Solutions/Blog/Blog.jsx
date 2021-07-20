@@ -2,31 +2,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { categoryFromId } from '../../../utils/blog-categories';
+import Like from '../../IconButton/Like';
 import Loader from '../../Loader/Loader';
 import './Blog.scss';
 
 export default function Blog (props) {
     const [blog, setBlog] = useState({});
-    const [liked, setLiked] = useState(false);
+    // const [liked, setLiked] = useState(false);
     const [loading, setLoading] = useState(true);
     const { blogId } = useParams();
 
-    const toggleLike = (ev) => {
-        // PATCH request to toggle like
-        fetch(`blogs/${blogId}/add-remove-likes/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json)
-        .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
-            setLiked(result.likes.user_liked);
+    // const toggleLike = (ev) => {
+    //     // PATCH request to toggle like
+    //     fetch(`blogs/${blogId}/add-remove-likes/`, {
+    //         method: 'PATCH',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     }).then(res => res.json)
+    //     .then(result => {
+    //         if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+    //         setLiked(result.likes.user_liked);
 
-        }).catch(err => {
-            console.log('Error liking the blog', err);
-        });
-    };
+    //     }).catch(err => {
+    //         console.log('Error liking the blog', err);
+    //     });
+    // };
 
     useEffect(() => {
         // Load the blog
@@ -37,10 +38,10 @@ export default function Blog (props) {
 
             console.log('Blog', result);
             setBlog(result);
-            setLiked(result.likes.user_liked);
+            // setLiked(result.likes.user_liked);
             setLoading(false);
         }).catch(err => {
-            console.log('Error fetching the blog', err);
+            console.log('Error fetching the blog', err.message);
         });
     }, []);
 
@@ -48,7 +49,7 @@ export default function Blog (props) {
         <div className="blog">
             {
                 loading?
-                    <Loader />
+                    <Loader width='5em' />
                 :
                     <>
                         <div className="blog-title">
@@ -63,14 +64,19 @@ export default function Blog (props) {
                         </div>
                         <div className="blog-impressions">
                             <div className="blog-impression">
-                                <div className="blog-impression-icon" onClick={toggleLike} >
+                                {/* <div className="blog-impression-icon" onClick={toggleLike} >
                                     {
                                         <FontAwesomeIcon icon={liked? 'heart' : ['far', 'heart']} />
                                     }
                                 </div>
                                 <div className="blog-impression-no">
                                     {blog.likes.no_of_likes}
-                                </div>
+                                </div> */}
+                                <Like 
+                                    userLiked={blog.likes.user_liked}
+                                    noOfLikes={blog.likes.no_of_likes}
+                                    fetchURI={`blogs/${blogId}/add-remove-likes/`}
+                                />
                             </div>
                         </div>
                         <div className="blog-meta-tags">

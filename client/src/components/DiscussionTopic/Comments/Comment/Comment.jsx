@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useViewport from '../../../../hooks/useViewport';
+import Like from '../../../IconButton/Like';
 import './Comment.scss';
 
 export default function (props) {
@@ -19,9 +20,14 @@ export default function (props) {
             </div>
             <div className="topic-comment-footer">
                 <div className="topic-comment-footer-impressions">
-                    <div className="topic-comment-footer-impression"><FontAwesomeIcon icon='arrow-up' color="#37731B"/> <b>{props.likes.no_of_likes}</b></div>
+                    {/* <div className="topic-comment-footer-impression"><FontAwesomeIcon icon='arrow-up' color="#37731B"/> <b>{props.likes.no_of_likes}</b></div> */}
+                    <Like 
+                        userLiked={props.likes.user_liked}
+                        noOfLikes={props.likes.no_of_likes}
+                        fetchURI={`${props.baseURI}/${props.id}/add-remove-likes/`}
+                    />
                     {
-                        props.isDescription && <div className="topic-comment-footer-impression">
+                        props.isDescription && <div className="topic-comment-footer-impression" title='Views'>
                             <FontAwesomeIcon icon='eye' color="#37731B" />&nbsp;
                             <b>{props.views}</b>
                         </div>

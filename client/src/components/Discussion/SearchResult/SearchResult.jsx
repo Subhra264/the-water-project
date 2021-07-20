@@ -32,7 +32,7 @@ export default function SearchResult(props) {
         <div className='search-result'>
             {
                 loading?
-                    <Loader />
+                    <Loader width='4em' />
                 :
                     topicList.length === 0?
                         <div className="no-results-container">
@@ -43,7 +43,7 @@ export default function SearchResult(props) {
                             <Link to={`${matchURL}/topic/${topic.id}/description`} key={topic.id}>
                                 <Card className='result-box'>
                                     <Card.CardImg className='result-image'><div className="result-img"></div></Card.CardImg>
-                                    <Card.CardDetails>
+                                    <Card.CardDetails className='result-data'>
                                         <div className={`result-description-container ${isMobile? 'mobile' : ''}`}>
                                             <div className="result-description">
                                                 <div className="result-title">{topic.topic_details.description.title}</div>

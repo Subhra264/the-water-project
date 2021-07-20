@@ -2,39 +2,48 @@ import { useRef } from 'react';
 import ContentEditor from '../ContentEditor';
 import './BlogEditor.scss';
 import categories from '../../../utils/blog-categories';
+import { useHistory } from 'react-router-dom';
 
 export default function BlogEditor (props) {
     const selectedCategory = useRef(null);
+    const onSubmitClick = useRef(null);
+    const contentEditorProps = useRef(null);
+    const history = useHistory();
 
-    const onSubmitClick = (content) => {
+    onSubmitClick.current = (content) => {
         console.log('Clicked Create Blog button!', content);
-        // fetch('api', {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         ...content,
-        //         category: selectedCategory.current.value
-        //     })
-        // }).then(res => (
-        //     res.json()
-        // )).then(result => {
+        fetch('/blogs/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...content,
+                category: selectedCategory.current.value
+            })
+        }).then(res => (
+            res.json()
+        )).then(result => {
+            console.log('Created Blog', result);
 
-        // }).catch(err => {
-        //     // Handle the error properly
-        // });
+            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            history.push(`/solutions/blogs/${result.id}`);
+        }).catch(err => {
+            // Handle the error properly
+            console.log('Error creating blog', err.message);
+        });
     };
 
-    const contentEditorProps = {
+    contentEditorProps.current = {
         submit: {
             label: 'Create Blog',
-            onClick: onSubmitClick
+            onClick: onSubmitClick.current
         },
         contentEditorPlaceholder: 'Share your ideas, solutions and success stories...'
     };
 
     return (
-        <ContentEditor {...contentEditorProps}>
+        <ContentEditor {...contentEditorProps.current}>
             <div className="blog-category">
                 <div className="blog-category-label">
                     Select Category

@@ -10,11 +10,13 @@ import Comments from './Comments/Comments';
 import { TopicContext } from '../../utils/contexts';
 import ProgressReport from './ProgressReport/ProgressReport';
 import Loader from '../Loader/Loader';
+import Description from './Description/Description';
 
 export default function DiscussionTopic(props) {
     const { isMobile } = useViewport();
     const [topicDetails, setTopicDetails] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isClosed, setIsClosed] = useState();
     const matchURL = useMatchURL();
     const { topicId } = useParams();
     
@@ -51,6 +53,7 @@ export default function DiscussionTopic(props) {
             if (result.status_code && result.status_code !== 200) throw new Error(result.details);
 
             setTopicDetails(result);
+            setIsClosed(result.is_closed);
             setLoading(false);
 
         }).catch(err => {
@@ -62,7 +65,7 @@ export default function DiscussionTopic(props) {
         <div className='discussion-topic-container'>
             {
                 loading?
-                    <Loader />
+                    <Loader width='7em' />
                 :
                     <>
                         {
@@ -110,7 +113,19 @@ export default function DiscussionTopic(props) {
                                 >
                                     <Switch>
                                         <Route path={`${matchURL}/description`} exact>
-                                            <Comment isDescription {...topicDetails.description}/>
+                                            {/* <Comment 
+                                                isDescription 
+                                                {...topicDetails.description}
+                                                baseURI={`/topics/${topicDetails.id}/description`}
+                                            /> */}
+                                            <Description 
+                                                description={topicDetails.description}
+                                                baseURI={`/topics/${topicDetails.id}/description`}
+                                                isClosed={isClosed}
+                                                setIsClosed={setIsClosed}
+                                                closeBaseURI='/topics'
+                                                problemId={topicDetails.id}
+                                            />
                                         </Route>
                                         <Route path={`${matchURL}/issues`}>
                                             <Issues />

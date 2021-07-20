@@ -23,11 +23,11 @@ export default function Gigs (props) {
         <>
             {
                 loading?
-                    <Loader />
+                    <Loader width='4em' />
                 :
-                    gigList.length === 0?
+                    !gigList.length?
                         <div className="no-results-container">
-                            <div className="no-results">No Issues</div>
+                            <div className="no-results">No Blogs</div>
                         </div>
                     :
                         gigList.map(gig => (

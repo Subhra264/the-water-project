@@ -1,15 +1,17 @@
 import Comments from '../../Comments/Comments';
-import Comment from '../../Comments/Comment/Comment';
+// import Comment from '../../Comments/Comment/Comment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState, useRef, useContext } from 'react';
 import './Issue.scss';
 import useViewport from '../../../../hooks/useViewport';
 import { TopicContext } from '../../../../utils/contexts';
 import Loader from '../../../Loader/Loader';
+import Description from '../../Description/Description';
 
 function IssueThread (props) {
     const [issueDescription, setIssueDescription] = useState({});
     const [loading, setLoading] = useState(true);
+    const [isClosed, setIsClosed] = useState(props.isClosed);
     const { topicId } = useContext(TopicContext);
 
     useEffect(() => {
@@ -30,11 +32,23 @@ function IssueThread (props) {
         <div className={`discussion-topic-issue-description ${props.display}`}>
             {
                 loading? 
-                    <Loader />
+                    <Loader width='3em' />
                 :
                     <>
-                        <Comment isDescription {...issueDescription} />
-                        <Comments fetchURI={`/topics/${topicId}/issues/${props.issueId}/`} />
+                        {/* <Comment 
+                            isDescription
+                            {...issueDescription}
+                            baseURI={`/topics/${topicId}/issues/${props.issueId}/description`}
+                        /> */}
+                        <Description
+                            description={issueDescription}
+                            baseURI={`/topics/${topicId}/issues/${props.issueId}/description`}
+                            isClosed={isClosed}
+                            setIsClosed={setIsClosed}
+                            closeBaseURI={`/topics/${topicId}/issues`}
+                            problemId={props.issueId}
+                        />
+                        <Comments fetchURI={`/topics/${topicId}/issues/${props.issueId}`} />
                     </>
             }
         </div>
@@ -66,7 +80,7 @@ export default function Issue (props) {
                     </div>
                 </div>
                 <div className="discussion-topic-issue-meta">
-                    <div className="discussion-topic-issue-meta-data">
+                    <div className="discussion-topic-issue-meta-data" title='No of comments'>
                         <FontAwesomeIcon icon='comments' /> {props.no_of_comments}
                     </div>
                     <div className="discussion-topic-issue-meta-data" onClick={toggleShowComments} >
@@ -75,7 +89,7 @@ export default function Issue (props) {
                 </div>
             </div>
             {
-                shouldLoadComment.current && <IssueThread display={showComments? '' : 'display-none'} issueId={props.id} />
+                shouldLoadComment.current && <IssueThread display={showComments? '' : 'display-none'} issueId={props.id} isClosed={props.is_closed} />
             }
         </div>
     )

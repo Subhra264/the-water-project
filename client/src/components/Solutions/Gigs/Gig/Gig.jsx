@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Gig.scss';
 
 export default function Gig (props) {
@@ -15,7 +16,9 @@ export default function Gig (props) {
                 <div className="gig-brief-description">
                     {props.title}
                 </div>
-                <div className="gig-article-link">Show More</div>
+                <div className="gig-article-link" >
+                    <Link to={`/solutions/blogs/${props.id}`} >Show More</Link>
+                </div>
             </div>
         </div>
     );

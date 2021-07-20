@@ -9,6 +9,7 @@
         background-color: #fff;
         padding: 0.6em;
         display: flex;
+        z-index: 100;
         align-items: center;
         border: 2px solid $yellowOchre;
 
@@ -43,6 +44,7 @@
             flex-grow: 1;
             display: flex;
             align-items: center;
+            justify-content: space-around;
 
             .discussion-topic-issue-meta-data {
                 text-align: center;
@@ -53,5 +55,6 @@
 
     .discussion-topic-issue-description {
         min-height: 5em;
+        position: relative;
     }
 }

@@ -2,18 +2,20 @@
 
 .progress-report {
     padding: 0.6em;
-    min-height: 10em;
+    min-height: 15em;
+    position: relative;
 
     button {
         display: inline-block;
         background-color: $darkYellowOchre;
         color: white;
-        padding: 0.4em 0.6em;
+        padding: 0.7em 0.9em;
         border: none;
         outline: none;
+        cursor: pointer;
     }
 
-    .create-progress-report {
+    .create-progress-report  {
         .create-progress-report-banner {
             padding: 0.6em;
             font-size: 1.2em;
@@ -33,7 +35,7 @@
                 width: 100%;
                 border: 1px solid $yellowOchre;
                 outline: none;
-                padding: 0.4em 0.6em;
+                padding: 0.6em;
             }
         }
 
@@ -47,21 +49,27 @@
         .progress-report-task {
             margin: 0.6em 0;
 
-            .task-title,.task-description {
-                padding: 0.4em 0.6em;
-                border: 1px solid $darkYellowOchre;
+            .task-title {
+                padding: 0.7em 0.6em;
+                color: white;
+                background-color: $blue;
+            }
+
+            .task-description {
+                padding: 0.7em 0.6em;
+                border: 1px solid $yellowOchre;
             }
 
             .task-buttons-container {
                 display: flex;
-                justify-content: right;
+                justify-content: flex-end;
 
                 .task-buttons {
                     border: 1px solid $darkYellowOchre;
 
                     .task-button {
                         display: inline-block;
-                        padding: 0.4em;
+                        padding: 0.5em 0.7em;
                         cursor: pointer;
 
                         &:hover {
@@ -70,7 +78,7 @@
                     }
 
                     .done-button {
-                        color: $yellowOchre;
+                        color: $darkYellowOchre;
                     }
                 }
             }
@@ -79,5 +87,11 @@
         .save-changes {
             text-align: right;
         }
+    }
+}
+
+.mobile {
+    .create-progress-report-form {
+        width: 100%;
     }
 }

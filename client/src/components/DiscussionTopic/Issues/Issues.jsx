@@ -35,7 +35,7 @@ function IssueList (props) {
             <div className="issue-list">
                 {
                     loading? 
-                        <Loader isLoading={loading} />
+                        <Loader width='4em' />
                     :
                         issueList.length === 0?
                             <div className="no-results-container">

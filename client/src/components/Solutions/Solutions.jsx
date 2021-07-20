@@ -6,6 +6,8 @@ import { useMatchURL } from '../../hooks/useMatch';
 import BlogEditor from '../ContentEditor/BlogEditor/BlogEditor';
 import Gigs from './Gigs/Gigs';
 import Blog from './Blog/Blog';
+import BlogList from './BlogList/BlogList';
+import categories from '../../utils/blog-categories';
 
 export default function Solutions (props) {
     const matchURL = useMatchURL();
@@ -33,30 +35,41 @@ export default function Solutions (props) {
                             </div>
                         </Card.CardDetails>
                     </Card>
-                    <div className="blog-group-container success-stories">
-                        <div className="blog-group-header">
-                            <div className="blog-group-name">Success Stories</div>
-                            <div className="blog-group-see-more">See More</div>
-                        </div>
-                        <div className="blog-group">
-                            <Gigs fetchURI='/blogs/su' />
-                        </div>
-                    </div>
+                    {
+                        categories.map(category => (
+                            <div className="blog-group-container" key={category[0]}>
+                                <div className="blog-group-header">
+                                    <div className="blog-group-name">{category[1]}</div>
+                                    <div className="blog-group-see-more">
+                                        <Link to={`/solutions/blogs/category/${category[0]}`}>See More</Link>
+                                    </div>
+                                </div>
+                                <div className="blog-group">
+                                    <Gigs fetchURI={`/blogs/${category[0]}`} />
+                                </div>
+                            </div>
+                        ))
+                    }
                     <div className="blog-group-container success-stories">
                         <div className="blog-group-header">
                             <div className="blog-group-name">Popular Stories</div>
-                            <div className="blog-group-see-more">See More</div>
+                            <div className="blog-group-see-more">
+                                <Link to='/solutions/blogs'>See More</Link>
+                            </div>
                         </div>
                         <div className="blog-group">
-                            <Gigs fetchURI='/blogs/' />
+                            <Gigs fetchURI='/blogs' />
                         </div>
                     </div>
                 </Route>
                 <Route path={`${matchURL}/new-blog`}>
                     <BlogEditor />
                 </Route>
-                <Route path={`${matchURL}/blogs/:blogId`}>
+                <Route path={`${matchURL}/blogs/:blogId`} exact>
                     <Blog />
+                </Route>
+                <Route path={`${matchURL}/blogs/category/:blogCategoryId`}>
+                    <BlogList />
                 </Route>
             </Switch>
         </div>
