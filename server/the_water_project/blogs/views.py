@@ -59,7 +59,6 @@ class BlogViewSet(ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         should_pass = False
         blog = self.get_object()
-        tags = None
         keys = request.data.copy()
         try:
             for key in keys:
