@@ -14,7 +14,7 @@ export default function Comments (props) {
         fetch(props.fetchURI)
         .then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             setComments(result);
             setLoading(false);
         }).catch(err => {
@@ -36,7 +36,7 @@ export default function Comments (props) {
         }).then(res => res.json())
         .then(result => {
             console.log('Added Comment', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             setComments([...comments, result]);
 
             ev.target.disabled = false;

@@ -11,6 +11,8 @@ import { TopicContext } from '../../utils/contexts';
 import ProgressReport from './ProgressReport/ProgressReport';
 import Loader from '../Loader/Loader';
 import Description from './Description/Description';
+import { parseDate } from '../../utils/date';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function DiscussionTopic(props) {
     const { isMobile } = useViewport();
@@ -50,7 +52,7 @@ export default function DiscussionTopic(props) {
         .then(res => res.json())
         .then(result => {
             console.log('Topic', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
 
             setTopicDetails(result);
             setIsClosed(result.is_closed);
@@ -81,15 +83,21 @@ export default function DiscussionTopic(props) {
                                     {topicDetails.title}
                                 </div>
                                 <div className="topic-date">
-                                    Opened by <i className='topic-opened-by'>@{topicDetails.description.user.username}</i> on 25th June
+                                    Opened by <i className='topic-opened-by'>@{topicDetails.creator.user.username}</i> on {parseDate(topicDetails.date)}
                                 </div>
                                 <div className="topic-labels">
                                     <i>Labels:</i>
                                     {
                                         topicDetails.tags.map(tag => (
-                                            <div className="topic-label" key={tag}>{tag}</div>
+                                            <div className="topic-label" key={tag.id}>{tag.name}</div>
                                         ))
                                     }
+                                </div>
+                                <div className="topic-location-container">
+                                    <i><FontAwesomeIcon icon='map-marker-alt' /></i>
+                                    <span className="topic-location">
+                                        {topicDetails.city_or_area}, {topicDetails.country}
+                                    </span>
                                 </div>
                                 {
                                     /* TODO:  */
@@ -125,6 +133,7 @@ export default function DiscussionTopic(props) {
                                                 setIsClosed={setIsClosed}
                                                 closeBaseURI='/topics'
                                                 problemId={topicDetails.id}
+                                                problemType='Topic'
                                             />
                                         </Route>
                                         <Route path={`${matchURL}/issues`}>

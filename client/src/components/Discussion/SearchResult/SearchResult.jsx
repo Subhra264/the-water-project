@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMatchURL } from '../../../hooks/useMatch';
 import useViewport from '../../../hooks/useViewport';
+import { parseDate } from '../../../utils/date';
 import Card from '../../Card/Card';
 import Loader from '../../Loader/Loader';
 import './SearchResult.scss';
@@ -19,7 +20,7 @@ export default function SearchResult(props) {
         .then(res => res.json())
         .then(result => {
             console.log('Topics', result.topics);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             setTopicList(result.topics);
             setLoading(false);
         }).catch(err => {
@@ -47,7 +48,7 @@ export default function SearchResult(props) {
                                         <div className={`result-description-container ${isMobile? 'mobile' : ''}`}>
                                             <div className="result-description">
                                                 <div className="result-title">{topic.topic_details.description.title}</div>
-                                                <div className="result-date"><i className='result-issue-number'>#{topic.id}</i> opened on 25th June</div>
+                                                <div className="result-date"><i className='result-issue-number'>#{topic.id}</i> opened on {parseDate(topic.topic_details.description.date)} </div>
                                                 <div className="result-brief-description">{topic.topic_details.description.brief_description}</div>
                                             </div>
                                             <div className={`result-opened-by ${isMobile? 'mobile' : ''}`}>
@@ -80,10 +81,10 @@ export default function SearchResult(props) {
                                                 </div>
                                                 <div className="result-impression result-comments">
                                                     <FontAwesomeIcon icon='comment-alt' />
-                                                    <i>32</i>
+                                                    <i>{topic.topic_details.meta_data.no_of_comments}</i>
                                                 </div>
                                                 <div className="result-impression result-upvotes">
-                                                    <FontAwesomeIcon icon='arrow-up' />
+                                                    <FontAwesomeIcon icon='heart' />
                                                     <i>{topic.topic_details.meta_data.upvotes}</i>
                                                 </div>
                                             </div>

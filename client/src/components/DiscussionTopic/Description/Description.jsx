@@ -11,6 +11,7 @@ interface props {
     setIsClosed: function;
     closeBaseURI: string;
     problemId: number;
+    problemType: string;
 }
 */
 
@@ -18,7 +19,7 @@ export default function Description (props) {
     // const { topicId } = useContext(TopicContext);
 
     const closeTopic = (ev) => {
-        fetch(`${props.closeBaseURI}/close-topic`, {
+        fetch(`${props.closeBaseURI}/close-topic/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,7 +31,7 @@ export default function Description (props) {
         .then(res => res.json())
         .then(result => {
             console.log('Problem closed', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             props.setIsClosed(result.is_closed);
         })
         .catch(err => {
@@ -57,7 +58,7 @@ export default function Description (props) {
                 :
                     <div className="close-button-container">
                         <button onClick={closeTopic}>
-                            Close Topic
+                            Close {props.problemType}
                         </button>
                     </div>
             }

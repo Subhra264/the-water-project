@@ -11,7 +11,7 @@ export default function TagEditor (props) {
         .then(res => res.json())
         .then(result => {
             console.log('All tags', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             setAllTags(result);
         }).catch(err => {
             console.log('Error fetching tags', err.message);

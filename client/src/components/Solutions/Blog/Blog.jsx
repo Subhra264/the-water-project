@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { categoryFromId } from '../../../utils/blog-categories';
+import parseHTML from '../../../utils/parseHTML';
 import Like from '../../IconButton/Like';
 import Loader from '../../Loader/Loader';
 import './Blog.scss';
@@ -21,7 +22,7 @@ export default function Blog (props) {
     //         }
     //     }).then(res => res.json)
     //     .then(result => {
-    //         if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+    //         if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
     //         setLiked(result.likes.user_liked);
 
     //     }).catch(err => {
@@ -34,7 +35,7 @@ export default function Blog (props) {
         fetch(`/blogs/${blogId}`)
         .then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
 
             console.log('Blog', result);
             setBlog(result);
@@ -60,7 +61,7 @@ export default function Blog (props) {
                             <div className="blog-date">Last Updated on {blog.updated_on}</div>
                         </div>
                         <div className="blog-content">
-                            {blog.content}
+                            {parseHTML(blog.content)}
                         </div>
                         <div className="blog-impressions">
                             <div className="blog-impression">

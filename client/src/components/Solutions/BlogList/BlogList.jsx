@@ -14,7 +14,7 @@ export default function BlogList (props) {
         fetch(`/blogs/${blogCategoryId}/`)
         .then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             console.log('Blog list', result);
             setBlogList(result);
             setLoading(false);

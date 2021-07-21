@@ -7,6 +7,7 @@ import useViewport from '../../../../hooks/useViewport';
 import { TopicContext } from '../../../../utils/contexts';
 import Loader from '../../../Loader/Loader';
 import Description from '../../Description/Description';
+import { parseDate } from '../../../../utils/date';
 
 function IssueThread (props) {
     const [issueDescription, setIssueDescription] = useState({});
@@ -19,7 +20,7 @@ function IssueThread (props) {
         fetch(`/topics/${topicId}/issues/${props.issueId}/description/`)
         .then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             console.log('Issue Description', result);
             setIssueDescription(result);
             setLoading(false);
@@ -35,11 +36,6 @@ function IssueThread (props) {
                     <Loader width='3em' />
                 :
                     <>
-                        {/* <Comment 
-                            isDescription
-                            {...issueDescription}
-                            baseURI={`/topics/${topicId}/issues/${props.issueId}/description`}
-                        /> */}
                         <Description
                             description={issueDescription}
                             baseURI={`/topics/${topicId}/issues/${props.issueId}/description`}
@@ -47,6 +43,7 @@ function IssueThread (props) {
                             setIsClosed={setIsClosed}
                             closeBaseURI={`/topics/${topicId}/issues`}
                             problemId={props.issueId}
+                            problemType='Issue'
                         />
                         <Comments fetchURI={`/topics/${topicId}/issues/${props.issueId}`} />
                     </>
@@ -76,7 +73,14 @@ export default function Issue (props) {
                 <div className="discussion-topic-issue-title">
                     <div className="issue-title">{props.title}</div>
                     <div className="issue-meta-data">
-                        opened by <i>{props.creator.username}</i> yesterday
+                        <span>opened by <i>{props.creator.user.username}</i> on {parseDate(props.date)} </span>
+                        <span className='issue-tags'>
+                            {
+                                props.tags.map(tag => (
+                                    <span className="issue-tag" key={tag.id}>{tag.name}</span>
+                                ))
+                            }
+                        </span>
                     </div>
                 </div>
                 <div className="discussion-topic-issue-meta">
