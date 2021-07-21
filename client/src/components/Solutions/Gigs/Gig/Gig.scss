@@ -48,12 +48,15 @@
         }
 
         .gig-article-link {
-            padding: 0.4em;
-            color: $light;
-            background-color: $blue;
-            width: fit-content;
-            margin: 0.4em auto;
-            cursor: pointer;
+            a {
+                display: inline-block;
+                padding: 0.4em;
+                color: $light;
+                background-color: $blue;
+                width: fit-content;
+                margin: 0.4em auto;
+                cursor: pointer;
+            }
         }
     }
 }

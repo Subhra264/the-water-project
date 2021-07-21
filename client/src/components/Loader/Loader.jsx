@@ -12,7 +12,7 @@ export default function Loader (props) {
     }, [props.width]);
 
     return (
-        <div className={`loader-container ${!props.isLoading? 'display-none' : ''}`} >
+        <div className='loader-container' >
             <div className="loader" ref={loader}></div>
         </div>
     );
