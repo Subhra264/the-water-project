@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from the_water_project.tags.models import Tag
 
 
@@ -20,7 +21,7 @@ class Blog(models.Model):
     _type = models.CharField(choices=BLOG_CHOICES, max_length=30)
     no_of_comments = models.PositiveIntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField()
     tags = models.ManyToManyField(Tag, blank=True)
     views = models.PositiveBigIntegerField(default=0)
 
@@ -28,6 +29,8 @@ class Blog(models.Model):
         return "Blog - " + self.title
 
     def save(self, *args, **kwargs) -> None:
+        if not self.updated_on:
+            self.updated_on = timezone.now()
         super().save(*args, **kwargs)
         try:
             self.likes

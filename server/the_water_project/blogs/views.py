@@ -1,3 +1,4 @@
+from django.utils import timezone
 from the_water_project.utils.permissions import IsOwnerOrReject
 from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
@@ -58,7 +59,6 @@ class BlogViewSet(ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         should_pass = False
         blog = self.get_object()
-        tags = None
         keys = request.data.copy()
         try:
             for key in keys:
@@ -74,6 +74,7 @@ class BlogViewSet(ModelViewSet):
                 else:
                     request.data.pop(key)
             if should_pass:
+                blog.updated_on = timezone.now()
                 blog.save()
                 return Response(self.get_serializer(blog).data)
             else:
