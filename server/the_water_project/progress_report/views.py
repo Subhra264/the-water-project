@@ -80,7 +80,7 @@ class TopicProgressReportApiView(RetrieveAPIView, CreateAPIView):
 
 
 class AddTaskApiView(CreateAPIView):
-    serializer_class = TaskSerializer
+    serializer_class = ProgressReportSerializer
     permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
 
     def get_queryset(self):
@@ -104,7 +104,10 @@ class AddTaskApiView(CreateAPIView):
         except Exception:
             raise APIException("title or/and description is/are not defined properly")
         if topic.progress_report:
-            task = topic.progress_report.add_task(title=title, description=description, creator=request.user)
+            try:
+                topic.progress_report.add_task(title=title, description=description, creator=request.user)
+            except Exception as e:
+                raise APIException(e)
             topic.updated_on = timezone.now()
             topic.save()
             if request.user in topic.contributors.all():
@@ -113,7 +116,7 @@ class AddTaskApiView(CreateAPIView):
                 contributor.save()
             else:
                 Contribution.objects.create(contributor=request.user, topic=topic, no_of_contributions=1)
-            return Response({"id": task.id})
+            return Response(self.get_serializer(topic.progress_report).data)
         else:
             raise NotFound("progress report is not created yet. Create it first")
 

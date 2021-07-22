@@ -9,9 +9,13 @@ class UserSerializer(serializers.ModelSerializer):
     no_of_contributions = serializers.SerializerMethodField()
     username = serializers.CharField(read_only=True)
     rating = serializers.FloatField(read_only=True)
+    country = serializers.SerializerMethodField()
 
     def get_no_of_contributions(self, obj):
         return obj.get_no_of_contributions()
+
+    def get_country(self, obj):
+        return obj.get_country_display()
 
     class Meta:
         model = User
@@ -24,6 +28,7 @@ class OnlyIdAndNameUserSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "username",
+            "profile_pic",
         )
 
 
@@ -35,7 +40,7 @@ class OwnerField(serializers.RelatedField):
 class ReadOnlyOrgSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
-        fields = ("address", "phone_number")
+        fields = ("address", "phone_number", "profile_pic")
 
 
 class OrgSerializer(serializers.ModelSerializer):
@@ -62,6 +67,7 @@ class OnlyIdAndNameOrgSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
+            "profile_pic",
         )
 
 

@@ -10,6 +10,7 @@ from .views import (
     des_add_or_remove_likes,
     topic_com_add_or_remove_likes,
     issue_com_add_or_remove_likes,
+    issue_des_add_or_remove_likes,
     IssueDescriptionApiView,
 )
 
@@ -28,8 +29,9 @@ router.register(
 
 urlpatterns = [
     path("description/", TopicDiscussionApiView.as_view(), name="topic_description"),
-    path("description/add-remove-likes", des_add_or_remove_likes, name="likes_for_description"),
-    path("comments/<int:comment_id>/add-remove-likes", topic_com_add_or_remove_likes),
-    path("issues/<int:issue_id>/comments/<int:comment_id>/add-remove-likes", issue_com_add_or_remove_likes),
+    path("description/add-remove-likes/", des_add_or_remove_likes, name="likes_for_description"),
+    path("comments/<int:comment_id>/add-remove-likes/", topic_com_add_or_remove_likes),
+    path("issues/<int:issue_id>/comments/<int:comment_id>/add-remove-likes/", issue_com_add_or_remove_likes),
     path("issues/<int:issue_id>/description/", IssueDescriptionApiView.as_view()),
+    path("issues/<int:issue_id>/description/add-remove-likes/", issue_des_add_or_remove_likes),
 ]

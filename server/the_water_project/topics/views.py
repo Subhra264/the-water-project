@@ -6,6 +6,7 @@ from the_water_project.utils.permissions import (
     IsOwnerOrReject,
     IsIssueOwnerOrMemberOrReject,
 )
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from the_water_project.tags.models import Tag
 from the_water_project.tags.serializers import TagSerializer
 from the_water_project.users.models import Organization
@@ -16,16 +17,31 @@ from the_water_project.comments.models import StartingComment
 from .serializers import TopicSerializer, IssueSerializer, ContributionSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from .filters import TopicListFilterBackEnd, TopicListFilterSet
+from rest_framework.filters import OrderingFilter, SearchFilter
 
 
 class TopicViewSet(ModelViewSet):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
+    parser_classes = (JSONParser, FormParser, MultiPartParser)
     http_method_names = ["get", "patch", "post", "delete", "head"]
+    filter_backends = (TopicListFilterBackEnd, SearchFilter, OrderingFilter)
+    filterset_class = TopicListFilterSet
+    search_fields = [
+        "title",
+        "description__content",
+        "city_or_area",
+        "address",
+        "contributors__username",
+    ]
+    ordering_fields = ["-updated_on", "-no_of_issues", "title"]
 
     def get_serializer(self, *args, **kwargs):
         if self.action == "list":
             kwargs["context"] = {"is_list": True}
+        elif self.action == "retrieve":
+            kwargs["context"] = {"request_user": self.request.user}
         return super().get_serializer(*args, **kwargs)
 
     def get_permissions(self):
@@ -34,14 +50,25 @@ class TopicViewSet(ModelViewSet):
         return super().get_permissions()
 
     def list(self, request, *args, **kwargs):
+        if len(request.query_params):
+            queryset = self.filter_queryset(self.get_queryset())
+        else:
+            queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            listed_data = self.list_format_creator(page)
+            return Response(listed_data)
+        listed_data = self.list_format_creator(queryset)
+        return Response(listed_data)
+
+    def list_format_creator(self, queryset):
         listed_data = {"topics": []}
-        queryset = self.get_queryset()
         for instance in queryset:
             serialized_instance = self.get_serializer(instance)
             data = serialized_instance.data
             instance_data = {
                 "id": data["id"],
-                "img": None,
+                "img": data["img"],
                 "topic_details": {
                     "description": {
                         "title": data["title"],
@@ -63,20 +90,12 @@ class TopicViewSet(ModelViewSet):
             }
             if data["tags"]:
                 instance_data["topic_details"]["meta_data"]["tags"] = [tag["name"] for tag in data["tags"]]
-            instance_data["topic_details"]["opened_by"]["user"] = {
-                "username": data["description"]["creator"]["username"],
-                "id": data["description"]["creator"]["id"],
-                "profile_pic": None,
-            }
+            instance_data["topic_details"]["opened_by"]["user"] = data["description"]["creator"]
             if "org" in data["creator"]:
-                instance_data["topic_details"]["opened_by"]["org"] = {
-                    "name": data["creator"]["org"]["name"],
-                    "id": data["creator"]["org"]["id"],
-                    "profile_pic": None,
-                }
+                instance_data["topic_details"]["opened_by"]["org"] = data["creator"].get("org")
 
             listed_data["topics"].append(instance_data)
-        return Response(listed_data)
+        return listed_data
 
     def create(self, request, *args, **kwargs):
         try:
@@ -85,6 +104,7 @@ class TopicViewSet(ModelViewSet):
             country = request.data["country"]
             city_or_area = request.data["city_or_area"]
             address = request.data["address"]
+            img = request.data.get("img")
         except Exception:
             raise APIException("You didn't provide essential data to create a topic", code=500)
         associated_ngo_id = None
@@ -109,6 +129,7 @@ class TopicViewSet(ModelViewSet):
                             country=country,
                             city_or_area=city_or_area,
                             address=address,
+                            img=img,
                         )
                     except Exception:
                         raise APIException("Something went wrong while creating the topic")
@@ -123,6 +144,7 @@ class TopicViewSet(ModelViewSet):
                     country=country,
                     city_or_area=city_or_area,
                     address=address,
+                    img=img,
                 )
             except Exception:
                 raise APIException("Something went wrong while creating the topic", code=500)
@@ -153,13 +175,15 @@ class TopicViewSet(ModelViewSet):
 
     def partial_update(self, request, *args, **kwargs):
         topic = self.get_object()
-        if "description" in request.data or "title" in request.data:
+        if "description" in request.data or "title" in request.data or "img" in request.data:
             if "description" in request.data and request.data["description"]:
                 topic.description.content = request.data.get("description")
                 topic.description.save()
             if "title" in request.data and request.data["title"]:
                 topic.title = request.data.get("title")
-                topic.save()
+            img = request.data.get("img")
+            topic.img = img
+            topic.save()
         else:
             raise APIException("This field can not be edited")
         topic_serialized = TopicSerializer(topic).data

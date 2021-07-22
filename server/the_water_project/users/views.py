@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.utils import timezone
+from django_filters.rest_framework.backends import DjangoFilterBackend
 import jwt
 import datetime
+from rest_framework.filters import SearchFilter, OrderingFilter
 from the_water_project.utils.permissions import IsOwnerOrMemberOrReject, IsOwnerOrSelf, IsSelfOrReject
 from rest_framework import status
 from rest_framework.exceptions import APIException, NotFound
@@ -10,6 +12,7 @@ from rest_framework.views import APIView
 from the_water_project.topics.serializers import TopicSerializer
 from rest_framework.generics import ListAPIView
 from .models import Organization
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from .serializers import ReadOnlyOrgSerializer, RegisterUserSerializer, UserSerializer, OrgSerializer
@@ -24,12 +27,18 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     http_method_names = ["get", "patch", "delete", "head"]
     permission_classes = (IsAuthenticatedOrReadOnly, IsSelfOrReject)
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
 
 
 class OrgViewSet(ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrgSerializer
     http_method_names = ["get", "post", "patch", "delete", "head"]
+    filter_backends = (DjangoFilterBackend, OrderingFilter, SearchFilter)
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
+    filterset_fields = ("name", "address")
+    search_fields = ("name", "address", "email")
+    ordering_fields = ("name", "no_of_members")
 
     def get_permissions(self):
         if self.request.method == "POST":
@@ -84,13 +93,16 @@ class NgoRelatedTopicApiView(ListAPIView):
 
 class RegisterUserApiView(APIView):
     permission_classes = [AllowAny]
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
 
     def post(self, request):
         new_user_serializer = RegisterUserSerializer(data=request.data)
         if new_user_serializer.is_valid():
             new_user = new_user_serializer.save()
             if new_user:
-                return Response(status=status.HTTP_201_CREATED)
+                return Response(
+                    {"success": "user created", "status_code": status.HTTP_201_CREATED}, status=status.HTTP_201_CREATED
+                )
         return Response(new_user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -140,7 +152,11 @@ class AddNgoMember(APIView):
                     raise APIException("You are already a part of this organization")
                 ngo.add_member(request.user)
                 return Response(
-                    {"success": "User successfully added to member", "status_code": status.HTTP_200_OK},
+                    {
+                        "success": "User successfully added to member",
+                        "status_code": status.HTTP_200_OK,
+                        "ngo_id": ngo_id,
+                    },
                     status=status.HTTP_202_ACCEPTED,
                 )
 

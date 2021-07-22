@@ -163,6 +163,28 @@ def des_add_or_remove_likes(request, **kwargs):
         raise APIException("User not signed in.")
 
 
+@api_view(["PATCH"])
+def issue_des_add_or_remove_likes(request, **kwargs):
+    try:
+        topic = Topic.objects.get(id=kwargs.get("topic_id"))
+        issue = topic.issue_set.get(id=kwargs.get("issue_id"))
+    except Exception:
+        raise NotFound("topic/issue not found")
+    else:
+        try:
+            description = issue.description
+            if request.user in description.likes.users.all():
+                description.likes.no_of_likes -= 1
+                description.likes.users.remove(request.user)
+            else:
+                description.likes.no_of_likes += 1
+                description.likes.users.add(request.user)
+            description.likes.save()
+            return Response(StartingCommentSerializer(description, context={"request_user": request.user}).data)
+        except Exception:
+            raise APIException("Something went wrong while saving the data")
+
+
 class TopicIssueCommentViewSet(ModelViewSet):
     serializer_class = IssueCommentSerializer
     http_method_names = ["get", "post", "patch", "delete", "head"]

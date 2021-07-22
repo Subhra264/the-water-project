@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "mongohahahah")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost"]
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "the_water_project.progress_report.apps.ProgressReportConfig",
     "the_water_project.comments.apps.CommentsConfig",
     "the_water_project.blogs.apps.BlogsConfig",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,16 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     "EXCEPTION_HANDLER": "the_water_project.utils.exception_handler.custom_exception_handler",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "200/hour",
+        "user": "250/hour",
+    },
 }
 
 SIMPLE_JWT = {
@@ -177,3 +188,10 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# media files path
+
+
+MEDIA_ROOT = os.environ.get("DJANGO_MEDIA_ROOT", os.path.join(BASE_DIR.parent, "media"))
+MEDIA_URL = os.environ.get("DJANGO_MEDIA_URL", "/media/")
