@@ -10,6 +10,11 @@ import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
 import useViewport from './hooks/useViewport';
 import Editor from './components/Editor/Editor';
+import { useEffect, useReducer } from 'react';
+import UserReducer from './utils/reducers/User.reducer';
+import { UserContext } from './utils/contexts';
+import { manageUser } from './utils/actions/User.action';
+import { getAccessTokenFromStorage } from './utils/manage-tokens';
 
 const StickyNavBars = [
   <NavBar key='navbar' />,
@@ -18,40 +23,49 @@ const StickyNavBars = [
 
 function App() {
   const { isMobile } = useViewport();
+  const [userState, userDispatch] = useReducer(UserReducer);
+
+  // Check if the user is already logged in
+  useEffect(() => {
+    if (getAccessTokenFromStorage()) {
+      userDispatch(manageUser(JSON.parse(localStorage.getItem('userState'))));
+    }
+  }, []);
 
   return (
-    <div className='App'>
-      {
-        isMobile?
-          StickyNavBars
-        :
-          <div className="sticky-navbars">
-            {StickyNavBars}
-          </div>
-      }
-      <Switch>
-        <Route path='/' exact>
-          <Editor />
-        </Route>
-        <Route path='/sign-in' exact>
-          <SignIn />
-        </Route>
-        <Route path='/sign-up' exact>
-          <SignUp />
-        </Route>
-        <Route path='/problems'>
-          
-        </Route>
-        <Route path='/solutions'>
-          <Solutions />
-        </Route>
-        <Route path='/discussion'>
-          <Discussion />
-          {/* <DiscussionTopic /> */}
-        </Route>
-      </Switch>
-      <Footer />
-    </div>
+    <UserContext.Provider value={{userState, userDispatch}}>
+      <div className='App'>
+        {
+          isMobile?
+            StickyNavBars
+          :
+            <div className="sticky-navbars">
+              {StickyNavBars}
+            </div>
+        }
+        <Switch>
+          <Route path='/' exact>
+            <Editor />
+          </Route>
+          <Route path='/sign-in' exact>
+            <SignIn />
+          </Route>
+          <Route path='/sign-up' exact>
+            <SignUp />
+          </Route>
+          <Route path='/problems'>
+            
+          </Route>
+          <Route path='/solutions'>
+            <Solutions />
+          </Route>
+          <Route path='/discussion'>
+            <Discussion />
+          </Route>
+        </Switch>
+        <Footer />
+      </div>
+    </UserContext.Provider>
   );
 }
 

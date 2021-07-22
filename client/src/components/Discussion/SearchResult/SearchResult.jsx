@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { useMatchURL } from '../../../hooks/useMatch';
 import useViewport from '../../../hooks/useViewport';
 import { parseDate } from '../../../utils/date';
+import { getRequest } from '../../../utils/fetch-request';
+import parseHTML from '../../../utils/parseHTML';
 import Card from '../../Card/Card';
 import Loader from '../../Loader/Loader';
 import './SearchResult.scss';
@@ -15,17 +17,18 @@ export default function SearchResult(props) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch all the topics 
-        fetch('/topics/')
-        .then(res => res.json())
-        .then(result => {
-            console.log('Topics', result.topics);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+
+        const successHandler = (result) => {
             setTopicList(result.topics);
             setLoading(false);
-        }).catch(err => {
-            console.log('Error fetching topics', err.message);
-        });
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error fetching topics', errMessage);
+        };
+
+        // Fetch all the topics 
+        getRequest('/topics/', null, successHandler, errorHandler);
 
     }, []);
 
@@ -41,7 +44,7 @@ export default function SearchResult(props) {
                         </div>
                     :
                         topicList.map(topic => (
-                            <Link to={`${matchURL}/topic/${topic.id}/description`} key={topic.id}>
+                            <Link to={`${matchURL}/topics/${topic.id}/description`} key={topic.id}>
                                 <Card className='result-box'>
                                     <Card.CardImg className='result-image'><div className="result-img"></div></Card.CardImg>
                                     <Card.CardDetails className='result-data'>
@@ -49,7 +52,7 @@ export default function SearchResult(props) {
                                             <div className="result-description">
                                                 <div className="result-title">{topic.topic_details.description.title}</div>
                                                 <div className="result-date"><i className='result-issue-number'>#{topic.id}</i> opened on {parseDate(topic.topic_details.description.date)} </div>
-                                                <div className="result-brief-description">{topic.topic_details.description.brief_description}</div>
+                                                <div className="result-brief-description">{parseHTML(topic.topic_details.description.brief_description)}</div>
                                             </div>
                                             <div className={`result-opened-by ${isMobile? 'mobile' : ''}`}>
                                                 {
@@ -68,7 +71,7 @@ export default function SearchResult(props) {
                                             <div className="result-tags-container">
                                                 {
                                                     topic.topic_details.meta_data.tags.map(tag => (
-                                                        <div className="result-tag" key={tag.id} >{tag.name}</div>
+                                                        <div className="result-tag" key={tag} >{tag}</div>
                                                     ))
                                                 }
                                             </div>

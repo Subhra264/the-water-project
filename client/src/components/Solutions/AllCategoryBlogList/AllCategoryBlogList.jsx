@@ -4,24 +4,30 @@ import Loader from '../../Loader/Loader';
 import Gigs from '../Gigs/Gigs';
 import categories from '../../../utils/blog-categories';
 import './AllCategoryBlogList.scss';
+import { getRequest } from '../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 
 export default function AllcategoryBlogList (props) {
     const [blogs, setBlogs] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch all type of blogs
-        fetch('/blogs/')
-        .then(res => res.json())
-        .then(result => {
-            console.log('Blogs', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+        const successHandler = (result) => {
             setBlogs(result);
             setLoading(false);
-        })
-        .catch(err => {
-            console.log('Error fetching blogs', err.message);
-        })
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error fetching blogs', errMessage);
+        };
+
+        // Fetch all type of blogs
+        getRequest(
+            '/blogs/',
+            getAccessTokenFromStorage(),
+            successHandler,
+            errorHandler
+        );
     }, []);
 
     return (

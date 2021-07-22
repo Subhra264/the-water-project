@@ -26,7 +26,7 @@ export default function (props) {
                     <Like 
                         userLiked={props.likes.user_liked}
                         noOfLikes={props.likes.no_of_likes}
-                        fetchURI={`${props.baseURI}/${props.id}/add-remove-likes/`}
+                        fetchURI={`${props.baseURI}/add-remove-likes/`}
                     />
                     {
                         props.isDescription && <div className="topic-comment-footer-impression" title='Views'>

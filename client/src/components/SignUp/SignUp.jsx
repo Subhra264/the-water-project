@@ -1,5 +1,7 @@
-import { useState } from "react";
-import Form from "../Form/Form";
+import { useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Country } from '../ContentEditor/TopicEditor/TopicEditor';
+import AuthenticationForm from '../Form/AuthenticationForm';
 // import authenticate from '../../utils/authenticate';
 
 export default function SignUp(props) {
@@ -9,6 +11,10 @@ export default function SignUp(props) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [error, setError] = useState('');
+    const [age, setAge] = useState('');
+    const country = useRef(null);
+    const formProps = useRef({});
+    const history = useHistory();
 
     const changeUsername = (ev) => {
         setUsername(ev.target.value);
@@ -22,6 +28,10 @@ export default function SignUp(props) {
         setPassword(ev.target.value);
     };
 
+    const changeAge = (ev) => {
+        setAge(ev.target.value);
+    };
+
     const changeFirstName = (ev) => {
         setFirstName(ev.target.value);
     };
@@ -30,60 +40,93 @@ export default function SignUp(props) {
         setLastName(ev.target.value);
     };
 
-    const signUp = async (ev) => {
+    const signUp = (ev) => {
         ev.preventDefault();
 
         // First check if the entered inputs are valid
-        
-        // const response = await authenticate(`/api-auth/signup`, {
-        //     username,
-        //     email,
-        //     password,
-        //     firstName,
-        //     lastName
-        // });
+        if (!username || !password || !email || !country.current.value) {
+            setError('Fill all the required fields!');
+            return;
+        }
+
+        // POST request to register the user
+        fetch('/register/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username,
+                email,
+                password,
+                country: country.current.value,
+                age,
+                first_name: firstName,
+                last_name: lastName
+            })
+        })
+        .then(res => res.json())
+        .then(result => {
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+            history.push('/sign-in');
+        })
+        .catch(err => {
+            setError(err.message);
+        })
 
         console.log(username, email, password, firstName, lastName);
         // console.log(response);
     };
     
-    const formProps = {
+    formProps.current = {
+        formTitle: 'Sign Up',
         fields: {
             username: {
                 type: 'text',
                 required: true,
+                placeholder: 'username (Required)',
                 onChange: changeUsername
             },
             password: {
                 type: 'password',
                 required: true,
+                placeholder: 'password (Required)',
                 onChange: changePassword
             },
             email: {
                 type: 'email',
                 required: true,
+                placeholder: 'email (Required)',
                 onChange: changeEmail
-            }, 
+            },
+            age: {
+                type: 'number',
+                required: false,
+                placeholder: 'Your Age(Optional)',
+                min: '10',
+                max: '100',
+                onChange: changeAge
+            },
             firstName:{
                 type: 'text',
                 required: false,
-                placeholder: 'First Name',
+                placeholder: 'First Name(Optional)',
                 onChange: changeFirstName
             },
             lastName: {
                 type: 'text',
                 required: false,
-                placeholder: 'Last Name',
+                placeholder: 'Last Name(Optional)',
                 onChange: changeLastName
             }
         },
-        onSubmit: signUp
+        onSubmit: signUp,
+        error
     };
 
     return (
-        <div className='form-container sign-up'>
-            <div className='form-title'>Sign Up</div>
-            <Form {...formProps} />
-        </div>
+        <AuthenticationForm {...formProps.current} >
+            <Country selectedCountry={country} />
+        </AuthenticationForm>
     );
 }

@@ -1,18 +1,20 @@
 import { Switch, Route, useParams } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import useViewport from '../../hooks/useViewport';
 import Comment from './Comments/Comment/Comment';
 import Slider from '../Slider/Slider';
 import './DiscussionTopic.scss';
 import Issues from './Issues/Issues';
 import Comments from './Comments/Comments';
-import { TopicContext } from '../../utils/contexts';
+import { TopicContext, UserContext } from '../../utils/contexts';
 import ProgressReport from './ProgressReport/ProgressReport';
 import Loader from '../Loader/Loader';
 import Description from './Description/Description';
 import { parseDate } from '../../utils/date';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getRequest } from '../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
 
 export default function DiscussionTopic(props) {
     const { isMobile } = useViewport();
@@ -21,6 +23,7 @@ export default function DiscussionTopic(props) {
     const [isClosed, setIsClosed] = useState();
     const matchURL = useMatchURL();
     const { topicId } = useParams();
+    // const { userState } = useContext(UserContext);
     
     // Labels for the Slider component
     const labels = useRef([
@@ -47,20 +50,20 @@ export default function DiscussionTopic(props) {
     ]);
 
     useEffect(() => {
-        // Fetch the topic
-        fetch(`/topics/${topicId}`)
-        .then(res => res.json())
-        .then(result => {
-            console.log('Topic', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
 
+        const successHandler = (result) => {
             setTopicDetails(result);
             setIsClosed(result.is_closed);
             setLoading(false);
+        };
 
-        }).catch(err => {
-            console.log('Error fetching topic details', err);
-        })
+        const errorHandler = (errMessage) => {
+            console.log('Error fetching topic details', errMessage);
+        };
+
+        // Fetch the topic
+        getRequest(`/topics/${topicId}`, getAccessTokenFromStorage(), successHandler, errorHandler);
+
     }, []);
 
     return (
@@ -131,7 +134,7 @@ export default function DiscussionTopic(props) {
                                                 baseURI={`/topics/${topicDetails.id}/description`}
                                                 isClosed={isClosed}
                                                 setIsClosed={setIsClosed}
-                                                closeBaseURI='/topics'
+                                                closeBaseURI='/topics/close-topic'
                                                 problemId={topicDetails.id}
                                                 problemType='Topic'
                                             />

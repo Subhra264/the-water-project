@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 import { useMatchURL } from '../../../hooks/useMatch';
 import { TopicContext } from '../../../utils/contexts';
+import { getRequest } from '../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 import IssueEditor from '../../ContentEditor/IssueEditor/IssueEditor';
 import Loader from '../../Loader/Loader';
 import Issue from './Issue/Issue';
@@ -15,16 +17,18 @@ function IssueList (props) {
     const matchURL = useMatchURL();
 
     useEffect(() => {
-        // TODO: Fetch the issues Api for a topic
-        fetch(`/topics/${topicId}/issues/`)
-        .then(res => res.json())
-        .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
-            setIssueList(result);
+        const successHandler = (result) => {
+            setIssueList(result.results);
             setLoading(false);
-        }).catch(err => {
-            console.log('Error fetching issue-list', err);
-        });
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error fetching issue-list', errMessage);
+        };
+
+        // TODO: Fetch the issues Api for a topic
+        getRequest(`/topics/${topicId}/issues/`, getAccessTokenFromStorage(), successHandler, errorHandler)
+
     }, []);
 
     return (

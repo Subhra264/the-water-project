@@ -3,6 +3,8 @@ import Comment from './Comment/Comment';
 import CommentEditor from '../../ContentEditor/CommentEditor/CommentEditor';
 import Loader from '../../Loader/Loader';
 import './Comments.scss';
+import { getRequest, protectedRequest } from '../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 
 export default function Comments (props) {
     const [loading, setLoading] = useState(true);
@@ -10,40 +12,42 @@ export default function Comments (props) {
     const onAddCommentClick = useRef(null);
     
     useEffect(() => {
-        // Fetch the API
-        fetch(props.fetchURI)
-        .then(res => res.json())
-        .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
-            setComments(result);
-            setLoading(false);
-        }).catch(err => {
-            console.log('Error fetching comments:', err);
-        });
 
+        const successHandler = (result) => {
+            setComments(result.results);
+            setLoading(false);
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error fetching comments:', errMessage);
+        };
+
+        getRequest(props.fetchURI, getAccessTokenFromStorage(), successHandler, errorHandler);
     }, []);
 
     onAddCommentClick.current = (ev, content) => {
-        // POST request to add the comment
-        fetch(`${props.fetchURI}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                content
-            })
-        }).then(res => res.json())
-        .then(result => {
-            console.log('Added Comment', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+
+        const successHandler = (result) => {
             setComments([...comments, result]);
 
             ev.target.disabled = false;
             ev.target.innerText = 'Comment';
-        }).catch(err => {
-            console.log('Error adding comment', err.message);
-        });
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error adding comment', errMessage);
+        };
+
+        // POST request to add the comment
+        const fetchDetails = {
+            fetchURI: `${props.fetchURI}/`,
+            method: 'POST',
+            body: {
+                content
+            }
+        };
+
+        protectedRequest(fetchDetails, getAccessTokenFromStorage(), successHandler, errorHandler);
     };
 
     return (
@@ -63,7 +67,7 @@ export default function Comments (props) {
                                     <Comment
                                         key={comment.id}
                                         {...comment}
-                                        baseURI={`${props.fetchURI}/comments/${comment.id}`}
+                                        baseURI={`${props.fetchURI}/${comment.id}`}
                                     />
                                 ))
                         }

@@ -3,6 +3,8 @@ import ContentEditor from '../ContentEditor';
 import './BlogEditor.scss';
 import categories from '../../../utils/blog-categories';
 import { useHistory } from 'react-router-dom';
+import { protectedRequest } from '../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 
 export default function BlogEditor (props) {
     const selectedCategory = useRef(null);
@@ -11,27 +13,28 @@ export default function BlogEditor (props) {
     const history = useHistory();
 
     onSubmitClick.current = (content) => {
-        console.log('Clicked Create Blog button!', content);
-        fetch('/blogs/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                ...content,
-                category: selectedCategory.current.value
-            })
-        }).then(res => (
-            res.json()
-        )).then(result => {
-            console.log('Created Blog', result);
 
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+        const successHandler = (result) => {
             history.push(`/solutions/blogs/${result.id}`);
-        }).catch(err => {
-            // Handle the error properly
-            console.log('Error creating blog', err.message);
-        });
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error Creating blog', errMessage);
+        };
+
+        console.log('Clicked Create Blog button!', content);
+
+        const fetchDetails = {
+            fetchURI: '/blogs/',
+            method: 'POST',
+            body: {
+                ...content,
+                type: selectedCategory.current.value
+            }
+        };
+
+        // POST request to create the blog
+        protectedRequest(fetchDetails, getAccessTokenFromStorage(), successHandler, errorHandler);
     };
 
     contentEditorProps.current = {

@@ -2,6 +2,8 @@
 // import { TopicContext } from '../../../utils/contexts';
 import './Description.scss';
 import Comment from '../Comments/Comment/Comment';
+import { protectedRequest } from '../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 
 /*
 interface props {
@@ -19,24 +21,24 @@ export default function Description (props) {
     // const { topicId } = useContext(TopicContext);
 
     const closeTopic = (ev) => {
-        fetch(`${props.closeBaseURI}/close-topic/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: props.problemId
-            })
-        })
-        .then(res => res.json())
-        .then(result => {
-            console.log('Problem closed', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+
+        const successHandler = (result) => {
             props.setIsClosed(result.is_closed);
-        })
-        .catch(err => {
-            console.log('Error closing the topic', err.message);
-        });
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error closing the topic', errMessage);
+        };
+
+        const fetchDetails = {
+            fetchURI: `${props.closeBaseURI}/`,
+            method: 'PATCH',
+            body: {
+                id: props.problemId
+            }
+        };
+
+        protectedRequest(fetchDetails, getAccessTokenFromStorage(), successHandler, errorHandler);
     };
 
     return (
@@ -52,7 +54,7 @@ export default function Description (props) {
                         <div className="problem-closed-line"></div>
                         <div className="problem-closed-by">
                             {/* <i>@john12</i> closed this topic */}
-                            This topic was closed
+                            This was closed
                         </div>
                     </div>
                 :

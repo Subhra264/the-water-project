@@ -23,7 +23,7 @@ export default function Discussion(props) {
                 <Route path={`${matchURL}/new-topic`}>
                     <TopicEditor />
                 </Route>
-                <Route path={`${matchURL}/topic/:topicId`}>
+                <Route path={`${matchURL}/topics/:topicId`}>
                     <DiscussionTopic />
                 </Route>
             </Switch>

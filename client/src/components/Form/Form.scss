@@ -20,9 +20,17 @@
             padding: 0.5rem;
             margin: 0.4rem;
             display: inline-block;
-            border: none;
+            border: 1px solid $yellowOchre;
+            border-radius: 5px;
             outline: none;
-            border-bottom: 1px solid $yellowOchre;
+        }
+
+        .form-error {
+            padding: 1em;
+            background-color: $whiteHoverColor;
+            color: $darkRed;
+            width: 100%;
+            margin: 0.5em 0;
         }
 
         .submit-button {

@@ -1,32 +1,44 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from '../../../utils/contexts';
+import { getRequest, protectedRequest } from '../../../utils/fetch-request';
 import ContentEditor from '../ContentEditor';
 import './TopicEditor.scss';
 
-function TopicLocation (props) {
+export function Country (props) {
     const [countries, setCountries] = useState([]);
 
     useEffect(() => {
-        // TODO: Fetch the countries API
-        fetch('/available-countries')
-        .then(res => res.json())
-        .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
-            console.log('Countries', result);
+        const successHandler = (result) => {
             setCountries(result.countries);
-        }).catch(err => {
-            console.log('Error fetching country names', err.message);
-        });
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error fetching countries', errMessage);
+        };
+
+        // TODO: Fetch the countries API
+        // fetch('/available-countries')
+        // .then(res => res.json())
+        // .then(result => {
+        //     if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+        //     console.log('Countries', result);
+        //     setCountries(result.countries);
+        // }).catch(err => {
+        //     console.log('Error fetching country names', err.message);
+        // });
+
+        getRequest('/available-countries/', null, successHandler, errorHandler);
     }, []);
 
     return (
         <div className="topic-address">
-            <div className="topic-address-label">Country</div>
+            <div className="topic-address-label">Country (Required)</div>
             <div className="topic-address-input">
                 <select name='category' id='category' ref={props.selectedCountry} placeholder='Choose Country' >
                     {
                         countries.map(country => (
-                            <option key={country} value={country}>{country}</option>
+                            <option key={country} value={country.code}>{country.country}</option>
                         ))
                     }
                 </select>
@@ -42,6 +54,7 @@ export default function TopicEditor (props) {
     const onSubmitClick = useRef(null);
     const contentEditorProps = useRef(null);
     const history = useHistory();
+    const { userState } = useContext(UserContext);
 
     const onAddressChange = (ev) => {
         setAddress(ev.target.value);
@@ -54,31 +67,29 @@ export default function TopicEditor (props) {
     onSubmitClick.current = (topic) => {
         console.log('Creating topic', topic.content);
         console.log('Creating topic', address);
-        fetch('/topics/', {
+
+        const successHandler = (result) => {
+            history.push('/discussion/');
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error creating Topic', errMessage);
+        };
+
+        const fetchDetails = {
+            fetchURI: '/topics/',
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+            body: {
                 title: topic.title,
                 description: topic.content,
                 tags: topic.tags,
                 country: selectedCountry.current.value,
                 city_or_area: cityOrArea,
                 address
-            })
-        }).then(res => (
-            res.json()
-        )).then(result => {
-            // TODO: Do something
-            console.log('Created topic', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
-            history.push('/discussion/topics/');
+            }
+        };
 
-        }).catch(err => {
-            // TODO: Handle the error
-            console.log('Error creating Topic', err.message);
-        });
+        protectedRequest(fetchDetails, userState.access, successHandler, errorHandler);
     };
 
     contentEditorProps.current = {
@@ -92,7 +103,7 @@ export default function TopicEditor (props) {
     return (
         <ContentEditor {...contentEditorProps.current}>
             <div className="topic-address-container">
-                <TopicLocation selectedCountry={selectedCountry} />
+                <Country selectedCountry={selectedCountry} />
                 <div className="topic-address">
                     <div className="topic-address-label">
                         City/Area

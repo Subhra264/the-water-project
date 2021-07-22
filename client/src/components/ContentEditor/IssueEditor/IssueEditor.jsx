@@ -1,6 +1,7 @@
 import { useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TopicContext } from '../../../utils/contexts';
+import { TopicContext, UserContext } from '../../../utils/contexts';
+import { protectedRequest } from '../../../utils/fetch-request';
 import ContentEditor from '../ContentEditor';
 
 export default function IssueEditor (props) {
@@ -8,31 +9,31 @@ export default function IssueEditor (props) {
     const history = useHistory();
     const contentEditorProps = useRef(null);
     const onSubmitClick = useRef(null);
-    
+    const { userState } = useContext(UserContext);
+
     onSubmitClick.current = (issue) => {
         console.log('Clicked Create Issue button!', issue);
 
-        // TODO: Make the request to create an issue
-        fetch(`/topics/${topicId}/issues/`, {
+        const successHandler = (result) => {
+            history.push(`/discussion/topics/${topicId}/issues`);
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error creating issue', errMessage);
+        };
+        
+        // Make the request to create an issue
+        const fetchDetails = {
+            fetchURI: `/topics/${topicId}/issues/`,
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+            body: {
                 title: issue.title,
                 description: issue.content,
                 tags: issue.tags
-            })
-        }).then(res => (
-            res.json()
-        )).then(result => {
-            console.log('Created issue', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
-            history.push(`/discussion/topics/${topicId}/issues`);
-        }).catch(err => {
-            //Properly handle the error
-            console.log('Error creating issue', err.message);
-        });
+            }
+        };
+
+        protectedRequest(fetchDetails, userState.access, successHandler, errorHandler);
     };
 
     contentEditorProps.current = {

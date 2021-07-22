@@ -1,12 +1,18 @@
-import { useState } from "react";
-import Form from "../Form/Form";
+import { useContext, useRef, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { manageUser } from '../../utils/actions/User.action';
+import { UserContext } from '../../utils/contexts';
+import AuthenticationForm from '../Form/AuthenticationForm';
 // import authenticate from '../../utils/authenticate';
 
-export default function LogIn(props) {
+export default function SignIn(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
     const [error, setError] = useState('');
+    const formProps = useRef({});
+    const history = useHistory();
+    const location = useLocation();
+    const { userDispatch } = useContext(UserContext);
 
     const changeUsername = (ev) => {
         setUsername(ev.target.value);
@@ -16,24 +22,58 @@ export default function LogIn(props) {
         setPassword(ev.target.value)
     };
 
-    const changeEmail = (ev) => {
-        setEmail(ev.target.value);
-    };
-
-    const signIn = async (ev) => {
+    const signIn = (ev) => {
         ev.preventDefault();
+        if (!username || !password) {
+            setError('Fill all the fields!');
+            return;
+        }
 
-        // const response = await authenticate(`/api-auth/login`, {
-        //     username,
-        //     email,
-        //     password
-        // });
+        // POST request to sign in 
+        fetch('/get-token/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        })
+        .then(res => res.json())
+        .then(result => {
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+            console.log('Signed in user', result);
+            
+            // TODO: Use a better alternative to store the jwt tokens
+            // Save the refresh and access tokens in the localstorage
+            localStorage.setItem('refresh_token', result.refresh);
+            localStorage.setItem('access_token', result.access);
+            localStorage.setItem('userState', JSON.stringify(result));
 
-        console.log(username, email, password);
+            // Update the UserReducer state store
+            userDispatch(manageUser(result));
+
+            // Path to redirect to
+            let redirectTo = '/';
+
+            // Check if there is any redirectTo path is location.state
+            if (location.state) {
+                if (location.state.redirectTo) {
+                    redirectTo = location.state.redirectTo;
+                }
+            }
+            history.push(redirectTo);
+        })
+        .catch(err => {
+            setError(err.message);
+        });
+
         // console.log(response);
-    }
+    };
     
-    const formProps = {
+    formProps.current = {
+        formTitle: 'Sign In',
         fields: {
             username: {
                 type: 'text',
@@ -44,11 +84,6 @@ export default function LogIn(props) {
                 type: 'password',
                 required: true,
                 onChange: changePassword
-            },
-            email: {
-                type: 'email',
-                required: true,
-                onChange: changeEmail
             }
         },
         onSubmit: signIn,
@@ -56,9 +91,10 @@ export default function LogIn(props) {
     };
 
     return (
-        <div className='form-container log-in'>
-            <div className='form-title'>Sign In</div>
-            <Form {...formProps} />
-        </div>
+        // <div className='form-container log-in'>
+        //     <div className='form-title'>Sign In</div>
+        //     <Form {...formProps} />
+        // </div>
+        <AuthenticationForm {...formProps.current} />
     );
 }

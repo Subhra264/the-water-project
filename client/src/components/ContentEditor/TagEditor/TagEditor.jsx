@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { getRequest } from '../../../utils/fetch-request';
 import './TagEditor.scss';
 
 export default function TagEditor (props) {
@@ -6,16 +7,16 @@ export default function TagEditor (props) {
     const dataListRef = useRef(null);
 
     useEffect(() => {
-        // TODO: Fetch all the tags 
-        fetch('/tags/')
-        .then(res => res.json())
-        .then(result => {
-            console.log('All tags', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
+        const successHandler = (result) => {
             setAllTags(result);
-        }).catch(err => {
-            console.log('Error fetching tags', err.message);
-        })
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error fetching tag', errMessage);
+        };
+        
+        // Fetch all the tags
+        getRequest('/tags/', null, successHandler, errorHandler);
     }, []);
 
     const onTagAdd = (ev) => {

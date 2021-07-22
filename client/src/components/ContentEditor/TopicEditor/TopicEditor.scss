@@ -2,43 +2,44 @@
 
 .topic-address-container {
     padding: 0.5em;
+}
 
-    .topic-address {
+.topic-address {
+    width: 100%;
 
-        .topic-address-label {
-            margin: 0.4em 0;
-            font-weight: bold;
+    .topic-address-label {
+        margin: 0.4em 0;
+        font-weight: bold;
+    }
+    .topic-address-input {
+        
+        >input, >textarea {
+            display: block;
+            width: 100%;
+            padding: 0.5em 0.8em;
+            border: 1px solid $yellowOchre;
+            outline: none;
         }
-        .topic-address-input {
-            
-            >input, >textarea {
-                display: block;
-                width: 100%;
-                padding: 0.5em 0.8em;
-                border: 1px solid $yellowOchre;
-                outline: none;
-            }
 
-            >select {
-                display: block;
-                width: 100%;
+        >select {
+            display: block;
+            width: 100%;
+            padding: 0.4em;
+            border: 1px solid $yellowOchre;
+            outline: none;
+            background-color: #fff;
+
+            >option {
                 padding: 0.4em;
-                border: 1px solid $yellowOchre;
+                background-color: $whiteHoverColor;
+                border: none;
                 outline: none;
-                background-color: #fff;
-    
-                >option {
-                    padding: 0.4em;
-                    background-color: $whiteHoverColor;
-                    border: none;
-                    outline: none;
-                }
             }
+        }
 
-            >textarea {
-                resize: vertical;
-                font-family: Verdana, Geneva, Tahoma, sans-serif;
-            }
+        >textarea {
+            resize: vertical;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
     }
 }

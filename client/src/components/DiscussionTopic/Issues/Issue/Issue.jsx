@@ -8,6 +8,8 @@ import { TopicContext } from '../../../../utils/contexts';
 import Loader from '../../../Loader/Loader';
 import Description from '../../Description/Description';
 import { parseDate } from '../../../../utils/date';
+import { getRequest } from '../../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../../utils/manage-tokens';
 
 function IssueThread (props) {
     const [issueDescription, setIssueDescription] = useState({});
@@ -16,17 +18,23 @@ function IssueThread (props) {
     const { topicId } = useContext(TopicContext);
 
     useEffect(() => {
-        // Fetch the description api
-        fetch(`/topics/${topicId}/issues/${props.issueId}/description/`)
-        .then(res => res.json())
-        .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
-            console.log('Issue Description', result);
+
+        const successHandler = (result) => {
             setIssueDescription(result);
             setLoading(false);
-        }).catch(err => {
-            console.log('Error fetching issue description');
-        });
+        };
+
+        const errorHandler = (errMessage) => {
+            console.log('Error fetching issue description', errMessage);
+        };
+
+        // Fetch the description api
+        getRequest(
+            `/topics/${topicId}/issues/${props.issueId}/description/`,
+            getAccessTokenFromStorage(),
+            successHandler,
+            errorHandler
+        );
     }, []);
 
     return (
@@ -41,11 +49,11 @@ function IssueThread (props) {
                             baseURI={`/topics/${topicId}/issues/${props.issueId}/description`}
                             isClosed={isClosed}
                             setIsClosed={setIsClosed}
-                            closeBaseURI={`/topics/${topicId}/issues`}
+                            closeBaseURI={`/topics/${topicId}/issues/close-issue`}
                             problemId={props.issueId}
                             problemType='Issue'
                         />
-                        <Comments fetchURI={`/topics/${topicId}/issues/${props.issueId}`} />
+                        <Comments fetchURI={`/topics/${topicId}/issues/${props.issueId}/comments/`} />
                     </>
             }
         </div>
