@@ -10,6 +10,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
 
+def unique_file_path(instance, filename):
+    return "topics/{}_{}".format(instance.id, filename)
+
+
 class Topic(models.Model):
     limit = models.Q(app_label="users", model="User") | models.Q(app_label="users", model="Organization")
     content_type = models.ForeignKey(ContentType, limit_choices_to=limit, on_delete=models.CASCADE)
@@ -20,6 +24,7 @@ class Topic(models.Model):
         ProgressReport, on_delete=models.CASCADE, blank=True, null=True, related_name="topic"
     )
     date = models.DateTimeField(auto_now_add=True)
+    img = models.ImageField(null=True, blank=True, upload_to=unique_file_path)
     description = models.OneToOneField("comments.StartingComment", on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
     closed_on = models.DateTimeField(blank=True, null=True)

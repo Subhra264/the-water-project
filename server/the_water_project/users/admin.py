@@ -28,6 +28,7 @@ class TheUserChangeForm(UserChangeForm):
             "country",
             "address",
             "rating",
+            "profile_pic",
         )
 
 
@@ -44,6 +45,7 @@ class TheUserAdmin(UserAdmin):
                     "country",
                     "address",
                     "rating",
+                    "profile_pic",
                 )
             },
         ),
@@ -58,6 +60,7 @@ class TheUserAdmin(UserAdmin):
                     "country",
                     "address",
                     "rating",
+                    "profile_pic",
                 )
             },
         ),

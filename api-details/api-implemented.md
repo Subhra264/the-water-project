@@ -4,7 +4,7 @@
 ### most important APIs
 ```
 localhost:8000/topics/
-localhost:8000/topics/<topic_id>/
+localhost:8000/topics/<topic_id>/   (filters, search functionality, pagination available)
 localhost:8000/topics/<topic_id>/issues/
 localhost:8000/topics/<topic_id>/issues/<issue_id>/
 localhost:8000/topics/<topic_id>/issues/<issue_id>/comments/
@@ -17,11 +17,15 @@ localhost:8000/topics/<topic_Id>/description/
 localhost:8000/topics/<topic_Id>/description/add-remove-likes/
 localhost:8000/topics/<topic_id>/progress-report/
 localhost:8000/topics/<topic_id>/contributors/
-localhost:8000/topics/<topic_id>/progress-report/add-task
-localhost:8000/topics/<topic_id>/progress-report/delete-task
-localhost:8000/topics/<topic_id>/tasks/save-changes
-localhost:8000/topics/<topic_id>/issues/close-topic/
-localhost:8000/topics/close-topic
+localhost:8000/topics/<topic_id>/progress-report/add-task/
+localhost:8000/topics/<topic_id>/progress-report/delete-task/
+localhost:8000/topics/<topic_id>/tasks/save-changes/
+localhost:8000/topics/<topic_id>/issues/close-issue/
+localhost:8000/topics/close-topic/
+localhost:8000/topics/add-tag/
+localhost:8000/topics/remove-tag/
+localhost:8000/topics/<topic_id>/issues/add-tag/
+localhost:8000/topics/<topic_id>/issues/remove-tag/
 localhost:8000/tags/
 localhost:8000/tags/<tag_id>/
 ```
@@ -37,10 +41,16 @@ localhost:8000/blogs/o/
 localhost:8000/blogs/<blog_id>/
 localhost:8000/blogs/types-of-blogs/
 localhost:8000/blogs/<blog_id>/add-remove-likes/
+localhost:8000/user/register
 localhost:8000/users/
 localhost:8000/users/<user_id>/
-localhost:8000/orgs/
-localhost:8000/orgs/<org_id>/
+localhost:8000/users/<user_id>/topics/
+localhost:8000/ngos/<ngo_id>/topics/
+localhost:8000/ngos/<ngo_id>/create-invitation-link/
+localhost:8000/ngos/add-member/
+localhost:8000/ngos/remove-member/
+localhost:8000/ngos/
+localhost:8000/ngos/<ngo_id>/
 ```
 ### No use till now
 ```
@@ -177,6 +187,32 @@ respone data -
 ```
 The creator of the topic will automatically be a contributor of that topic.
 
+### filters and search
+You can also use filters and search functionalities.
+available fields for filters are ==>
+```
+is_closed=True or False (case-insensitive)
+country=IN (value should be valid country code)
+no_of_issues=int (any valid integer)
+progress_report__is_completed=bool (true or false case-insensitive)
+progress_report__total_no_of_tasks=int (valid integer)
+no_of_issue__gt=int (valid integer)
+no_of_issue__gte=int (valid integer)
+no_of_issue__lt=int (valid integer)
+no_of_issue__lte=int (valid integer)
+```
+These fields have to be added at the end of the url. Ex-
+`localhost:8000/topics/<topic_id>/?no_of_issue_gt=int&country=IN`
+
+To search for string you have add a search param at the last of the url. Ex-
+`localhost:8000/topics/<topic_id>/?search=string`
+
+You can enable ordering. Ex -
+`localhost:8000/topics/<topic_id>/?ordering=True`
+
+To go to next page, add a `page` query in the url -
+`localhost:8000/topics/<topic_id>/?page=1`
+
 ## localhost:8000/topics/<topic_id>/
 Used to retreive, update and delete the topic
 **Accepted request**: GET, PATCH, DELETE
@@ -191,34 +227,31 @@ Lists all the issues of a particular topic. `POST` request with a valid request 
 **Accepted requests**: GET, POST
 Response body when using `GET`:
 ```json
-[
-    {
-        "id": 1,
-        "creator": {
-            "user": {
-                "id": 2,
-                "username": "Samufa58"
-            }
-        },
-        "tags": [
-            {
-                "id": 1,
-                "name": "water pollution"
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 2,
+            "creator": {
+                "user": {
+                    "id": 2,
+                    "username": "Samufa58",
+                    "profile_pic": null
+                }
             },
-            {
-                "id": 2,
-                "name": "water solution"
-            }
-        ],
-        "title": "First topic issue from my side",
-        "date": "2021-07-20T11:30:49.527311Z",
-        "is_closed": false,
-        "closed_on": null,
-        "no_of_comments": 0,
-        "description": 3,
-        "topic": 1
-    }
-]
+            "tags": [],
+            "title": "how are you?",
+            "date": "2021-07-20T12:02:39.997449Z",
+            "is_closed": false,
+            "closed_on": null,
+            "no_of_comments": 0,
+            "description": 4,
+            "topic": 2
+        }
+    ]
+}
 ```
 `title` and `description` keys are must while creating a new issue via `POST` request. You can optionally provide `tags` key to add tags. `tags` must be an array containg all the names of tags.
 Example request body:
@@ -268,38 +301,45 @@ Creating an issue in a topic will let the creator of the issue be a contributor 
 ## localhost:8000/topics/<topic_id>/comments/
 returns all dicussion comments of a particular topic.
 ```json
-[
-    {
-        "id": 1,
-        "likes": {
-            "no_of_likes": 0,
-            "user_liked": false
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 4,
+            "likes": {
+                "no_of_likes": 0,
+                "user_liked": false
+            },
+            "creator": {
+                "id": 2,
+                "username": "Samufa58",
+                "profile_pic": null
+            },
+            "content": "hello from another comment",
+            "date": "2021-07-20T12:29:38.414319Z",
+            "reply_to": null,
+            "topic": 2
         },
-        "creator": {
-            "id": 1,
-            "username": "Abhra303"
-        },
-        "content": "hello this is my first comment on a topic",
-        "date": "2021-07-20T07:55:35.691765Z",
-        "reply_to": null,
-        "topic": 1
-    },
-    {
-        "id": 2,
-        "likes": {
-            "no_of_likes": 0,
-            "user_liked": false
-        },
-        "creator": {
-            "id": 1,
-            "username": "Abhra303"
-        },
-        "content": "hello this is my first comment on a topic",
-        "date": "2021-07-20T07:58:25.973138Z",
-        "reply_to": null,
-        "topic": 1
-    }
-]
+        {
+            "id": 5,
+            "likes": {
+                "no_of_likes": 0,
+                "user_liked": false
+            },
+            "creator": {
+                "id": 2,
+                "username": "Samufa58",
+                "profile_pic": null
+            },
+            "content": "hello from comments",
+            "date": "2021-07-20T12:30:37.658313Z",
+            "reply_to": null,
+            "topic": 2
+        }
+    ]
+}
 ```
 **Accepted requests:** GET, POST
 To create a comment, Provide a request body with `content` key. You can optionally provide the `reply_to` key containing the id of another comment.
@@ -328,7 +368,7 @@ Response data -
     "topic": 1
 }
 ```
-## localhost:8000/topics/<topic_id>/comments/<comment_id>
+## localhost:8000/topics/<topic_id>/comments/<comment_id>/
 Returns a specific comment of a topic.
 Allowed keys for `PATCH` request are - `content`, `likes`. `DELETE` and `PUT` not allowed.
 
@@ -406,24 +446,30 @@ Returns the list of contributors of a topic.
 **Note: Creation of a topic, issue, progress-report, task will increase the number of contributions to that topic**
 Response data-
 ```json
-[
-    {
-        "id": 2,
-        "no_of_contributions": 5,
-        "username": "Samufo58",
-        "rating": 0.0,
-        "last_login": null,
-        "first_name": "Abhradeep",
-        "last_name": "",
-        "email": "kaak@email.com",
-        "date_joined": "2021-07-20T08:25:40.169558Z",
-        "country": "IN",
-        "age": null,
-        "address": null
-    }
-]
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 2,
+            "no_of_contributions": 6,
+            "username": "Samufa58",
+            "rating": 0.0,
+            "country": "INDIA",
+            "last_login": null,
+            "first_name": "Abhradeep",
+            "last_name": "",
+            "email": "kaak@email.com",
+            "date_joined": "2021-07-20T08:25:40.169558Z",
+            "profile_pic": null,
+            "age": null,
+            "address": null
+        }
+    ]
+}
 ```
-## localhost:8000/topics/<topic_id>/progress-report/add-task
+## localhost:8000/topics/<topic_id>/progress-report/add-task/
 Adds a task to the progress-report of a topic.
 **Accepted requests:** POST
 The request body must contain `title` and `description` keys. If the title and description are valid then it returns a json object containing the id of created task. Else it will give error code.
@@ -437,7 +483,31 @@ Request body -
 Response body -
 ```json
 {
-    "id": 2
+    "id": 3,
+    "task_set": [
+        {
+            "id": 1,
+            "creator": {
+                "id": 2,
+                "username": "Samufa58",
+                "profile_pic": null
+            },
+            "title": "This is my first task",
+            "description": "hello from sam",
+            "date": "2021-07-20T12:46:07.869977Z",
+            "is_completed": false
+        }
+    ],
+    "creator": {
+        "id": 2,
+        "username": "Samufa58",
+        "profile_pic": null
+    },
+    "total_no_of_tasks": 4,
+    "no_of_tasks_completed": 0,
+    "is_completed": false,
+    "created_on": "2021-07-20T12:46:07.780977Z",
+    "updated_on": "2021-07-22T12:14:56.081739Z"
 }
 ```
 Response while error -
@@ -447,7 +517,7 @@ Response while error -
     "status_code": 500
 }
 ```
-## localhost:8000/topics/<topic_id>/progress-report/delete-task
+## localhost:8000/topics/<topic_id>/progress-report/delete-task/
 Deletes the specified task/tasks
 **Accepted Requests:** DELETE
 To delete a specific task, put the id of that task in `id` key in the request body.
@@ -464,7 +534,7 @@ Response body -
     "status_code": 200
 }
 ```
-## localhost:8000/topics/<topic_id>/tasks/save-changes
+## localhost:8000/topics/<topic_id>/tasks/save-changes/
 It is used to save `is_closed` data for one or multiple task at once.
 **Accepted Request:** PATCH
 Provide a key named "ids" in the request body and put the ids of those tasks in that key as an array.
@@ -480,7 +550,7 @@ Response body -
     "success":"task/tasks successfully updated",
     "status_code": 200
 ```
-## localhost:8000/topics/close-topic
+## localhost:8000/topics/close-topic/
 Closes or Opens the topic specified in the request body. If the topic is already closed then sending request to this api will open the topic again else close the topic.
 **Accepted Request:**  PATCH
 Request body -
@@ -597,6 +667,32 @@ Response body -
 User can use this api to like a blog. It can be also used to undo a like. Returns json data of that particular blog.
 **Accepted Request:** PATCH
 
+
+## localhost:8000/user/register/
+Post request. Used to create users in the database.
+Request body -
+```json
+{
+    "username": "hala5@a",
+    "password": "12345",
+    "first_name": "hala",   //optional
+    "last_name": "kala",    //optional
+    "email": "hala@hmail.com",
+    "age": 34,          //optional
+    "country": "IN",
+    "address": "snake island 343",   //optional
+    "profile_pic": "http:bla.com/media/shj" //optional
+}
+```
+Uploaded file for profile_pic must use `Content-type` = `multipart/formdata;`
+
+Response body -
+```json
+{
+    "success": "user created",
+    "status_code": 201
+}
+```
 ## localhost:8000/users/
 
 Response body - 
@@ -651,7 +747,19 @@ Response body -
 ```
 ## localhost:8000/ngos/
 
-Response -
+To create -
+Post method : request body -
+```json
+{
+    "name": "the commit",
+    "email": "ereck@email.com",
+    "phone_number": "+919999992933",
+    "address": "lokhandwala 93y97"
+}
+```
+If you want to send `profile_pic`, the `Content-type` must be `multipart/formdata;`
+
+Response body for get requests -
 ```json
 [
     {
@@ -683,7 +791,7 @@ Response body -
 Only owner or members of that ngo can generate this token.
 
 ## localhost:8000/ngos/add-member/
-Post request - 
+Patch request - 
 request body -
 ```json
 {
@@ -701,7 +809,9 @@ Owner or already member can not request. It will give permission error -
 else:
 ```json
 {
-    "success": "User successfully added to member", "status_code": 200
+    "success": "User successfully added to member",
+    "status_code": 200,
+    "ngo_id": 2
 }
 ```
 ## localhost:8000/ngos/remove-member/

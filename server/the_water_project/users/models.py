@@ -12,6 +12,13 @@ from django.core.validators import RegexValidator
 # TODO: need to check whether the organization is govt registered or not
 
 
+def unique_file_path(instance, filename):
+    if type(instance).__name__ == "User":
+        return "users/{}_{}".format(instance.id, filename)
+    else:
+        return "orgs/{}_{}".format(instance.id, filename)
+
+
 class TheUserManager(UserManager):
     def create_user(self, username, email, country, age=None, address=None, password=None, **extra_fields):
         email = self.normalize_email(email)
@@ -34,6 +41,7 @@ class TheUserManager(UserManager):
 
 
 class User(AbstractUser):
+    profile_pic = models.ImageField(blank=True, null=True, upload_to=unique_file_path)
     country = models.CharField(max_length=60, choices=COUNTRY_CHOICES)
     age = models.PositiveIntegerField(blank=True, null=True)
     address = models.CharField(max_length=200, null=True, blank=True)
@@ -66,6 +74,7 @@ class OrganizationManager(BaseUserManager):
 
 
 class Organization(AbstractBaseUser):
+    profile_pic = models.ImageField(null=True, blank=True, upload_to=unique_file_path)
     name = models.CharField(max_length=120)
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=200)
@@ -75,8 +84,8 @@ class Organization(AbstractBaseUser):
     )
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     no_of_members = models.PositiveIntegerField(default=0)
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="members", blank=True)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="owner")
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="member_of_orgs", blank=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orgs")
     date_joined = models.DateTimeField(auto_now_add=True)
     rating = models.FloatField(default=0.0)
     topics = GenericRelation("topics.Topic", "object_id", "content_type", related_query_name="orgs")

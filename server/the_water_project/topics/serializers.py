@@ -29,10 +29,16 @@ class ContributorField(serializers.RelatedField):
 
 class StartingCommentField(serializers.RelatedField):
     def to_representation(self, value):
+        context = None
         if "is_list" in self.context:
             content = Truncator(value.content).chars(200)
             value.content = content
-        return StartingCommentSerializer(value).data
+        elif "request_user" in self.context:
+            context = {"request_user": self.context["request_user"]}
+        if context:
+            return StartingCommentSerializer(value, context=context).data
+        else:
+            return StartingCommentSerializer(value).data
 
 
 class TagField(serializers.RelatedField):
@@ -68,6 +74,7 @@ class TopicSerializer(serializers.ModelSerializer):
             "title",
             "creator",
             "tags",
+            "img",
             "contributors",
         )
 

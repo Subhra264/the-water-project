@@ -15,6 +15,6 @@ COUNTRY_CHOICES = [
 )
 def country_view(request):
     countries = {"countries": []}
-    for _, country in COUNTRY_CHOICES:
-        countries["countries"].append(country)
+    for id, country in COUNTRY_CHOICES:
+        countries["countries"].append({"code": id, "country": country})
     return Response(countries)

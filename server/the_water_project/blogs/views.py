@@ -1,4 +1,5 @@
 from django.utils import timezone
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from the_water_project.utils.permissions import IsOwnerOrReject
 from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
@@ -14,6 +15,7 @@ class BlogViewSet(ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
     http_method_names = ["get", "post", "patch", "delete", "head"]
+    parser_classes = (JSONParser, FormParser, MultiPartParser)
 
     def get_serializer(self, *args, **kwargs):
         if self.action == "list":
@@ -41,10 +43,13 @@ class BlogViewSet(ModelViewSet):
             title = request.data["title"]
             content = request.data["content"]
             type = request.data["type"]
+            front_img = request.data.get("front_img")
         except Exception:
             raise APIException("You must specify title, content and type to create a blog")
         try:
-            blog = Blog.objects.create(title=title, content=content, _type=type, creator=request.user)
+            blog = Blog.objects.create(
+                title=title, content=content, _type=type, creator=request.user, front_img=front_img
+            )
             if "tags" in request.data and isinstance(request.data["tags"], list):
                 tags = request.data["tags"]
                 for tag_name in tags:
@@ -70,6 +75,9 @@ class BlogViewSet(ModelViewSet):
                     should_pass = True
                 elif key == "type" and request.data["type"]:
                     blog._type = request.data["type"]
+                    should_pass = True
+                elif key == "front_img" and request.data["front_img"]:
+                    blog.front_img = request.data["front_img"]
                     should_pass = True
                 else:
                     request.data.pop(key)
