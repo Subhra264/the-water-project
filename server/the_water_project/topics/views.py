@@ -453,8 +453,6 @@ class TagRemoveFromIssue(TagAddToIssue):
 
 # TODO:
 # 2. issues has their own numbering system for their respective topic
-# 3. add media to the api
 # 4. add gravatar icon to profiles
-# 5. Have to add search functionality
 # 6. add assignees for the topic
 # 7. rating system for user/ngo (NOTE: only user can rate others)
