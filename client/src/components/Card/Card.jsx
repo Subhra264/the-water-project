@@ -1,6 +1,6 @@
 import './Card.scss';
 import useViewport from '../../hooks/useViewport';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 export default function Card (props) {
     const { isMobile } = useViewport();

@@ -5,7 +5,7 @@ import parseHTML from '../../../../utils/parseHTML';
 import Like from '../../../IconButton/Like';
 import './Comment.scss';
 
-export default function (props) {
+export default function Comment (props) {
     const { isMobile } = useViewport();
 
     return (

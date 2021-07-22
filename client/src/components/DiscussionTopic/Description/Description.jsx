@@ -1,5 +1,5 @@
-// import { useContext } from 'react';
-// import { TopicContext } from '../../../utils/contexts';
+import { useContext } from 'react';
+import { TopicContext } from '../../../utils/contexts';
 import './Description.scss';
 import Comment from '../Comments/Comment/Comment';
 import { protectedRequest } from '../../../utils/fetch-request';
@@ -18,7 +18,7 @@ interface props {
 */
 
 export default function Description (props) {
-    // const { topicId } = useContext(TopicContext);
+    const { administratorAccess } = useContext(TopicContext);
 
     const closeTopic = (ev) => {
 
@@ -58,11 +58,18 @@ export default function Description (props) {
                         </div>
                     </div>
                 :
-                    <div className="close-button-container">
-                        <button onClick={closeTopic}>
-                            Close {props.problemType}
-                        </button>
-                    </div>
+                    <>
+                        {
+                            administratorAccess?
+                                <div className="close-button-container">
+                                    <button onClick={closeTopic}>
+                                        Close {props.problemType}
+                                    </button>
+                                </div>
+                            :
+                                ''
+                        }
+                    </>
             }
         </div>
     );

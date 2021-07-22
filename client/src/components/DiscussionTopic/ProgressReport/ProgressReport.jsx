@@ -68,7 +68,7 @@ function ProgressReportEditor (props) {
 export default function ProgressReport (props) {
     const [progressReport, setProgressReport] = useState(null);
     const [loading, setLoading] = useState(true);
-    const { topicId } = useContext(TopicContext);
+    const { topicId, administratorAccess } = useContext(TopicContext);
     const updatedTasks = useRef([]);
 
     const deleteTask = (taskId, index) => {
@@ -159,17 +159,6 @@ export default function ProgressReport (props) {
         };
 
         // Fetch the Progress Report
-        // fetch(`/topics/${topicId}/progress-report/`)
-        // .then(res => res.json())
-        // .then(result => {
-        //     if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
-        //     console.log('Progress Report', result);
-        //     setProgressReport(result);
-        //     setLoading(false);
-        // }).catch(err => {
-        //     console.log('Error fetching progress report', err);
-        // });
-
         getRequest(
             `/topics/${topicId}/progress-report/`,
             getAccessTokenFromStorage(),
@@ -196,9 +185,14 @@ export default function ProgressReport (props) {
                                                 <div className="task-description">{parseHTML(task.description)}</div>
                                                 <div className="task-buttons-container">
                                                     <div className="task-buttons">
-                                                        <span className="task-button" onClick={() => deleteTask(task.id, index)} title='Delete Task' >
-                                                            <FontAwesomeIcon icon='trash-alt' color='red' />
-                                                        </span>
+                                                        {
+                                                            administratorAccess?
+                                                                <span className="task-button" onClick={() => deleteTask(task.id, index)} title='Delete Task' >
+                                                                    <FontAwesomeIcon icon='trash-alt' color='red' />
+                                                                </span>
+                                                            :
+                                                                ''
+                                                        }
                                                         <span className="task-button done-button" onClick={() => toggleCompletedMark(task.id, index)} title={`Mark as ${task.is_completed? 'In' : '' }Completed`} >
                                                             <FontAwesomeIcon icon={[`${task.is_completed? 'fas' : 'far'}`, 'check-square']} />
                                                         </span>
@@ -207,27 +201,44 @@ export default function ProgressReport (props) {
                                             </div>
                                         ))
                                     }
-                                    <div className="save-changes">
-                                        <button className="save-changes-button" onClick={saveChanges}>
-                                            Save Changes
-                                        </button>
-                                    </div>
-                                    <ProgressReportEditor
-                                        fetchURI={`/topics/${topicId}/progress-report/add-task/`}
-                                        setProgressReport={setProgressReport}
-                                        submitLabel='Add Task'
-                                    />
+                                    {
+                                        administratorAccess?
+                                            <>
+                                                <div className="save-changes">
+                                                    <button className="save-changes-button" onClick={saveChanges}>
+                                                        Save Changes
+                                                    </button>
+                                                </div>
+                                                <ProgressReportEditor
+                                                    fetchURI={`/topics/${topicId}/progress-report/add-task/`}
+                                                    setProgressReport={setProgressReport}
+                                                    submitLabel='Add Task'
+                                                />
+                                            </>
+                                        :
+                                            ''
+                                    }
                                 </div>
                             :
                                 <div className="create-progress-report">
-                                    <div className="create-progress-report-banner">
-                                        This topic doesn't have a Progress Report. Create one to track progress!
-                                    </div>
-                                    <ProgressReportEditor
-                                        fetchURI={`/topics/${topicId}/progress-report/`}
-                                        setProgressReport={setProgressReport}
-                                        submitLabel='Create Report'
-                                    />
+                                    {
+                                        administratorAccess?
+                                            <>
+                                                <div className="create-progress-report-banner">
+                                                    This topic doesn't have a Progress Report. Create one to track progress!
+                                                </div>
+                                                <ProgressReportEditor
+                                                    fetchURI={`/topics/${topicId}/progress-report/`}
+                                                    setProgressReport={setProgressReport}
+                                                    submitLabel='Create Report'
+                                                />
+                                            </>
+                                        :
+                                            <div className="create-progress-report-banner">
+                                                This topic doesn't have a Progress Report.
+                                            </div>
+                                    }
+                                    
                                 </div>
                         }
                     </>

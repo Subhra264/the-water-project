@@ -50,7 +50,7 @@ export default function SignUp(props) {
         }
 
         // POST request to register the user
-        fetch('/register/', {
+        fetch('/user/register/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -2,7 +2,6 @@ import { Switch, Route, useParams } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
 import { useContext, useEffect, useRef, useState } from 'react';
 import useViewport from '../../hooks/useViewport';
-import Comment from './Comments/Comment/Comment';
 import Slider from '../Slider/Slider';
 import './DiscussionTopic.scss';
 import Issues from './Issues/Issues';
@@ -21,9 +20,10 @@ export default function DiscussionTopic(props) {
     const [topicDetails, setTopicDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isClosed, setIsClosed] = useState();
+    const [administratorAccess, setAdministratorAccess] = useState(false);
     const matchURL = useMatchURL();
     const { topicId } = useParams();
-    // const { userState } = useContext(UserContext);
+    const { userState } = useContext(UserContext);
     
     // Labels for the Slider component
     const labels = useRef([
@@ -52,6 +52,16 @@ export default function DiscussionTopic(props) {
     useEffect(() => {
 
         const successHandler = (result) => {
+            // // Check if the user has administrator access for this topic
+            // if (userState) {
+            //     if (result.creator.user.id === userState.id
+            //         || (result.creator.org
+            //             && (userState.owned_orgs.includes(result.creator.org.id)
+            //                 || userState.membered_orgs.includes(result.creator.org.id)))) {
+            //                     setAdministratorAccess(true);
+            //                 }
+            // }
+
             setTopicDetails(result);
             setIsClosed(result.is_closed);
             setLoading(false);
@@ -65,6 +75,18 @@ export default function DiscussionTopic(props) {
         getRequest(`/topics/${topicId}`, getAccessTokenFromStorage(), successHandler, errorHandler);
 
     }, []);
+
+    useEffect(() => {
+        // Check if the user has administrator access for this topic
+        if (userState && topicDetails) {
+            if (topicDetails.creator.user.id === userState.id
+                || (topicDetails.creator.org
+                    && (userState.owned_orgs.includes(topicDetails.creator.org.id)
+                        || userState.membered_orgs.includes(topicDetails.creator.org.id)))) {
+                            setAdministratorAccess(true);
+                        }
+        }
+    }, [topicDetails, userState]);
 
     return (
         <div className='discussion-topic-container'>
@@ -119,7 +141,8 @@ export default function DiscussionTopic(props) {
                                         topicId: topicDetails.id,
                                         topicCreator: {
                                             user: topicDetails.description.user
-                                        }
+                                        },
+                                        administratorAccess
                                     }}
                                 >
                                     <Switch>

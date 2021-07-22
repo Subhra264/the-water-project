@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useViewport from '../../hooks/useViewport';
 import { UserContext } from '../../utils/contexts';
@@ -9,7 +9,6 @@ export default function NavBar(props) {
     const { isMobile } = useViewport();
     const [showBurger, setShowBurger] = useState(false);
     const { userState } = useContext(UserContext);
-    // let navBarLinks = [];
     console.log('Rendered navbar');
 
     const navBarLinks = () => {
@@ -34,18 +33,6 @@ export default function NavBar(props) {
         <div className='navbar'>
             <div className="logo">Logo</div>
             <div className={`nav-links-container`}>
-                {/* <div className="nav-links">
-                    {
-                        navBarLinks.map(link => (
-                            <div className='nav-link'>
-                                <Link to={link[0]} >{link[1]}</Link>
-                            </div>
-                        ))
-                    }
-                </div>
-                <div>
-
-                </div> */}
                 <Burger showBurger={showBurger}>
                     {
                         navBarLinks().map(link => (
