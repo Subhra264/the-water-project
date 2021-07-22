@@ -19,7 +19,7 @@ function IssueList (props) {
         fetch(`/topics/${topicId}/issues/`)
         .then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             setIssueList(result);
             setLoading(false);
         }).catch(err => {
@@ -43,7 +43,7 @@ function IssueList (props) {
                             </div>
                         :
                             issueList.map(issue => (
-                                <Issue {...issue} />
+                                <Issue {...issue} key={issue.id} />
                             ))
                 }
             </div>

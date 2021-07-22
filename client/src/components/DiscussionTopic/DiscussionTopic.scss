@@ -80,6 +80,21 @@
                     font-size: 0.8em;
                 }
             }
+
+            .topic-location-container {
+                margin: 0.5em 0;
+                font-size: 0.9em;
+
+                >i {
+                    color: $darkYellowOchre;
+                    display: inline-block;
+                    margin-right: 0.5em;
+                }
+
+                .topic-location {
+                    color: $blue;
+                }
+            }
         }
     }
 }

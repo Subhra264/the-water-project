@@ -16,7 +16,7 @@ export default function Like (props) {
         .then(res => res.json())
         .then(result => {
             console.log('Liked thing', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
 
             setLiked(result.likes.user_liked);
 

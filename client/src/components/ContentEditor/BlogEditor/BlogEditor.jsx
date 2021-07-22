@@ -26,7 +26,7 @@ export default function BlogEditor (props) {
         )).then(result => {
             console.log('Created Blog', result);
 
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             history.push(`/solutions/blogs/${result.id}`);
         }).catch(err => {
             // Handle the error properly
