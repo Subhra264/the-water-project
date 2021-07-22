@@ -28,6 +28,7 @@
 
         .discussion-topic-issue-title {
             flex-grow: 20;
+            max-width: 80%;
 
             .issue-title {
                 font-size: 1.1em;
@@ -37,6 +38,20 @@
             .issue-meta-data {
                 margin: 0.3em 0;
                 font-size: 0.8em;
+
+                .issue-tags {
+                    padding: 0 0.5em;
+                    display: inline-block;
+
+                    .issue-tag {
+                        display: inline-block;
+                        padding: 0.3em 0.6em;
+                        border: 1px solid $blue;
+                        border-radius: 0.6em;
+                        color: $blue;
+                        margin: 0 0.5em;
+                    }
+                }
             }
         }
 

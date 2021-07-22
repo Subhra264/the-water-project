@@ -27,7 +27,7 @@ export default function IssueEditor (props) {
             res.json()
         )).then(result => {
             console.log('Created issue', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             history.push(`/discussion/topics/${topicId}/issues`);
         }).catch(err => {
             //Properly handle the error

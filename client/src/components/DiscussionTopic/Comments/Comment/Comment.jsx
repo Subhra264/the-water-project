@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useViewport from '../../../../hooks/useViewport';
+import { parseDate } from '../../../../utils/date';
+import parseHTML from '../../../../utils/parseHTML';
 import Like from '../../../IconButton/Like';
 import './Comment.scss';
 
@@ -11,12 +13,12 @@ export default function (props) {
             <div className="topic-comment-header">
                 <div className="topic-comment-by">
                     <div className="topic-comment-by-profile-img"></div>
-                    <div className="topic-comment-by-username">{props.user.username}</div>
+                    <div className="topic-comment-by-username">{props.creator.username}</div>
                 </div>
                 <div className="topic-comment-header-menu"><FontAwesomeIcon icon='ellipsis-v' /></div>
             </div>
             <div className="topic-comment-description">
-                {props.content}
+                {parseHTML(props.content)}
             </div>
             <div className="topic-comment-footer">
                 <div className="topic-comment-footer-impressions">
@@ -33,7 +35,7 @@ export default function (props) {
                         </div>
                     }
                 </div>
-                <div className="topic-comment-footer-date">Commented on 25th June</div>
+                <div className="topic-comment-footer-date">Commented on {parseDate(props.date)}</div>
             </div>
         </div>
     );

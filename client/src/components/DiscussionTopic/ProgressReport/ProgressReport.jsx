@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { TopicContext } from '../../../utils/contexts';
+import parseHTML from '../../../utils/parseHTML';
 import Editor from '../../Editor/Editor';
 import Loader from '../../Loader/Loader';
 import './ProgressReport.scss';
@@ -20,6 +21,7 @@ function ProgressReportEditor (props) {
 
     const onCreateProgressReport = (ev) => {
         ev.preventDefault();
+        console.log('taskdescription', taskDescription);
 
         // POST request to create a progress report
         fetch(`${props.fetchURI}`, {
@@ -34,7 +36,7 @@ function ProgressReportEditor (props) {
         }).then(res => res.json())
         .then(result => {
             console.log('Create a progress report', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             props.setProgressReport(result);
         }).catch(err => {
             console.log('Error creating Progress Report', err.message);
@@ -78,7 +80,7 @@ export default function ProgressReport (props) {
             })
         }).then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
 
             const existingTasks = [...progressReport.task_set];
             existingTasks.splice(index, 1);
@@ -113,8 +115,10 @@ export default function ProgressReport (props) {
     };
 
     const saveChanges = () => {
+        console.log('Updated tasks', updatedTasks.current);
+
         // Request to save the changes
-        fetch(`/topics/${topicId}/tasks/save-changes`, {
+        fetch(`/topics/${topicId}/tasks/save-changes/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -124,9 +128,10 @@ export default function ProgressReport (props) {
             })
         }).then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            console.log('Save change result', result);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
         }).catch(err => {
-            console.log('Error saving changes', err);
+            console.log('Error saving changes', err.message);
         });
     };
 
@@ -137,7 +142,7 @@ export default function ProgressReport (props) {
         fetch(`/topics/${topicId}/progress-report/`)
         .then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             console.log('Progress Report', result);
             setProgressReport(result);
             setLoading(false);
@@ -160,7 +165,8 @@ export default function ProgressReport (props) {
                                         progressReport.task_set.map((task, index) => (
                                             <div className="progress-report-task" key={task.id}>
                                                 <div className="task-title">{task.title}</div>
-                                                <div className="task-description">{task.description}</div>
+                                                <div className="task-description">{parseHTML(task.description)}</div>
+                                                {/* <div className="task-description" dangerouslySetInnerHTML={{__html: task.description}}></div> */}
                                                 <div className="task-buttons-container">
                                                     <div className="task-buttons">
                                                         <span className="task-button" onClick={() => deleteTask(task.id, index)} title='Delete Task' >

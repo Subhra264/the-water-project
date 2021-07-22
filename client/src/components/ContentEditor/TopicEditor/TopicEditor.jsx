@@ -11,7 +11,7 @@ function TopicLocation (props) {
         fetch('/available-countries')
         .then(res => res.json())
         .then(result => {
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             console.log('Countries', result);
             setCountries(result.countries);
         }).catch(err => {
@@ -72,7 +72,7 @@ export default function TopicEditor (props) {
         )).then(result => {
             // TODO: Do something
             console.log('Created topic', result);
-            if (result.status_code && result.status_code !== 200) throw new Error(result.details);
+            if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
             history.push('/discussion/topics/');
 
         }).catch(err => {
