@@ -1,15 +1,71 @@
 @import 'src/utils/styles.scss';
 
 .footer {
-    padding: 0.4em 0.5em 0.8em;
-    background-color: $blue;
-    
+    padding: 2em 0.5em 0.8em;
+    background-color: #121AD1;
 
+    .footer-contains {
+        display: flex;
+        color: white;
+        padding: 0 4em 4em;
+        justify-content: space-between;
+
+        .quote-container::before {
+            content: '\201C';
+            font-size: 3em;
+            color: #6259C7;
+            display: block;
+        }
+
+        .quote-container {
+            background: #121AD1;
+            border-left-color: #6259C7;
+            padding-left: 3em;
+
+            span::before {
+                content: '\2014';
+            }
+
+            span {
+                display: block;
+                margin-top: 1.8em;
+                text-align: right;
+                font-style: normal;
+            }
+        }
+
+        .footer-contain-header {
+            width: 25%;
+            padding: 0em 4em;
+            font-size: 0.8em;
+            display: flex;
+            flex-direction: column;
+
+            h1 {
+                margin-bottom: 2em;
+            }
+
+            a {
+                display: block;
+                font-weight: 500;
+                margin: 0.4em;
+                color: white;
+            }
+        }
+    }
+    
+    .line {
+        content: '';
+        width: 70%;
+        margin: auto;
+        height: 2px;
+        background-color: #6259C7;
+    }
     .footer-copyright {
-        color: $light;
+        color: #afc3f4e7;
         padding: 0.7em;
         width: fit-content;
         margin: 0 auto;
-        border-top: 1px solid $light;
+        font-weight: bold;
     }
 }
