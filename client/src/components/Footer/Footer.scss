@@ -7,6 +7,7 @@
     .footer-contains {
         display: flex;
         color: white;
+        position: relative;
         padding: 0 4em 4em;
         justify-content: space-between;
 
@@ -42,14 +43,27 @@
             flex-direction: column;
 
             h1 {
-                margin-bottom: 2em;
+                margin-bottom: 0.9em;
             }
 
             a {
                 display: block;
                 font-weight: 500;
-                margin: 0.4em;
+                margin: 0.6em;
                 color: white;
+            }
+        }
+
+        .fish-container {
+            position: absolute;
+            bottom: 2em;
+            left: 13em;
+
+            img {
+                width: 9em;
+                height: auto;
+                display: block;
+                z-index: -1;
             }
         }
     }
@@ -67,5 +81,38 @@
         width: fit-content;
         margin: 0 auto;
         font-weight: bold;
+    }
+
+    &.mobile {
+       .footer-contains {
+           flex-direction: column;
+           padding: 3em 1em 2em;
+
+           .footer-contain-header {
+                padding-left: 1em;
+                font-size: 1.1em;
+                width: 100%;
+            }
+
+            .fish-container {
+                right: 3em;
+                top: 11em;
+                left: unset;
+                bottom: unset;
+
+                img {
+                    width: 6em;
+                }
+            }
+
+        //    .quote-container {
+        //        width: 100%;
+        //    }
+
+       }
+       .footer-copyright {
+           padding: 1em 0 3em;
+           text-align: center;
+       }
     }
 }

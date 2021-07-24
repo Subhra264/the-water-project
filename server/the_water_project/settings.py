@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
+    "ckeditor",
+    "ckeditor_uploader",
     "the_water_project.users.apps.UsersConfig",
     "the_water_project.tags.apps.TagsConfig",
     "the_water_project.topics.apps.TopicsConfig",
@@ -189,9 +191,15 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+STATIC_ROOT = os.environ.get("DJANGO_STATIC_ROOT", os.path.join(BASE_DIR, "static"))
 
 # media files path
 
 
 MEDIA_ROOT = os.environ.get("DJANGO_MEDIA_ROOT", os.path.join(BASE_DIR.parent, "media"))
 MEDIA_URL = os.environ.get("DJANGO_MEDIA_URL", "/media/")
+
+# ckeditor config
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"

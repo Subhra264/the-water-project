@@ -13,8 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from the_water_project.utils.exception_handler import not_found_404, bad_request_400, forbidden_403, server_error_500
 from the_water_project.utils import country_view
+from the_water_project.utils.ckeditor_manager import ckeditor_upload, ckeditor_browse
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -60,6 +62,8 @@ urlpatterns = [
     path("get-token/", UserTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("refresh-token/", TokenRefreshView.as_view(), name="token_refresh"),
     path("verify-token/", TokenVerifyView.as_view(), name="token_verify"),
+    url(r'^ckeditor/upload/', ckeditor_upload, name="ckeditor_upload"),
+    url(r"^ckeditor/browse/", ckeditor_browse, name="ckeditor_browse"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -55,6 +55,13 @@
             }
             .card-imgs {
                 width: 20em;
+                background-color: initial;
+                height: fit-content;
+
+                img {
+                    box-shadow: 0 0 500px #adbce2;
+                    width: 100%;
+                }
             }
         }
         
@@ -78,6 +85,16 @@
         }
         .cards {
             flex-direction: column-reverse;
+            height: fit-content;
+
+            .card-imgs {
+                img {
+                    width: 13em;
+                    margin: auto;
+                    display: block;
+                    height: auto;
+                }
+            }
         }
     }
 }
