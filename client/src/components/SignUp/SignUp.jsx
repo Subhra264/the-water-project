@@ -72,10 +72,7 @@ export default function SignUp(props) {
         })
         .catch(err => {
             setError(err.message);
-        })
-
-        console.log(username, email, password, firstName, lastName);
-        // console.log(response);
+        });
     };
     
     formProps.current = {

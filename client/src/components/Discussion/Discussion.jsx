@@ -6,6 +6,10 @@ import TopicEditor from '../ContentEditor/TopicEditor/TopicEditor';
 import DiscussionTopic from '../DiscussionTopic/DiscussionTopic';
 import './Discussion.scss';
 import useViewport from '../../hooks/useViewport';
+import NGOProfile from '../Profile/NGOProfile';
+import UserProfile from '../Profile/UserProfile';
+import NGOForm from '../NGOForm/NGOForm';
+import JoinNGO from '../Profile/JoinNGO/JoinNGO';
 
 export default function Discussion(props) {
     const { isMobile } = useViewport();
@@ -25,6 +29,18 @@ export default function Discussion(props) {
                 </Route>
                 <Route path={`${matchURL}/topics/:topicId`}>
                     <DiscussionTopic />
+                </Route>
+                <Route path={`${matchURL}/users/:profileId`} >
+                    <UserProfile />
+                </Route>
+                <Route path={`${matchURL}/ngos/:profileId`} >
+                    <NGOProfile />
+                </Route>
+                <Route path={`${matchURL}/create-ngo`}>
+                    <NGOForm />
+                </Route>
+                <Route path={`${matchURL}/join-ngo/:ngoId/:joinToken`} exact>
+                    <JoinNGO />
                 </Route>
             </Switch>
         </div>

@@ -2,6 +2,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './Editor.scss';
 import useViewport from '../../hooks/useViewport';
+import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
 
 export default function Editor (props) {
   const { isMobile } = useViewport();
@@ -15,7 +16,14 @@ export default function Editor (props) {
           toolbar: {
             viewportTopOffset: isMobile? 45 : 100
           },
-          placeholder: props.placeholder
+          placeholder: props.placeholder,
+          ckfinder: {
+            uploadUrl: '/ckeditor/upload/',
+            headers: {
+              Authorization: `Bearer ${getAccessTokenFromStorage()}`
+            },
+            withCredentials: true
+          }
         }}
         data={props.editorContent}
         onReady={editor => {

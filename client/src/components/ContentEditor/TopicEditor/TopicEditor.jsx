@@ -38,7 +38,7 @@ export function Country (props) {
                 <select name='category' id='category' ref={props.selectedCountry} placeholder='Choose Country' >
                     {
                         countries.map(country => (
-                            <option key={country} value={country.code}>{country.country}</option>
+                            <option key={country.code} value={country.code}>{country.country}</option>
                         ))
                     }
                 </select>

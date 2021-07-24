@@ -19,7 +19,8 @@ export default function NavBar(props) {
             ];
         } else {
             return [
-                [`/discussion/users/${userState.userId}/`, 'Profile']
+                [`/discussion/users/${userState.userId}/`, 'Profile'],
+                ['/discussion/create-ngo/', 'Create NGO']
             ];
         }
     };

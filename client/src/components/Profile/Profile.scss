@@ -1,4 +1,124 @@
-.profile {
+@import 'src/utils/styles.scss';
+
+.profile-container {
     position: relative;
-    min-height: 10em;
+    min-height: 25em;
+
+    .profile-header {
+        text-align: center;
+        margin: auto;
+        width: fit-content;
+
+        .profile-pic {
+            margin: auto;
+            width: 10em;
+            height: 10em;
+            border-radius: 50%;
+            background-color: $whiteHoverColor;
+        }
+
+        .profile-username {
+            font-size: 1em;
+            margin: 0.5em 0;
+            color: $dark;
+        }
+
+        .joined-on {
+            font-size: 0.9em;
+            margin: 0.4em 0;
+        }
+
+        .profile-name {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    }
+
+    .email, a {
+        color: $blue;
+    }
+
+    .owner {
+        margin: 0.5em 0;
+        display: flex;
+        align-items: center;
+    }
+
+    button {
+        display: inline-block;
+        border: none;
+        outline: none;
+        background-color: $darkRed;
+        color: white;
+        padding: 0.5em 1.4em;
+        font-size: 1em;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .member-details {
+        padding: 0.5em;
+        display: inline-flex;
+        align-items: center;
+
+        .member-profile-pic {
+            display: inline-block;
+            margin-right: 0.5em;
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            background-color: $whiteHoverColor;
+        }
+
+        
+    }
+    
+    .profile-details-container {
+        width: 80%;
+        margin: auto;
+
+
+        .ngo-members {
+
+            .member {
+                .member-details-container {
+                    display: inline-block;
+                    margin: 0 0.6em;
+                }
+
+                .remove-member {
+                    display: inline-block;
+                    width: fit-content;
+                }
+            }
+
+            .add-member-container {
+                margin: 0.5em 0;
+
+                .add-member-button {
+                    text-align: right;
+                    margin: 0.5em 0;
+
+                    >button {
+                        background-color: $darkYellowOchre;
+                    }
+                }
+
+                .add-member-link {
+                    background-color: $light;
+                    border-radius: 10px;
+                    padding: 0.5em;
+
+                    .link {
+                        border-radius: 10px;
+                        background-color: $whiteHoverColor;
+                        padding: 0.5em;
+                        margin: 0.5em 0 0.3em;
+                        word-break: break-all;
+                        color: $blue;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -8,6 +8,8 @@ export default function useViewport() {
     const { width, height } = useContext(ViewportContext);
     const [isMobile, setIsMobile] = useState(width <= breakpoint);
 
+    //TODO: Add tab viewport
+
     useEffect(() => {
         setIsMobile(width <= breakpoint);
     }, [width]);
