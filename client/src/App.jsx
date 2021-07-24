@@ -9,12 +9,12 @@ import Footer from './components/Footer/Footer';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
 import useViewport from './hooks/useViewport';
-import Editor from './components/Editor/Editor';
 import { useEffect, useReducer } from 'react';
 import UserReducer from './utils/reducers/User.reducer';
 import { UserContext } from './utils/contexts';
 import { manageUser } from './utils/actions/User.action';
 import { getAccessTokenFromStorage } from './utils/manage-tokens';
+import Home from './components/Home/Home';
 
 const StickyNavBars = [
   <NavBar key='navbar' />,
@@ -45,7 +45,7 @@ function App() {
         }
         <Switch>
           <Route path='/' exact>
-            <Editor />
+            <Home />
           </Route>
           <Route path='/sign-in' exact>
             <SignIn />
