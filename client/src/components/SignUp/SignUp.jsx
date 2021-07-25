@@ -123,7 +123,7 @@ export default function SignUp(props) {
 
     return (
         <AuthenticationForm {...formProps.current} >
-            <Country selectedCountry={country} />
+            <Country selectedCountry={country} required/>
         </AuthenticationForm>
     );
 }

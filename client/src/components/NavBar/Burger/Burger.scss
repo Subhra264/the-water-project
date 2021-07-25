@@ -26,14 +26,29 @@
         color: $light;
         text-decoration: none;
     }
+
+    button {
+        color: $light;
+    }
 }
 
 .nav-links {
     display: flex;
 }
 
-.nav-link a {
-    display: block;
+.nav-link {
+    a {
+        display: block;
+    }
+
+    button {
+        display: block;
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 1em;
+        cursor: pointer;
+    }
 }
 
 .display-nav-links {

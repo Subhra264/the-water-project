@@ -17,23 +17,13 @@ export function Country (props) {
             console.log('Error fetching countries', errMessage);
         };
 
-        // TODO: Fetch the countries API
-        // fetch('/available-countries')
-        // .then(res => res.json())
-        // .then(result => {
-        //     if (result.status_code && result.status_code !== 200) throw new Error(result.detail);
-        //     console.log('Countries', result);
-        //     setCountries(result.countries);
-        // }).catch(err => {
-        //     console.log('Error fetching country names', err.message);
-        // });
-
+        // Fetch the countries API
         getRequest('/available-countries/', null, successHandler, errorHandler);
     }, []);
 
     return (
         <div className="topic-address">
-            <div className="topic-address-label">Country (Required)</div>
+            <div className="topic-address-label">Country {props.required? '(Required)' : ''}</div>
             <div className="topic-address-input">
                 <select name='category' id='category' ref={props.selectedCountry} placeholder='Choose Country' >
                     {
@@ -103,7 +93,7 @@ export default function TopicEditor (props) {
     return (
         <ContentEditor {...contentEditorProps.current}>
             <div className="topic-address-container">
-                <Country selectedCountry={selectedCountry} />
+                <Country selectedCountry={selectedCountry} required/>
                 <div className="topic-address">
                     <div className="topic-address-label">
                         City/Area
