@@ -32,6 +32,7 @@
                     outline: none;
                     background: none;
                     padding: 0.5em;
+                    cursor: pointer;
                 }
             }
         }
@@ -69,26 +70,24 @@
         .labels {
             flex-grow: 4;
             padding: 0.2em;
-            display: flex;
             overflow-x: auto;
 
             .label {
-                display: inline-flex;
+                display: inline-block;
                 border-radius: 12px;
                 margin: 0 0.4em;
                 background: #fdfafa;
                 padding: 0.3em;
 
                 .clear-filter {
-                    display: flex;
+                    display: inline-block;
                     width: 1.2em;
                     height: 1.2em;
                     border-radius: 50%;
-                    justify-content: center;
                     background: #C4C4C42f;
-                    align-items: center;
                     color: $darkRed;
                     cursor: pointer;
+                    text-align: center;
                 }
 
                 .label-name {

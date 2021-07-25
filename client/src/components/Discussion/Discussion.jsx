@@ -1,7 +1,5 @@
 import { Switch, Route } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
-import Filters from './Filters/Filters';
-import TopicFinder from './TopicFinder/TopicFinder';
 import TopicEditor from '../ContentEditor/TopicEditor/TopicEditor';
 import DiscussionTopic from '../DiscussionTopic/DiscussionTopic';
 import './Discussion.scss';
@@ -10,6 +8,7 @@ import NGOProfile from '../Profile/NGOProfile';
 import UserProfile from '../Profile/UserProfile';
 import NGOForm from '../NGOForm/NGOForm';
 import JoinNGO from '../Profile/JoinNGO/JoinNGO';
+import DiscussionHome from './DiscussionHome';
 
 export default function Discussion(props) {
     const { isMobile } = useViewport();
@@ -20,8 +19,7 @@ export default function Discussion(props) {
             <Switch>
                 <Route path={`${matchURL}`} exact>
                     <div className={`discussion-home ${isMobile? 'mobile' : ''}`}>
-                        <Filters />
-                        <TopicFinder />
+                        <DiscussionHome />
                     </div>
                 </Route>
                 <Route path={`${matchURL}/new-topic`}>

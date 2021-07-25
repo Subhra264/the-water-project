@@ -27,10 +27,13 @@ export default function SearchResult(props) {
             console.log('Error fetching topics', errMessage);
         };
 
+        // Get the query params if selected
+        const query = props.queryToSearch? `?${props.queryToSearch}` : '';
+        console.log('Query params', query);
         // Fetch all the topics 
-        getRequest('/topics/', null, successHandler, errorHandler);
+        getRequest(`/topics/${query}`, null, successHandler, errorHandler);
 
-    }, []);
+    }, [props.queryToSearch]);
 
     return (
         <div className='search-result'>
