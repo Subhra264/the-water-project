@@ -1,5 +1,6 @@
 import { useState, useRef, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+import { useMatchURL } from '../../hooks/useMatch';
 import { addToOwnedNGO } from '../../utils/actions/User.action';
 import { UserContext } from '../../utils/contexts';
 import { protectedRequest } from '../../utils/fetch-request';
@@ -14,7 +15,8 @@ export default function NGOForm (props) {
     const [error, setError] = useState('');
     const formProps = useRef({});
     const history = useHistory();
-    const { userDispatch } = useContext(UserContext);
+    const { userState, userDispatch } = useContext(UserContext);
+    const matchURL = useMatchURL();
 
     const changeName = (ev) => {
         setName(ev.target.value);
@@ -43,7 +45,11 @@ export default function NGOForm (props) {
         }
 
         const successHandler = (result) => {
-            userDispatch(addToOwnedNGO(result.id));
+            userDispatch(addToOwnedNGO({
+                id: result.id,
+                name: result.name,
+                profile_pic: result.profile_pic
+            }));
             history.push(`/discussion/ngos/${result.id}`);
         };
 
@@ -105,6 +111,19 @@ export default function NGOForm (props) {
     };
 
     return (
-        <Form {...formProps.current} />
+        <>
+            {
+                userState?
+                    <Form {...formProps.current} />
+                :
+                    <Redirect to={{
+                            pathname: '/sign-in',
+                            state: {
+                                redirectTo: matchURL
+                            }
+                        }}
+                    />
+            }
+        </>
     );
 }

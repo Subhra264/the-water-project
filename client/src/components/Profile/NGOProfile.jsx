@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../../utils/contexts';
 import { protectedRequest } from '../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
+import { includesOrg } from '../../utils/user-utils';
 import Profile from './Profile';
 
 export default function NGOProfile (props) {
@@ -29,15 +30,11 @@ export default function NGOProfile (props) {
         // Called when given user is successfully removed from the NGO
         const successHandler = (result) => {
             const members = [...profileProps.members];
-            console.log('Existing members', members);
 
             let indexOfMemberToRemove;
             for (const member in members) {
-                console.log('typeof member id', typeof members[member].id)
-                console.log('typeof user id', typeof userId)
                 if (members[member].id = userId) {
                     indexOfMemberToRemove = member;
-                    console.log('Index of member to remove', indexOfMemberToRemove);
                     break;
                 }
             }
@@ -81,7 +78,6 @@ export default function NGOProfile (props) {
     // Called when the 'add member' button is clicked
     addMember.current = () => {
         const successHandler = (result) => {
-            console.log('URL host', window.location.host);
             setProfileProps({
                 ...profileProps,
                 invitationLink: `${window.location.host}/discussion/join-ngo/${profileId}/${result.access_token}`
@@ -89,7 +85,6 @@ export default function NGOProfile (props) {
         };
 
         const errorHandler = (errMessage) => {
-            console.log('Error creating invitation link', errMessage);
             setProfileProps({
                 ...profileProps,
                 error: errMessage
@@ -111,17 +106,24 @@ export default function NGOProfile (props) {
     };
 
     useEffect(() => {
-        
         if (userState) {
-            if (userState.owned_orgs.includes(+profileId)) {
+            // if (userState.owned_orgs.includes(+profileId)) {
+            if (includesOrg(userState.owned_orgs, profileId)) {
                 setProfileProps({
                     ...profileProps,
                     isPresident: true
                 });
-            } else if (userState.membered_orgs.includes(+profileId)) {
+            // } else if (userState.membered_orgs.includes(+profileId)) {
+            } else if (includesOrg(userState.membered_orgs, profileId)) {
                 setProfileProps({
                     ...profileProps,
                     isMember: true
+                });
+            }
+        } else {
+            if (profileProps.isMember || profileProps.isPresident) {
+                setProfileProps({
+                    members: profileProps.members
                 });
             }
         }

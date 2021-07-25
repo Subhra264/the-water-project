@@ -7,6 +7,8 @@ import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 import { UserContext } from '../../../utils/contexts';
 import '../Profile.scss';
 import './JoinNGO.scss';
+import { includesOrg } from '../../../utils/user-utils';
+import { addToMemberedNGO } from '../../../utils/actions/User.action';
 
 export default function JoinNGO (props) {
     const [profile, setProfile] = useState(null);
@@ -14,10 +16,16 @@ export default function JoinNGO (props) {
     const [info, setInfo] = useState('');
     const [alreadyJoined, setAlreadyJoined] = useState(false);
     const { ngoId, joinToken } = useParams();
-    const { userState } = useContext(UserContext);
+    const { userState, userDispatch } = useContext(UserContext);
 
     const joinNGO = () => {
         const successHandler = (result) => {
+            userDispatch(addToMemberedNGO({
+                id: profile.id,
+                name: profile.name,
+                profile_pic: profile.profile_pic
+            }));
+
             setInfo('Successfully joined the NGO');
         };
 
@@ -64,8 +72,10 @@ export default function JoinNGO (props) {
 
     useEffect(() => {
         if (userState) {
-            if (userState.owned_orgs.includes(+ngoId)
-                || userState.membered_orgs.includes(+ngoId)) {
+            // if (userState.owned_orgs.includes(+ngoId)
+            if (includesOrg(userState.owned_orgs, ngoId)
+                // || userState.membered_orgs.includes(+ngoId)) {
+                || includesOrg(userState.membered_orgs, ngoId)) {
                 setAlreadyJoined(true);
             }
         }

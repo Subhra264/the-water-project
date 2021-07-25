@@ -14,6 +14,7 @@ import { parseDate } from '../../utils/date';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getRequest } from '../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
+import { includesOrg } from '../../utils/user-utils';
 
 export default function DiscussionTopic(props) {
     const { isMobile } = useViewport();
@@ -81,8 +82,10 @@ export default function DiscussionTopic(props) {
         if (userState && topicDetails) {
             if (topicDetails.creator.user.id === userState.id
                 || (topicDetails.creator.org
-                    && (userState.owned_orgs.includes(topicDetails.creator.org.id)
-                        || userState.membered_orgs.includes(topicDetails.creator.org.id)))) {
+                    // && (userState.owned_orgs.includes(topicDetails.creator.org.id)
+                    && (includesOrg(userState.owned_orgs, topicDetails.creator.org.id)
+                        // || userState.membered_orgs.includes(topicDetails.creator.org.id)))) {
+                        || includesOrg(userState.membered_orgs, topicDetails.creator.org.id)))) {
                             setAdministratorAccess(true);
                         }
         }

@@ -1,5 +1,6 @@
 export const MANAGE_USER = 'MANAGE_USER';
 export const ADD_TO_OWNED_NGO = 'ADD_TO_OWNED_NGO';
+export const ADD_TO_MEMBERED_NGO = 'ADD_TO_MEMBERED_NGO';
 
 export function manageUser (user) {
     return {
@@ -8,9 +9,16 @@ export function manageUser (user) {
     };
 }
 
-export function addToOwnedNGO (ngoId) {
+export function addToOwnedNGO (ngo) {
     return {
         type: ADD_TO_OWNED_NGO,
-        payload: ngoId
+        payload: ngo
+    };
+}
+
+export function addToMemberedNGO (ngo) {
+    return {
+        type: ADD_TO_MEMBERED_NGO,
+        payload: ngo
     };
 }
