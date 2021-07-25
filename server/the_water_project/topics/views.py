@@ -49,6 +49,18 @@ class TopicViewSet(ModelViewSet):
             self.permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
         return super().get_permissions()
 
+    def filter_queryset(self, queryset):
+        tag = self.request.query_params.get("tag")
+        if tag:
+            try:
+                tag = tag.lower()
+                tag = Tag.objects.get(name=tag)
+            except Exception:
+                return super().filter_queryset(queryset)
+            else:
+                queryset = tag.topic_set.all()
+        return super().filter_queryset(queryset)
+
     def list(self, request, *args, **kwargs):
         if len(request.query_params):
             queryset = self.filter_queryset(self.get_queryset())
