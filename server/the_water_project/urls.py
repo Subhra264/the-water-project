@@ -28,6 +28,7 @@ from the_water_project import comments
 from the_water_project.progress_report.urls import router as progress_report_and_tasks_router
 from the_water_project import progress_report
 from the_water_project.tags.urls import router as tags_router
+from the_water_project.tags import urls as tag_urls
 from the_water_project.topics.urls import router as topics_router
 from the_water_project.topics.urls import urlpatterns as topic_urls
 from the_water_project.users.urls import router as user_org_router
@@ -55,6 +56,7 @@ urlpatterns = [
     path("topics/", include(topic_urls)),
     path("", include(users.urls)),
     path("", include(blogs.urls)),
+    path("", include(tag_urls)),
     path("", include(router.urls)),
     path("available-countries/", country_view, name="countries"),
     path("topics/<int:topic_id>/", include(comments.urls)),
@@ -62,7 +64,7 @@ urlpatterns = [
     path("get-token/", UserTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("refresh-token/", TokenRefreshView.as_view(), name="token_refresh"),
     path("verify-token/", TokenVerifyView.as_view(), name="token_verify"),
-    url(r'^ckeditor/upload/', ckeditor_upload, name="ckeditor_upload"),
+    url(r"^ckeditor/upload/", ckeditor_upload, name="ckeditor_upload"),
     url(r"^ckeditor/browse/", ckeditor_browse, name="ckeditor_browse"),
 ]
 
