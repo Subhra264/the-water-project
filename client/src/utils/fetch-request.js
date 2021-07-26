@@ -87,16 +87,23 @@ export function getRequest (fetchURI, accessToken, successHandler, errorHandler)
  * @param {Function} errorHandler Callback function to call when an error occurs
  */
 export function protectedRequest(fetchDetails, accessToken, successHandler, errorHandler) {
-    console.log('Protected request', accessToken);
-    const requestHeaders = {
-        'Content-Type': 'application/json',
+
+    let requestHeaders = {
         'Authorization': `Bearer ${accessToken}`
     };
+
+    let fetchDetailsBody = fetchDetails.body;
+    
+    // Check if the fetchDetails.body is FormData
+    if (!fetchDetails.isFormData) {
+        requestHeaders['Content-Type'] = 'application/json'
+        fetchDetailsBody = JSON.stringify(fetchDetails.body);
+    }
 
     fetch(fetchDetails.fetchURI, {
         method: fetchDetails.method,
         headers: requestHeaders,
-        body: JSON.stringify(fetchDetails.body)
+        body: fetchDetailsBody
     })
     .then(res => res.json())
     .then(result => {

@@ -5,11 +5,13 @@ import categories from '../../../utils/blog-categories';
 import { useHistory } from 'react-router-dom';
 import { protectedRequest } from '../../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
+import ImgSelector from '../ImgSelector/ImgSelector';
 
 export default function BlogEditor (props) {
     const selectedCategory = useRef(null);
     const onSubmitClick = useRef(null);
     const contentEditorProps = useRef(null);
+    const inputFileRef = useRef(null);
     const history = useHistory();
 
     onSubmitClick.current = (content) => {
@@ -24,13 +26,23 @@ export default function BlogEditor (props) {
 
         console.log('Clicked Create Blog button!', content);
 
+        let formData = new FormData();
+        if (inputFileRef.current.files) {
+            const file = inputFileRef.current.files[0];
+            formData.append('front_img', file);
+        }
+
+        formData.append('title', content.title);
+        formData.append('content', content.content);
+        formData.append('tags', content.tags);
+        formData.append('type', selectedCategory.current.value);
+        console.log('Form data blogs editor', formData);
+
         const fetchDetails = {
             fetchURI: '/blogs/',
             method: 'POST',
-            body: {
-                ...content,
-                type: selectedCategory.current.value
-            }
+            isFormData: true,
+            body: formData
         };
 
         // POST request to create the blog
@@ -61,6 +73,7 @@ export default function BlogEditor (props) {
                     </select>
                 </div>
             </div>
+            <ImgSelector inputFileRef={inputFileRef} />
         </ContentEditor>
     );
 }

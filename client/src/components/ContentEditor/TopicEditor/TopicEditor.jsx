@@ -2,7 +2,9 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../utils/contexts';
 import { getRequest, protectedRequest } from '../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 import ContentEditor from '../ContentEditor';
+import ImgSelector from '../ImgSelector/ImgSelector';
 import './TopicEditor.scss';
 
 export function Country (props) {
@@ -43,6 +45,7 @@ export default function TopicEditor (props) {
     const selectedCountry = useRef('');
     const onSubmitClick = useRef(null);
     const contentEditorProps = useRef(null);
+    const inputFileRef = useRef(null);
     const history = useHistory();
     const { userState } = useContext(UserContext);
 
@@ -66,20 +69,27 @@ export default function TopicEditor (props) {
             console.log('Error creating Topic', errMessage);
         };
 
+        let formData = new FormData();
+        if (inputFileRef.current.files) {
+            const file = inputFileRef.current.files[0];
+            formData.append('img', file, file.name);
+        }
+
+        formData.append('title', topic.title);
+        formData.append('description', topic.content);
+        formData.append('tags', topic.tags);
+        formData.append('country', selectedCountry.current.value);
+        formData.append('city_or_area', cityOrArea);
+        formData.append('address', address);
+
         const fetchDetails = {
             fetchURI: '/topics/',
             method: 'POST',
-            body: {
-                title: topic.title,
-                description: topic.content,
-                tags: topic.tags,
-                country: selectedCountry.current.value,
-                city_or_area: cityOrArea,
-                address
-            }
+            isFormData: true,
+            body: formData
         };
 
-        protectedRequest(fetchDetails, userState.access, successHandler, errorHandler);
+        protectedRequest(fetchDetails, getAccessTokenFromStorage(), successHandler, errorHandler);
     };
 
     contentEditorProps.current = {
@@ -111,6 +121,7 @@ export default function TopicEditor (props) {
                     </div>
                 </div>
             </div>
+            <ImgSelector inputFileRef={inputFileRef} />
         </ContentEditor>
     );
 }
