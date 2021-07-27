@@ -121,7 +121,7 @@ export default function TopicEditor (props) {
                     </div>
                 </div>
             </div>
-            <ImgSelector inputFileRef={inputFileRef} />
+            <ImgSelector inputFileRef={inputFileRef} title='Choose an image for the thumbnail' />
         </ContentEditor>
     );
 }

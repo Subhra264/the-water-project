@@ -7,3 +7,13 @@ export function includesOrg (userOrgs, orgId) {
 
     return false;
 }
+
+export function isThisUser (userState, userId) {
+    // if (userState.id) console.log('Type of userState.id', typeof userState.id);
+    console.log('Typeof UserId', typeof userId);
+    if (userState && userState.id === +userId) {
+        return true;
+    }
+
+    return false;
+}

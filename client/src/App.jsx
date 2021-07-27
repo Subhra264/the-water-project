@@ -15,6 +15,7 @@ import { UserContext } from './utils/contexts';
 import { manageUser } from './utils/actions/User.action';
 import { getAccessTokenFromStorage } from './utils/manage-tokens';
 import Home from './components/Home/Home';
+import NotFound from './components/NotFound/NotFound';
 
 const StickyNavBars = [
   <NavBar key='navbar' />,
@@ -52,6 +53,9 @@ function App() {
           </Route>
           <Route path='/sign-up' exact>
             <SignUp />
+          </Route>
+          <Route path='/not-found' exact>
+            <NotFound />
           </Route>
           <Route path='/problems'>
             

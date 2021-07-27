@@ -15,7 +15,9 @@ import { faHome,
     faHeart,
     faCheckSquare,
     faTrashAlt,
-    faMapMarkerAlt
+    faMapMarkerAlt,
+    faUserCircle,
+    faUsers
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faDotCircle, 
@@ -44,5 +46,7 @@ library.add(
     faCheckSquare,
     farCheckSquare,
     faTrashAlt,
-    faMapMarkerAlt
+    faMapMarkerAlt,
+    faUserCircle,
+    faUsers
 );

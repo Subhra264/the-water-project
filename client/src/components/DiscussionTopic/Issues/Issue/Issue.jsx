@@ -10,6 +10,7 @@ import Description from '../../Description/Description';
 import { parseDate } from '../../../../utils/date';
 import { getRequest } from '../../../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../../../utils/manage-tokens';
+import { Link } from 'react-router-dom';
 
 function IssueThread (props) {
     const [issueDescription, setIssueDescription] = useState({});
@@ -81,7 +82,7 @@ export default function Issue (props) {
                 <div className="discussion-topic-issue-title">
                     <div className="issue-title">{props.title}</div>
                     <div className="issue-meta-data">
-                        <span>opened by <i>{props.creator.user.username}</i> on {parseDate(props.date)} </span>
+                        <span>opened by <Link to={`/discussion/users/${props.creator.user.id}`} ><i>@{props.creator.user.username}</i></Link> on {parseDate(props.date)} </span>
                         <span className='issue-tags'>
                             {
                                 props.tags.map(tag => (

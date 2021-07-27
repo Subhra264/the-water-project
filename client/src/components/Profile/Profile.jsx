@@ -1,14 +1,55 @@
-import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { parseDate } from '../../utils/date';
-import { getRequest } from '../../utils/fetch-request';
+import { getRequest, protectedRequest } from '../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
+import ImgSelector from '../ContentEditor/ImgSelector/ImgSelector';
 import Loader from '../Loader/Loader';
 import './Profile.scss';
 
 export default function Profile (props) {
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState({});
+    const [error, setError] = useState('');
+    const inputFileRef = useRef(null);
+
+    const updateProfilePic = () => {
+        const successHandler = (result) => {
+            setProfile((oldProfile) => ({
+                ...oldProfile,
+                profile_pic: result.profile_pic
+            }));
+
+            // Check if there is any successHandler in props
+            // if (props.successHandler) {
+            //     props.successHandler(result);
+            // }
+        };
+
+        const errorHandler = (errMessage) => {
+            setError(errMessage);
+        };
+
+        if (inputFileRef.current.files[0]) {
+            const formData = new FormData();
+            formData.append('profile_pic', inputFileRef.current.files[0]);
+
+            const fetchDetails = {
+                fetchURI: `${props.fetchURI}`,
+                method: 'PATCH',
+                isFormData: true,
+                body: formData
+            };
+
+            protectedRequest(
+                fetchDetails,
+                getAccessTokenFromStorage(),
+                successHandler,
+                errorHandler
+            );
+        }
+    }
     
     useEffect(() => {
         const successHandler = (result) => {
@@ -41,7 +82,24 @@ export default function Profile (props) {
                 :
                     <div className="profile">
                         <div className="profile-header">
-                            <div className="profile-pic">{profile.profile_pic}</div>
+                            <div className="profile-pic">
+                                {
+                                    profile.profile_pic? 
+                                        <img src={profile.profile_pic} title='Profile Pic' className='profile-pic-user-img' />
+                                    :
+                                        <FontAwesomeIcon icon={`${props.isNGO? 'users' : 'user-circle'}`} className='profile-pic-user-circle' />
+                                }
+                            </div>
+                            {
+                                (props.isPresident || props.thisUser) && 
+                                    <div className='update-profile-pic'>
+                                        <ImgSelector
+                                            title=''
+                                            inputFileRef={inputFileRef}
+                                        />
+                                        <button onClick={updateProfilePic}>Update</button>
+                                    </div>
+                            }
                             { profile.username && <div className="profile-username">@{profile.username}</div> }
                             <div className="profile-name">
                                 {
@@ -49,6 +107,10 @@ export default function Profile (props) {
                                 }
                             </div>
                             <div className="joined-on">Joined on {parseDate(profile.date_joined)}</div>
+                        </div>
+                        <div className="error">
+                            {props.error && <div className='err-message'>{props.error}</div>}
+                            {error && <div className='err-message'>{error}</div>}
                         </div>
                         <div className="profile-details-container">
                             { !props.isNGO && <div className="contributions">No. of Contributions : {profile.no_of_contributions} </div>}

@@ -9,6 +9,7 @@ import parseHTML from '../../../utils/parseHTML';
 import Card from '../../Card/Card';
 import Loader from '../../Loader/Loader';
 import './SearchResult.scss';
+import defaultTopicThumbnail from '../../../assets/img/default_image.jpg';
 
 export default function SearchResult(props) {
     const { isMobile } = useViewport();
@@ -49,7 +50,11 @@ export default function SearchResult(props) {
                         topicList.map(topic => (
                             <Link to={`${matchURL}/topics/${topic.id}/description`} key={topic.id}>
                                 <Card className='result-box'>
-                                    <Card.CardImg className='result-image'><div className="result-img"></div></Card.CardImg>
+                                    <Card.CardImg className='result-image'>
+                                        <div className="result-img">
+                                            <img src={topic.img? topic.img : defaultTopicThumbnail} title={`Thumbnail image for ${topic.title}`} />
+                                        </div>
+                                    </Card.CardImg>
                                     <Card.CardDetails className='result-data'>
                                         <div className={`result-description-container ${isMobile? 'mobile' : ''}`}>
                                             <div className="result-description">
@@ -60,12 +65,34 @@ export default function SearchResult(props) {
                                             <div className={`result-opened-by ${isMobile? 'mobile' : ''}`}>
                                                 {
                                                     topic.topic_details.opened_by.org && <div className="result-opener">
-                                                        <div className="result-opener-profile-pic"></div>
+                                                        <div className="result-opener-profile-pic">
+                                                            {
+                                                                topic.topic_details.opened_by.org.profile_pic?
+                                                                    <img 
+                                                                        src={topic.topic_details.opened_by.org.profile_pic} 
+                                                                        title='NGO profile pic'
+                                                                        className='profile-pic-user-img'
+                                                                    />
+                                                                :
+                                                                    <FontAwesomeIcon icon='users' className='profile-pic-user-circle' />
+                                                            }
+                                                        </div>
                                                         <div className="result-opener-name">{topic.topic_details.opened_by.org.name}</div>
                                                     </div>
                                                 }
                                                 <div className="result-opener">
-                                                    <div className="result-opener-profile-pic"></div>
+                                                    <div className="result-opener-profile-pic">
+                                                        {
+                                                            topic.topic_details.opened_by.user.profile_pic?
+                                                                <img 
+                                                                    src={topic.topic_details.opened_by.user.profile_pic}
+                                                                    title={`Profile Pic of ${topic.topic_details.opened_by.user.username}`}
+                                                                    className='profile-pic-user-img' 
+                                                                />
+                                                            :
+                                                                <FontAwesomeIcon icon='user-circle' className='profile-pic-user-circle'/>
+                                                        }
+                                                    </div>
                                                     <div className="result-opener-name">{topic.topic_details.opened_by.user.username}</div>
                                                 </div>
                                             </div>

@@ -29,6 +29,10 @@
 
             .topic-comment-by-username {
                 padding: 0.3em;
+
+                a {
+                    color: $light;
+                }
             }
         }
 
@@ -40,6 +44,10 @@
     .topic-comment-description {
         padding: 1em;
         background-color: #fff5f5;
+
+        img {
+            width: 100%;
+        }
     }
 
     .topic-comment-footer {

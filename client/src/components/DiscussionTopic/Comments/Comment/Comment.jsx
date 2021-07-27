@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import useViewport from '../../../../hooks/useViewport';
 import { parseDate } from '../../../../utils/date';
 import parseHTML from '../../../../utils/parseHTML';
@@ -12,8 +13,17 @@ export default function Comment (props) {
         <div className={`topic-comment-container ${isMobile? 'mobile' : ''}`}>
             <div className="topic-comment-header">
                 <div className="topic-comment-by">
-                    <div className="topic-comment-by-profile-img"></div>
-                    <div className="topic-comment-by-username">{props.creator.username}</div>
+                    <div className="topic-comment-by-profile-img">
+                        {
+                            props.creator.profile_pic? 
+                                <img src={props.creator.profile_pic} title={`Profile Pic of ${props.creator.username}`} className='profile-pic-user-img' />
+                            :
+                                <FontAwesomeIcon icon='user-circle' className='profile-pic-user-circle'/>
+                        }
+                    </div>
+                    <div className="topic-comment-by-username">
+                        <Link to={`/discussion/users/${props.creator.id}`} >{props.creator.username}</Link>
+                    </div>
                 </div>
                 <div className="topic-comment-header-menu"><FontAwesomeIcon icon='ellipsis-v' /></div>
             </div>

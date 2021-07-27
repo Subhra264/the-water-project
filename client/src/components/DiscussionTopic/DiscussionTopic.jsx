@@ -1,4 +1,4 @@
-import { Switch, Route, useParams } from 'react-router-dom';
+import { Switch, Route, useParams, Link } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
 import { useContext, useEffect, useRef, useState } from 'react';
 import useViewport from '../../hooks/useViewport';
@@ -53,16 +53,6 @@ export default function DiscussionTopic(props) {
     useEffect(() => {
 
         const successHandler = (result) => {
-            // // Check if the user has administrator access for this topic
-            // if (userState) {
-            //     if (result.creator.user.id === userState.id
-            //         || (result.creator.org
-            //             && (userState.owned_orgs.includes(result.creator.org.id)
-            //                 || userState.membered_orgs.includes(result.creator.org.id)))) {
-            //                     setAdministratorAccess(true);
-            //                 }
-            // }
-
             setTopicDetails(result);
             setIsClosed(result.is_closed);
             setLoading(false);
@@ -82,9 +72,7 @@ export default function DiscussionTopic(props) {
         if (userState && topicDetails) {
             if (topicDetails.creator.user.id === userState.id
                 || (topicDetails.creator.org
-                    // && (userState.owned_orgs.includes(topicDetails.creator.org.id)
                     && (includesOrg(userState.owned_orgs, topicDetails.creator.org.id)
-                        // || userState.membered_orgs.includes(topicDetails.creator.org.id)))) {
                         || includesOrg(userState.membered_orgs, topicDetails.creator.org.id)))) {
                             setAdministratorAccess(true);
                         }
@@ -111,7 +99,7 @@ export default function DiscussionTopic(props) {
                                     {topicDetails.title}
                                 </div>
                                 <div className="topic-date">
-                                    Opened by <i className='topic-opened-by'>@{topicDetails.creator.user.username}</i> on {parseDate(topicDetails.date)}
+                                    Opened by <Link to={`/discussion/users/${topicDetails.creator.user.id}`}><i className='topic-opened-by'>@{topicDetails.creator.user.username}</i></Link> on {parseDate(topicDetails.date)}
                                 </div>
                                 <div className="topic-labels">
                                     <i>Labels:</i>

@@ -73,7 +73,7 @@ export default function BlogEditor (props) {
                     </select>
                 </div>
             </div>
-            <ImgSelector inputFileRef={inputFileRef} />
+            <ImgSelector inputFileRef={inputFileRef} title='Choose an image for the thumbnail'/>
         </ContentEditor>
     );
 }
