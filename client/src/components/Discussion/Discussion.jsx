@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
 import TopicEditor from '../ContentEditor/TopicEditor/TopicEditor';
 import DiscussionTopic from '../DiscussionTopic/DiscussionTopic';
@@ -22,23 +22,26 @@ export default function Discussion(props) {
                         <DiscussionHome />
                     </div>
                 </Route>
-                <Route path={`${matchURL}/new-topic`}>
+                <Route path={`${matchURL}/new-topic`} exact>
                     <TopicEditor />
                 </Route>
                 <Route path={`${matchURL}/topics/:topicId`}>
                     <DiscussionTopic />
                 </Route>
-                <Route path={`${matchURL}/users/:profileId`} >
+                <Route path={`${matchURL}/users/:profileId`} exact>
                     <UserProfile />
                 </Route>
                 <Route path={`${matchURL}/ngos/:profileId`} >
                     <NGOProfile />
                 </Route>
-                <Route path={`${matchURL}/create-ngo`}>
+                <Route path={`${matchURL}/create-ngo`} exact>
                     <NGOForm />
                 </Route>
                 <Route path={`${matchURL}/join-ngo/:ngoId/:joinToken`} exact>
                     <JoinNGO />
+                </Route>
+                <Route>
+                    <Redirect to='/not-found' />
                 </Route>
             </Switch>
         </div>

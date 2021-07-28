@@ -66,6 +66,8 @@ export function getRequest (fetchURI, accessToken, successHandler, errorHandler)
                 refreshTokens((newAccessToken) => (
                     getRequest(fetchURI, newAccessToken, successHandler, errorHandler)
                 ));
+            } else if (result.status_code && result.status_code === 404) {
+                throw new Error('page_not_found');
             } else {
                 throw new Error(result.detail);
             }

@@ -18,8 +18,8 @@ export default function CommentEditor (props) {
         ev.target.innerText = 'Commenting';
         ev.target.disabled = true;
 
-        setComment('');
         props.onAddCommentClick(ev, comment);
+        setComment('');
     };
 
     return (

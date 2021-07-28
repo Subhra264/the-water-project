@@ -1,9 +1,10 @@
 import { useContext } from 'react';
-import { TopicContext } from '../../../utils/contexts';
+import { TopicContext, UserContext } from '../../../utils/contexts';
 import './Description.scss';
 import Comment from '../Comments/Comment/Comment';
 import { protectedRequest } from '../../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
+import { isThisUser } from '../../../utils/user-utils';
 
 /*
 interface props {
@@ -19,6 +20,7 @@ interface props {
 
 export default function Description (props) {
     const { administratorAccess } = useContext(TopicContext);
+    const { userState } = useContext(UserContext);
 
     const closeTopic = (ev) => {
 
@@ -60,7 +62,7 @@ export default function Description (props) {
                 :
                     <>
                         {
-                            administratorAccess?
+                            administratorAccess || isThisUser(userState, props.description.creator.id)?
                                 <div className="close-button-container">
                                     <button onClick={closeTopic}>
                                         Close {props.problemType}

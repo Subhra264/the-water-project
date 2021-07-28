@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import useViewport from '../../../hooks/useViewport';
 import { categoryFromId } from '../../../utils/blog-categories';
 import { parseDate } from '../../../utils/date';
@@ -14,6 +14,7 @@ export default function Blog (props) {
     const [loading, setLoading] = useState(true);
     const { blogId } = useParams();
     const { isMobile } = useViewport();
+    const history = useHistory();
 
     useEffect(() => {
         const accessToken = localStorage.getItem('access_token');
@@ -25,6 +26,7 @@ export default function Blog (props) {
         
         const errorHandler = (errMessage) => {
             console.log(errMessage);
+            if (errMessage === 'page_not_found') history.push('/not-found');
         };
         
         // Load the blog

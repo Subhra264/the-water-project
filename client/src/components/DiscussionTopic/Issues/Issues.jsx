@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import { useMatchURL } from '../../../hooks/useMatch';
 import { TopicContext } from '../../../utils/contexts';
 import { getRequest } from '../../../utils/fetch-request';
@@ -65,8 +65,11 @@ export default function Issues (props) {
                 <Route path={`${matchURL}`} exact>
                     <IssueList />
                 </Route>
-                <Route path={`${matchURL}/new-issue`}>
+                <Route path={`${matchURL}/new-issue`} exact>
                     <IssueEditor />
+                </Route>
+                <Route>
+                    <Redirect to='/not-found' />
                 </Route>
             </Switch>
         </div>

@@ -1,4 +1,4 @@
-import { Switch, Route, useParams, Link } from 'react-router-dom';
+import { Switch, Route, useParams, Link, Redirect, useHistory } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
 import { useContext, useEffect, useRef, useState } from 'react';
 import useViewport from '../../hooks/useViewport';
@@ -25,6 +25,7 @@ export default function DiscussionTopic(props) {
     const matchURL = useMatchURL();
     const { topicId } = useParams();
     const { userState } = useContext(UserContext);
+    const history = useHistory();
     
     // Labels for the Slider component
     const labels = useRef([
@@ -60,6 +61,7 @@ export default function DiscussionTopic(props) {
 
         const errorHandler = (errMessage) => {
             console.log('Error fetching topic details', errMessage);
+            if (errMessage === 'page_not_found') history.push('/not-found');
         };
 
         // Fetch the topic
@@ -70,7 +72,8 @@ export default function DiscussionTopic(props) {
     useEffect(() => {
         // Check if the user has administrator access for this topic
         if (userState && topicDetails) {
-            if (topicDetails.creator.user.id === userState.id
+            console.log('')
+            if (topicDetails.description.creator.id === +userState.id
                 || (topicDetails.creator.org
                     && (includesOrg(userState.owned_orgs, topicDetails.creator.org.id)
                         || includesOrg(userState.membered_orgs, topicDetails.creator.org.id)))) {
@@ -88,7 +91,18 @@ export default function DiscussionTopic(props) {
                     <>
                         {
                             topicDetails.creator.org && <div className="associated-ngo">
-                                <div className="ngo-logo"></div>
+                                <div className="ngo-logo">
+                                    {
+                                        topicDetails.creator.org.profile_pic?
+                                            <img 
+                                                src={topicDetails.creator.org.profile_pic} 
+                                                title='NGO profile pic'
+                                                className='profile-pic-user-img'
+                                            />
+                                        :
+                                            <FontAwesomeIcon icon='users' className='profile-pic-user-circle' />
+                                    }
+                                </div>
                                 <div className="ngo-name">{topicDetails.creator.org.name}</div>
                             </div>
                         }
@@ -99,7 +113,7 @@ export default function DiscussionTopic(props) {
                                     {topicDetails.title}
                                 </div>
                                 <div className="topic-date">
-                                    Opened by <Link to={`/discussion/users/${topicDetails.creator.user.id}`}><i className='topic-opened-by'>@{topicDetails.creator.user.username}</i></Link> on {parseDate(topicDetails.date)}
+                                    Opened by <Link to={`/discussion/users/${topicDetails.description.creator.id}`}><i className='topic-opened-by'>@{topicDetails.description.creator.username}</i></Link> on {parseDate(topicDetails.date)}
                                 </div>
                                 <div className="topic-labels">
                                     <i>Labels:</i>
@@ -153,14 +167,17 @@ export default function DiscussionTopic(props) {
                                                 problemType='Topic'
                                             />
                                         </Route>
-                                        <Route path={`${matchURL}/issues`}>
+                                        <Route path={`${matchURL}/issues`} >
                                             <Issues />
                                         </Route>
-                                        <Route path={`${matchURL}/progress-report`}>
+                                        <Route path={`${matchURL}/progress-report`} exact>
                                             <ProgressReport />
                                         </Route>
-                                        <Route path={`${matchURL}/discussion`}>
+                                        <Route path={`${matchURL}/discussion`} exact>
                                             <Comments fetchURI={`/topics/${topicDetails.id}/comments/`} />
+                                        </Route>
+                                        <Route>
+                                            <Redirect to='/not-found' />
                                         </Route>
                                     </Switch>
                                 </TopicContext.Provider>

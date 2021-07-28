@@ -1,6 +1,6 @@
 import Card from '../Card/Card';
 import './Solutions.scss';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';
 import BlogEditor from '../ContentEditor/BlogEditor/BlogEditor';
 import Blog from './Blog/Blog';
@@ -20,7 +20,7 @@ export default function Solutions (props) {
                             <Link to={`${matchURL}/new-blog`}>Create a Blog</Link>
                         </div>
                     </div>
-                    <Card>
+                    {/* <Card>
                         <Card.CardImg></Card.CardImg>
                         <Card.CardDetails>
                             <div className="card-body">
@@ -32,17 +32,20 @@ export default function Solutions (props) {
                                 </Link>
                             </div>
                         </Card.CardDetails>
-                    </Card>
+                    </Card> */}
                     <AllcategoryBlogList />
                 </Route>
-                <Route path={`${matchURL}/new-blog`}>
+                <Route path={`${matchURL}/new-blog`} exact>
                     <BlogEditor />
                 </Route>
                 <Route path={`${matchURL}/blogs/:blogId`} exact>
                     <Blog />
                 </Route>
-                <Route path={`${matchURL}/blogs/category/:blogCategoryId`}>
+                <Route path={`${matchURL}/blogs/category/:blogCategoryId`} exact>
                     <BlogList />
+                </Route>
+                <Route>
+                    <Redirect to='/not-found' />
                 </Route>
             </Switch>
         </div>

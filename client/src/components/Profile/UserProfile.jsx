@@ -12,7 +12,7 @@ export default function UserProfile (props) {
 
     useEffect(() => {
         setThisUser(isThisUser(userState, profileId));
-    }, [userState]);
+    }, [userState, profileId]);
 
     return (
         <Profile fetchURI={`/users/${profileId}/`} thisUser={thisUser}/>

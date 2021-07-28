@@ -1,6 +1,5 @@
 @import 'src/utils/styles.scss';
 
-
 .search-result {
     position: relative;
     min-height: 10em;
@@ -94,7 +93,7 @@
 
                         .result-opener-name {
                             padding: 0.2em;
-
+                            font-size: 0.8em;
                         }
                     }
 
@@ -139,6 +138,25 @@
                     }
                 }
             }
+        }
+    }
+
+    .infinite-scroll-loader {
+        height: 15em;
+        position: relative;
+
+        .no-results, .load-more {
+            text-align: center;
+        }
+
+        button {
+            padding: 0.7em 1.2em;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            font-size: 0.9em;
+            background: $yellowOchre;
+            color: $light;
         }
     }
 }

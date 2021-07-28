@@ -25,7 +25,8 @@ export default function Comment (props) {
                         <Link to={`/discussion/users/${props.creator.id}`} >{props.creator.username}</Link>
                     </div>
                 </div>
-                <div className="topic-comment-header-menu"><FontAwesomeIcon icon='ellipsis-v' /></div>
+                {/* TODO: Create a menu item for comment */}
+                {/* <div className="topic-comment-header-menu"><FontAwesomeIcon icon='ellipsis-v' /></div> */}
             </div>
             <div className="topic-comment-description">
                 {parseHTML(props.content)}

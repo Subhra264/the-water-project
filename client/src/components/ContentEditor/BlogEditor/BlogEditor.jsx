@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import ContentEditor from '../ContentEditor';
 import './BlogEditor.scss';
 import categories from '../../../utils/blog-categories';
@@ -8,6 +8,7 @@ import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 import ImgSelector from '../ImgSelector/ImgSelector';
 
 export default function BlogEditor (props) {
+    const [error, setError] = useState('');
     const selectedCategory = useRef(null);
     const onSubmitClick = useRef(null);
     const contentEditorProps = useRef(null);
@@ -15,6 +16,11 @@ export default function BlogEditor (props) {
     const history = useHistory();
 
     onSubmitClick.current = (content) => {
+
+        if (!content.title || !content.content) {
+            setError('Please fill all the required fields!');
+            return;
+        }
 
         const successHandler = (result) => {
             history.push(`/solutions/blogs/${result.id}`);
@@ -27,7 +33,8 @@ export default function BlogEditor (props) {
         console.log('Clicked Create Blog button!', content);
 
         let formData = new FormData();
-        if (inputFileRef.current.files) {
+        if (inputFileRef.current.files.length) {
+            console.log('Input Files', inputFileRef.current.files);
             const file = inputFileRef.current.files[0];
             formData.append('front_img', file);
         }
@@ -58,7 +65,7 @@ export default function BlogEditor (props) {
     };
 
     return (
-        <ContentEditor {...contentEditorProps.current}>
+        <ContentEditor {...contentEditorProps.current} error={error}>
             <div className="blog-category">
                 <div className="blog-category-label">
                     Select Category

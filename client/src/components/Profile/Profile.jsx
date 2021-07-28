@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { parseDate } from '../../utils/date';
 import { getRequest, protectedRequest } from '../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
@@ -13,6 +13,7 @@ export default function Profile (props) {
     const [profile, setProfile] = useState({});
     const [error, setError] = useState('');
     const inputFileRef = useRef(null);
+    const history = useHistory();
 
     const updateProfilePic = () => {
         const successHandler = (result) => {
@@ -49,7 +50,7 @@ export default function Profile (props) {
                 errorHandler
             );
         }
-    }
+    };
     
     useEffect(() => {
         const successHandler = (result) => {
@@ -64,6 +65,7 @@ export default function Profile (props) {
 
         const errorHandler = (errMessage) => {
             console.log('Error fetching profile data', errMessage);
+            if (errMessage === 'page_not_found') history.push('/not-found');
         };
         
         getRequest(

@@ -42,10 +42,12 @@ export function Country (props) {
 export default function TopicEditor (props) {
     const [address, setAddress] = useState('');
     const [cityOrArea, setCityOrArea] = useState('');
+    const [error, setError] = useState('');
     const selectedCountry = useRef('');
     const onSubmitClick = useRef(null);
     const contentEditorProps = useRef(null);
     const inputFileRef = useRef(null);
+    const ngoSelector = useRef(null);
     const history = useHistory();
     const { userState } = useContext(UserContext);
 
@@ -61,6 +63,11 @@ export default function TopicEditor (props) {
         console.log('Creating topic', topic.content);
         console.log('Creating topic', address);
 
+        if (!topic.title || !topic.content || !cityOrArea || !address) {
+            setError('Fill all the required fields!');
+            return;
+        };
+
         const successHandler = (result) => {
             history.push('/discussion/');
         };
@@ -70,7 +77,7 @@ export default function TopicEditor (props) {
         };
 
         let formData = new FormData();
-        if (inputFileRef.current.files) {
+        if (inputFileRef.current.files.length) {
             const file = inputFileRef.current.files[0];
             formData.append('img', file, file.name);
         }
@@ -81,6 +88,11 @@ export default function TopicEditor (props) {
         formData.append('country', selectedCountry.current.value);
         formData.append('city_or_area', cityOrArea);
         formData.append('address', address);
+
+        if (ngoSelector.current.value) {
+            console.log('NgoSelector.current.value', ngoSelector.current.value);
+            formData.append('associated_ngo', ngoSelector.current.value);
+        }
 
         const fetchDetails = {
             fetchURI: '/topics/',
@@ -101,12 +113,12 @@ export default function TopicEditor (props) {
     };
 
     return (
-        <ContentEditor {...contentEditorProps.current}>
+        <ContentEditor {...contentEditorProps.current} error={error}>
             <div className="topic-address-container">
                 <Country selectedCountry={selectedCountry} required/>
                 <div className="topic-address">
                     <div className="topic-address-label">
-                        City/Area
+                        City/Area (Required)
                     </div>
                     <div className="topic-address-input">
                         <input type='text' value={cityOrArea} onChange={onCityOrAreaChange} placeholder='City/Area, e.g.London' />
@@ -114,12 +126,33 @@ export default function TopicEditor (props) {
                 </div>
                 <div className="topic-address">
                     <div className="topic-address-label">
-                        Address
+                        Address (Required)
                     </div>
                     <div className="topic-address-input">
                         <textarea value={address} onChange={onAddressChange} placeholder='Detailed address' maxLength='150' />
                     </div>
                 </div>
+                {
+                    (userState.owned_orgs.length || userState.membered_orgs.length) &&
+                        <div className="topic-address"  >
+                            <div className="topic-address-label">Want To Post as NGO?</div>
+                            <div className="topic-address-input">
+                                <select ref={ngoSelector} placeholder='Choose NGO'>
+                                    <option value='' key='default-ngo'></option>
+                                    {
+                                        userState.owned_orgs.map(ngo => (
+                                            <option value={ngo.id} key={ngo.id} >{ngo.name}</option>
+                                        ))
+                                    }
+                                    {
+                                        userState.membered_orgs.map(ngo => (
+                                            <option value={ngo.id} key={ngo.id} >{ngo.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                }
             </div>
             <ImgSelector inputFileRef={inputFileRef} title='Choose an image for the thumbnail' />
         </ContentEditor>

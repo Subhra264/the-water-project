@@ -68,6 +68,11 @@ export default function ContenttEditor (props) {
                                 {/* Any more meta-data-fields will appear here */}
                                 {props.children}
                             </div>
+                            {
+                                props.error && <div className="content-editor-error">
+                                    {props.error}
+                                </div>
+                            }
 
                             <div className="create-content" onClick={createContent}>
                                 {props.submit.label}

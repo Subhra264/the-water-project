@@ -1,11 +1,13 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TopicContext, UserContext } from '../../../utils/contexts';
 import { protectedRequest } from '../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 import ContentEditor from '../ContentEditor';
 
 export default function IssueEditor (props) {
     const { topicId } = useContext(TopicContext);
+    const [error, setError] = useState('');
     const history = useHistory();
     const contentEditorProps = useRef(null);
     const onSubmitClick = useRef(null);
@@ -13,6 +15,10 @@ export default function IssueEditor (props) {
 
     onSubmitClick.current = (issue) => {
         console.log('Clicked Create Issue button!', issue);
+        if (!issue.title || !issue.content) {
+            setError('Please fill all the required fields!');
+            return;
+        }
 
         const successHandler = (result) => {
             history.push(`/discussion/topics/${topicId}/issues`);
@@ -33,7 +39,7 @@ export default function IssueEditor (props) {
             }
         };
 
-        protectedRequest(fetchDetails, userState.access, successHandler, errorHandler);
+        protectedRequest(fetchDetails, getAccessTokenFromStorage(), successHandler, errorHandler);
     };
 
     contentEditorProps.current = {
@@ -45,6 +51,6 @@ export default function IssueEditor (props) {
     };
 
     return (
-        <ContentEditor {...contentEditorProps.current} />
+        <ContentEditor {...contentEditorProps.current} error={error} />
     );
 }
