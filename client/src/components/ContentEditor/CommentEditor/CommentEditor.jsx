@@ -6,15 +6,21 @@ import './CommentEditor.scss';
 
 export default function CommentEditor (props) {
     const [comment, setComment] = useState('');
+    const [error, setError] = useState('');
     const { isMobile } = useViewport();
     const { userState } = useContext(UserContext);
 
     const onCommentChange = (ev, editor) => {
+        setError('');
         setComment(editor.getData());
     };
 
     const addComment = (ev) => {
         ev.preventDefault();
+        if (!comment) {
+            setError('Write something');
+            return;
+        }
         ev.target.innerText = 'Commenting';
         ev.target.disabled = true;
 
@@ -32,6 +38,11 @@ export default function CommentEditor (props) {
                             onContentChange={onCommentChange}
                             placeholder='Write your comment...'
                         />
+                        {
+                            error && <div className="comment-error">
+                                {error}
+                            </div>
+                        }
                         <div className="comment-editor-add-comment">
                             <button className="add-comment" onClick={addComment}>Comment</button>
                         </div>

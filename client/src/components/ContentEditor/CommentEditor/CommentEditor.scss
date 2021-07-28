@@ -7,6 +7,12 @@
         width: auto;
     }
 
+    .comment-error {
+        padding: 0.6em;
+        background-color: $light;
+        color: $darkRed;
+    }
+
     .comment-editor-add-comment {
         text-align: right;
 
