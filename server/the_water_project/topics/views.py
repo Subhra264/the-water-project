@@ -97,6 +97,9 @@ class TopicViewSet(ModelViewSet):
                         "no_of_issues": data["no_of_issues"],
                         "no_of_comments": data["no_of_comments"],
                         "upvotes": data["description"]["likes"]["no_of_likes"],
+                        "country": data["country"],
+                        "city_or_area": data["city_or_area"],
+                        "address": data["address"],
                     },
                 },
             }
