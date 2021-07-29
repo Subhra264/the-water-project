@@ -102,7 +102,7 @@ export default function NGOForm (props) {
             address: {
                 type: 'text',
                 required: true,
-                placeholder: 'NGO address (Requierd)',
+                placeholder: 'NGO address (Required)',
                 onChange: changeAddress
             }
         },

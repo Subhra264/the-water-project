@@ -103,7 +103,7 @@ export default function DiscussionTopic(props) {
                                             <FontAwesomeIcon icon='users' className='profile-pic-user-circle' />
                                     }
                                 </div>
-                                <div className="ngo-name">{topicDetails.creator.org.name}</div>
+                                <div className="ngo-name"><Link to={`/discussion/ngos/${topicDetails.creator.org.id}`}>{topicDetails.creator.org.name}</Link></div>
                             </div>
                         }
                         <div className={`discussion-topic ${isMobile? 'mobile' : ''}`}>
