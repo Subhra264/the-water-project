@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Duru+Sans&display=swap');
+@import 'src/utils/styles.scss';
+
+.problem {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    font-family: 'Red Hat Text', sans-serif;
+
+    .banner {
+        min-height: 316px;
+        height: 45vh;
+        background: aliceblue;
+
+        .banner-container {
+            h1 {
+                font-size: 1.6em;
+                font-weight: 700;
+            }
+            a {
+                display: inline-block;
+                margin-top: 2em;
+                padding: 1em 2em;
+                background-color: $darkYellowOchre;
+                color: $light;
+                font-weight: bolder;
+                font-family: 'Duru Sans', sans-serif;
+            }
+        }
+    }
+
+    .card-wrapper {
+        .cards {
+            .card-details {
+                p {
+                line-height: 1.7em;
+                font-size: 1.6em;
+                }
+            }
+            .card-imgs {
+                width: 30em;
+            }
+        }
+    }
+
+    &.mobile {
+        font-size: 0.7em;
+        .banner-container {
+            h1 a {
+                font-size: 2em;
+            }
+        }
+        .card-wrapper {
+            .cards {
+                .card-details {
+                    p {
+                        margin-top: 2em;
+                        text-align: center;
+                    }
+                }
+                .card-imgs {
+                    img {
+                        width: inherit;
+                    }
+                }
+            }
+        }
+    }
+}

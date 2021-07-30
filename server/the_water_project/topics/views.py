@@ -360,6 +360,7 @@ class IssueCloseApiView(UpdateAPIView):
 
 class TopicContributors(ListAPIView):
     serializer_class = UserSerializer
+    pagination_class = None
 
     def get_queryset(self):
         try:

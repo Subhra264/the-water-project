@@ -1,5 +1,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@500&display=swap');
 
+
+.banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+    text-align: center;
+    
+    .banner-container {
+        width: 50%;
+        
+        h1 {
+            margin-top: 0.9em;
+            font-size: 2.5em;
+            font-weight: 500;
+            line-height: 1.6em;
+            text-shadow: 0px 0px 85px #adbce2, 10px 10px 150px #adbce2;
+        }
+    }
+}
+
+.card-wrapper {
+    margin-top: 3em;
+    
+    .cards {
+        margin-top: 5em;
+        height: 50vh;
+        
+        .card-details {
+            width: 30em;
+            justify-content: space-between;
+            
+            h1 {
+                margin-bottom: 0.8em;
+                font-size: 2.5em;
+                color: #1B1B20;
+            }
+            p {
+                line-height: 1.3em;
+                font-size: 1.2em;
+                color: #2d2d2edb;
+                font-weight: 300;
+                letter-spacing: 1px;
+            }
+        }
+        .card-imgs {
+            width: 20em;
+            background-color: initial;
+            height: fit-content;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+    
+    .alternate-cards {
+        flex-direction: row-reverse;
+    }
+}
+
+.mobile {
+    .banner {
+        .banner-container {
+            width: 80%;
+            h1 {
+                font-size: 2em;
+            }
+        }
+    }
+
+    .alternate-cards {
+        flex-direction: column-reverse;
+    }
+    .cards {
+        flex-direction: column-reverse;
+        height: fit-content;
+        text-align: center;
+        font-size:unset;
+
+        .card-imgs {
+            img {
+                width: 13em;
+                margin: auto;
+                display: block;
+                height: auto;
+            }
+        }
+    }
+}
+
 .home {
     padding: 0;
     margin: 0;
@@ -7,92 +98,33 @@
     overflow-x: hidden;
     font-family: 'Red Hat Text', sans-serif;
 
-    
-    .banner {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 85vh;
-        text-align: center;
-        
-        .banner-container {
-            width: 50%;
-            
-            h1 {
-                margin-top: 0.9em;
-                font-size: 2.5em;
-                font-weight: 500;
-                line-height: 1.6em;
-                text-shadow: 0px 0px 85px #adbce2, 10px 10px 150px #adbce2;
-            }
-        }
-    }
-    
     .card-wrapper {
-        margin-top: 3em;
-        
-        .cards {
-            margin-top: 5em;
-            height: 50vh;
-            
-            .card-details {
-                width: 30em;
-                justify-content: space-between;
-                text-shadow: 0px 0px 62px #adbce2, 10px 10px 150px #adbce2, 20px 20px 44px #adbce2;
-                
-                h1 {
-                    margin-bottom: 0.8em;
-                    font-size: 2.5em;
-                    color: #1B1B20;
-                }
+        .instructions {
+            padding: 5em 2em;
+            background-color: aliceblue;
+            font-size: 1.2em;
+            line-height: 1.4em;
+
+            h1 {
+                margin-bottom: 1em;
+                opacity: 0.7;
+                line-height: 1.2em;
+            }
+            .motivation {
                 p {
-                    line-height: 1.3em;
-                    font-size: 1.2em;
-                    color: #2d2d2edb;
-                    font-weight: 300;
-                    letter-spacing: 1px;
+                    margin-bottom: 1.7em;
                 }
             }
-            .card-imgs {
-                width: 20em;
-                background-color: initial;
-                height: fit-content;
-
-                img {
-                    box-shadow: 0 0 500px #adbce2;
-                    width: 100%;
+            .using-forum {
+                h3 {
+                    margin-bottom: 1.7em;
                 }
-            }
-        }
-        
-        .alternate-cards {
-            flex-direction: row-reverse;
-        }
-    }
-
-    &.mobile {
-        .banner {
-            .banner-container {
-                width: 80%;
-                h1 {
-                    font-size: 2em;
+                a {
+                    color: blueviolet;
+                    text-decoration: underline;
                 }
-            }
-        }
-
-        .alternate-cards {
-            flex-direction: column-reverse;
-        }
-        .cards {
-            flex-direction: column-reverse;
-            height: fit-content;
-
-            .card-imgs {
-                img {
-                    width: 13em;
-                    margin: auto;
-                    display: block;
-                    height: auto;
+                ul li {
+                    margin-bottom: 0.8em;
                 }
             }
         }
