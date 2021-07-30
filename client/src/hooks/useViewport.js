@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { ViewportContext } from '../utils/contexts';
 
-const breakpoint = 525;
+const breakpoint = 800;
 
 // This hook returns the current width and height of the window
 export default function useViewport() {
