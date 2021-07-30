@@ -15,13 +15,8 @@ The Water Project is a web app that provides a platform to access data related t
   - [Long description](#long-description)
   - [Project roadmap](#project-roadmap)
   - [Getting started](#getting-started)
-  <!-- - [Live demo](#live-demo) -->
-  - [Built with](#built-with)
-  - [Contributing](#contributing)
-  <!-- - [Versioning](#versioning) -->
   - [Authors](#authors)
   - [License](#license)
-  - [Acknowledgments](#acknowledgments)
 
 
 ## Short Desciption
@@ -38,8 +33,7 @@ A common platfrom to post about the difficulties/challenges and let others give 
 Although the amount of people not having proper internet access, are huge in number, unfortunately we as developers can't provide them the internet access. What we can do is to support those who work on those areas. With that in mind our idea has three main components -
 - **Problem :** This section is to let the users access different types of data(like water basin, water flowlines, water score in an area) so that they can identify the problems in different areas.
 - **Solution :** This is the blogs part. The goal is to provide the users a way to share their innovations/innovative ideas/success stories with the rest of the world irrespective of a particular problem (i.e. apart from the discussion forum). 
-- **Discussion :** This is the main component. Here people can post problems of their local area, create issues to break the problem into smaller pieces for better analysis, create a Progress Report to track each improvement, set goals, add tasks to do, and discuss about possible solutions. 
-
+- **Discussion :** This is the main component. Here people can post problems of their local area, create issues to break the problem into smaller pieces for better analysis, create a Progress Report to track each improvement, set goals, add tasks to do, and discuss possible solutions. A detailed post along with proper address gives nearby people or NGOs a chance to work on that problem physically.
 
 ## Demo Video
 <!-- TODO -->
@@ -47,6 +41,8 @@ Although the amount of people not having proper internet access, are huge in num
 ## The architecture
 
 ## Long description
+
+[Long Description](./docs/DESCRIPTION.md)
 
 ## Project roadmap
 
@@ -87,14 +83,24 @@ pip install -r requirements.txt
 pip install -r requirements.txt --user
 ```
 
-### Install npm dependencies 
-```bash
-cd client/
-npm install -g yarn
-```
+Now first run the server
+### Run the server
+Run `cd server/` and then `python manage.py runserver` and wait till the server starts.
 
 ### Run the client
-Run the `yarn start` or `npm start` command on the terminal and you will be able to see the client part at `127.0.0.1:3000`.
+**Install npm dependencies**
 
-### Run the server
-Run `cd server/` and then `python manage.py runserver` and wait till the server starts. Now go to `127.0.0.1:8000/`. You will see the application running locally!
+Move to the client directory
+```bash
+cd client/
+yarn
+```
+Run the `yarn start` or `npm start` command on the terminal. Now visit [127.0.0.1:3000](127.0.0.1:3000).
+
+
+## Authors
+- Subhradeep Chakraborty ( [Subhra264](https://github.com/Subhra264) )
+- Abhradeep Chakraborty ( [Abhra303](https://github.com/Abhra303))
+
+## License
+This project is licensed under the Apache 2 License - see the [LICENSE](./LICENSE) file for details.
