@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getRequest } from '../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
 import { includesOrg } from '../../utils/user-utils';
+import Contributors from './Contributors/Contributors';
 
 export default function DiscussionTopic(props) {
     const { isMobile } = useViewport();
@@ -48,6 +49,11 @@ export default function DiscussionTopic(props) {
             name: 'Discussion',
             linkTo: `${matchURL}/discussion`,
             ref: useRef()
+        },
+        {
+            name: 'Contributors',
+            linkTo: `${matchURL}/contributors`,
+            ref: useRef()
         }
     ]);
 
@@ -67,7 +73,7 @@ export default function DiscussionTopic(props) {
         // Fetch the topic
         getRequest(`/topics/${topicId}`, getAccessTokenFromStorage(), successHandler, errorHandler);
 
-    }, []);
+    }, [topicId]);
 
     useEffect(() => {
         // Check if the user has administrator access for this topic
@@ -175,6 +181,9 @@ export default function DiscussionTopic(props) {
                                         </Route>
                                         <Route path={`${matchURL}/discussion`} exact>
                                             <Comments fetchURI={`/topics/${topicDetails.id}/comments/`} />
+                                        </Route>
+                                        <Route path={`${matchURL}/contributors`} exact>
+                                            <Contributors />
                                         </Route>
                                         <Route>
                                             <Redirect to='/not-found' />

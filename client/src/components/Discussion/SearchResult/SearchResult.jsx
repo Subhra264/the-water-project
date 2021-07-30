@@ -139,6 +139,7 @@ export default function SearchResult(props) {
                                 </div>
                                 <div className="result-meta-information">
                                     <div className="result-tags-container">
+                                        <div className="result-tag">{topic.topic_details.meta_data.country}</div>
                                         {
                                             topic.topic_details.meta_data.tags.map(tag => (
                                                 <div className="result-tag" key={tag} >{tag}</div>

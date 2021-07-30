@@ -129,7 +129,14 @@ export default function Profile (props) {
                                             <div className="owner">
                                                 President :
                                                 <span className="member-details">
-                                                    <span className="member-profile-pic"></span>
+                                                    <span className="member-profile-pic">
+                                                        {
+                                                            profile.owner.profile_pic?
+                                                                <img src={profile.owner.profile_pic} className='profile-pic-user-img' />
+                                                            :
+                                                                <FontAwesomeIcon icon='user-circle' className='profile-pic-user-circle' />
+                                                        }
+                                                    </span>
                                                     <Link to={`/discussion/users/${profile.owner.id}`}>
                                                         <span className="member-username">{profile.owner.username}</span>
                                                     </Link>
@@ -141,7 +148,14 @@ export default function Profile (props) {
                                                     <div className="member" key={member.id}>
                                                         <div className="member-details-container">
                                                             <span className="member-details">
-                                                                <span className="member-profile-pic"></span>
+                                                                <span className="member-profile-pic">
+                                                                    {
+                                                                        member.profile_pic?
+                                                                            <img src={member.profile_pic} className='profile-pic-user-img' title='Profile Pic' />
+                                                                        :
+                                                                            <FontAwesomeIcon icon='user-circle' className='profile-pic-user-circle' />
+                                                                    }
+                                                                </span>
                                                                 <Link to={`/discussion/users/${member.id}`}>
                                                                     <span className="member-username">{member.username}</span>
                                                                 </Link>
