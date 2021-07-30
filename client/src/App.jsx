@@ -15,6 +15,7 @@ import { UserContext } from './utils/contexts';
 import { manageUser } from './utils/actions/User.action';
 import { getAccessTokenFromStorage } from './utils/manage-tokens';
 import Home from './components/Home/Home';
+import Problem from './components/Problem/Problem';
 import NotFound from './components/NotFound/NotFound';
 
 const StickyNavBars = [
@@ -58,7 +59,7 @@ function App() {
             <NotFound />
           </Route>
           <Route path='/problems'>
-            
+            <Problem />
           </Route>
           <Route path='/solutions'>
             <Solutions />

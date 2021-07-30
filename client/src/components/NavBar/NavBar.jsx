@@ -41,7 +41,7 @@ export default function NavBar(props) {
 
     return (
         <div className='navbar'>
-            <div className="logo">Logo</div>
+            <div className="logo">The-water-project</div>
             <div className={`nav-links-container`}>
                 <Burger showBurger={showBurger}>
                     {
