@@ -4,5 +4,12 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "icon": [
+    {
+      "src": "centered-logo.png",
+      "sizes": "64X64 32X32 24X24 16X16",
+      "type": "image/png"
+    }
+  ]
 }
