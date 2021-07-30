@@ -10,7 +10,7 @@ The Water Project is a web app that provides a platform to access data related t
     - [What's the problem?](#whats-the-problem)
     - [How can technology help?](#how-can-technology-help)
     - [The idea](#the-idea)
-  - [Demo video](#demo-video)
+  <!-- - [Demo video](#demo-video) -->
   - [The architecture](#the-architecture)
   - [Long description](#long-description)
   - [Project roadmap](#project-roadmap)
@@ -35,17 +35,18 @@ Although the amount of people not having proper internet access, are huge in num
 - **Solution :** This is the blogs part. The goal is to provide the users a way to share their innovations/innovative ideas/success stories with the rest of the world irrespective of a particular problem (i.e. apart from the discussion forum). 
 - **Discussion :** This is the main component. Here people can post problems of their local area, create issues to break the problem into smaller pieces for better analysis, create a Progress Report to track each improvement, set goals, add tasks to do, and discuss possible solutions. A detailed post along with proper address gives nearby people or NGOs a chance to work on that problem physically.
 
-## Demo Video
+<!-- ## Demo Video -->
 <!-- TODO -->
 
 ## The architecture
+![Architecture](./docs/the-water-project-architecture.png)
 
 ## Long description
 
 [Long Description](./docs/DESCRIPTION.md)
 
 ## Project roadmap
-
+![Project Roadmap](./docs/the-water-project-roadmap.png)
 
 ## Getting started
 ### Pre-requisite :
