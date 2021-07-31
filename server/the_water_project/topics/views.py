@@ -1,3 +1,4 @@
+import json
 from django.utils import timezone
 from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -128,7 +129,6 @@ class TopicViewSet(ModelViewSet):
                 associated_ngo_id = request.data.get("associated_ngo")
         starting_comment = StartingComment.objects.create(creator=request.user, content=description)
         creator = request.user
-        request.data["creator"] = {}
         if associated_ngo_id:
             try:
                 associated_ngo = Organization.objects.get(id=associated_ngo_id)
@@ -163,15 +163,17 @@ class TopicViewSet(ModelViewSet):
                 )
             except Exception:
                 raise APIException("Something went wrong while creating the topic", code=500)
-        if "tags" in request.data and isinstance(request.data["tags"], list):
-            for tag in request.data.get("tags"):
-                tag = tag.lower()
-                try:
-                    tag, _ = Tag.objects.get_or_create(name=tag)
-                except Exception:
-                    raise APIException("tag is not string or have characters greater than 25")
-                else:
-                    tag.topic_set.add(topic)
+        if "tags" in request.data:
+            tags = json.loads(request.data["tags"])
+            if isinstance(tags, list):
+                for tag in tags:
+                    tag = tag.lower()
+                    try:
+                        tag, _ = Tag.objects.get_or_create(name=tag)
+                    except Exception:
+                        raise APIException("tag is not string or have characters greater than 25")
+                    else:
+                        tag.topic_set.add(topic)
         return Response(self.get_serializer(topic).data)
 
     def retrieve(self, request, *args, **kwargs):

@@ -50,4 +50,4 @@ class Like(models.Model):
     no_of_likes = models.PositiveIntegerField(default=0)
 
     def __str__(self) -> str:
-        return self.blog + " - likes"
+        return self.blog.title + " - likes"

@@ -55,7 +55,7 @@ class CommentLike(models.Model):
     no_of_likes = models.PositiveIntegerField(default=0)
 
     def __str__(self) -> str:
-        return self.comment + " - Likes"
+        return str(self.comment.id) + " - Likes"
 
     class Meta:
         abstract = True

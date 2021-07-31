@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import BlogSerializer
 from the_water_project.tags.models import Tag
+import json
 from .models import Blog, BLOG_CHOICES
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import api_view
@@ -50,12 +51,13 @@ class BlogViewSet(ModelViewSet):
             blog = Blog.objects.create(
                 title=title, content=content, _type=type, creator=request.user, front_img=front_img
             )
-            if "tags" in request.data and isinstance(request.data["tags"], list):
-                tags = request.data["tags"]
-                for tag_name in tags:
-                    tag_name = tag_name.lower()
-                    tag, _ = Tag.objects.get_or_create(name=tag_name)
-                    tag.blog_set.add(blog)
+            if "tags" in request.data:
+                tags = json.loads(request.data["tags"])
+                if isinstance(tags, list):
+                    for tag_name in tags:
+                        tag_name = tag_name.lower()
+                        tag, _ = Tag.objects.get_or_create(name=tag_name)
+                        tag.blog_set.add(blog)
         except Exception:
             raise APIException("something went wrong while creating the blog")
         blog_serialized = self.get_serializer(blog).data

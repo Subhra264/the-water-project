@@ -11,9 +11,9 @@ export default function Footer (props) {
                 <div className="footer-contain-header">
                     <h1>Important Links</h1>
                     <div className="footer-contain-link-container">
-                        <Link to="./solutions">blogs</Link>
-                        <Link to="./discussion">discussions</Link>
-                        <Link to="./problems">problems</Link>
+                        <Link to="/solutions">blogs</Link>
+                        <Link to="/discussion">discussions</Link>
+                        <Link to="/problems">problems</Link>
                     </div>
                 </div>
                 <div className="fish-container">

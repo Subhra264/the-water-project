@@ -84,13 +84,13 @@ export default function TopicEditor (props) {
 
         formData.append('title', topic.title);
         formData.append('description', topic.content);
-        formData.append('tags', topic.tags);
+
+        formData.append('tags', JSON.stringify(topic.tags));
         formData.append('country', selectedCountry.current.value);
         formData.append('city_or_area', cityOrArea);
         formData.append('address', address);
 
         if (ngoSelector.current.value) {
-            console.log('NgoSelector.current.value', ngoSelector.current.value);
             formData.append('associated_ngo', ngoSelector.current.value);
         }
 

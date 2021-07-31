@@ -30,20 +30,17 @@ export default function BlogEditor (props) {
             console.log('Error Creating blog', errMessage);
         };
 
-        console.log('Clicked Create Blog button!', content);
-
         let formData = new FormData();
         if (inputFileRef.current.files.length) {
-            console.log('Input Files', inputFileRef.current.files);
             const file = inputFileRef.current.files[0];
             formData.append('front_img', file);
         }
 
         formData.append('title', content.title);
         formData.append('content', content.content);
-        formData.append('tags', content.tags);
+
+        formData.append('tags', JSON.stringify(content.tags));
         formData.append('type', selectedCategory.current.value);
-        console.log('Form data blogs editor', formData);
 
         const fetchDetails = {
             fetchURI: '/blogs/',
