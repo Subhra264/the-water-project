@@ -11,6 +11,7 @@ export default function Gig (props) {
                 <img 
                     src={props.front_img? props.front_img : defaultBlogThumbnail}
                     title={`Front Image of ${props.title}`}
+                    alt={`${props.title}`}
                 />
             </div>
             <div className="gig-details">
@@ -22,6 +23,7 @@ export default function Gig (props) {
                                     <img 
                                         src={props.creator.profile_pic}
                                         title={`Profile pic of ${props.creator.username}`}
+                                        alt={`${props.creator.username}`}
                                         className='profile-pic-user-img'
                                     />
                                 :

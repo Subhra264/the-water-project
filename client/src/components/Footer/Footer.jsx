@@ -17,7 +17,7 @@ export default function Footer (props) {
                     </div>
                 </div>
                 <div className="fish-container">
-                    <img src={footerSvg} />
+                    <img src={footerSvg} alt='footer svg'/>
                 </div>
                 <blockquote className="quote-container">
                     <p>Climate change is no longer a far-off problem; It is happening here, it is happening now.</p>

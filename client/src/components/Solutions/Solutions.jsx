@@ -1,4 +1,4 @@
-import Card from '../Card/Card';
+// import Card from '../Card/Card';
 import './Solutions.scss';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import { useMatchURL } from '../../hooks/useMatch';

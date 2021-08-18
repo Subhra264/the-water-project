@@ -14,7 +14,7 @@ export default function Home () {
         <div className={`home ${isMobile? 'mobile' : ''}`}>
             <div className="banner">
                 <div className="banner-container">
-                    <img src={logo} id="banner-img" />
+                    <img src={logo} id="banner-img" alt='banner' />
                     <h1>Join the fight against climate change. You can help us!</h1>
                 </div>
             </div>
@@ -24,21 +24,21 @@ export default function Home () {
                         <h1>How can you help us?</h1>
                         <p>Only your willpower to fight climate change is enough for us. Even if you are not able to donate, you can still help the community with your innovative ideas. Join us and help people solve the problems.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={firstCartImage} width="100%"/></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={firstCartImage} width="100%" alt='first card' /></Card.CardImg>
                 </Card>
                 <Card className="cards alternate-cards">
                     <Card.CardDetails className="card-details">
                         <h1>Share you ideas, innovations and problems</h1>
                         <p>We have a solution page for only this. You can share your innovations, opinions and experience by writing blogs. Your blog can motivate others to innovate for climate.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={secondCartImage} /></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={secondCartImage} alt='second card'/></Card.CardImg>
                 </Card>
                 <Card className="cards">
                     <Card.CardDetails className="card-details">
                         <h1>Create topics and track progress</h1>
                         <p>Is your locality suffering from pollution or climate change? Share with rest of the world by creating a topic with details of your problem, get help and see your problems getting solved.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={thirdCartImage} /></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={thirdCartImage} alt='third card'/></Card.CardImg>
                 </Card>
                 <div className="instructions">
                     <h1>How to use the discussion forum efficiently?</h1>
@@ -61,5 +61,5 @@ export default function Home () {
                 </div>
             </div>
         </div>
-    )
+    );
 }

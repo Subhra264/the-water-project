@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { TopicContext } from '../../../utils/contexts';
 import { getRequest } from '../../../utils/fetch-request';
@@ -43,7 +42,12 @@ export default function Contributors (props) {
                             <span className="contributor-profile-pic">
                                 {
                                     contributor.profile_pic? 
-                                        <img src={contributor.profile_pic} title='Profile Pic' className='profile-pic-user-img' />
+                                        <img 
+                                            src={contributor.profile_pic}
+                                            title='Profile Pic'
+                                            alt={`Profile Pic of ${contributor.username}`}
+                                            className='profile-pic-user-img'
+                                        />
                                     :
                                         <FontAwesomeIcon icon='user-circle' className='profile-pic-user-circle' />
                                 }
@@ -55,5 +59,5 @@ export default function Contributors (props) {
                     ))
             }
         </div>
-    )
+    );
 }

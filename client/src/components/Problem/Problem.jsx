@@ -25,37 +25,37 @@ export default function Problem () {
                     <Card.CardDetails className="card-details">
                         <p>Around 74 per cent of natural disasters between 2001 and 2018 were water-related, including droughts and floods. The frequency and intensity of such events are only expected to increase with climate change.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={ probImg1 } alt="problem image" /></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={ probImg1 } alt="problem" /></Card.CardImg>
                 </Card>
                 <Card className="cards alternate-cards">
                     <Card.CardDetails className="card-details">
                         <p>Around 450 million children live in areas of high or extremely high water vulnerability. This means they do not have enough water to meet their everyday needs.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={ probImg2 } alt="problem image" /></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={ probImg2 } alt="problem" /></Card.CardImg>
                 </Card>
                 <Card className="cards">
                     <Card.CardDetails className="card-details">
                         <p>Every day, over 700 children under 5 die from diarrhoea linked to inadequate water, sanitation and hygiene.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={ probImg4 } alt="problem image" /></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={ probImg4 } alt="problem" /></Card.CardImg>
                 </Card>
                 <Card className="cards alternate-cards">
                     <Card.CardDetails className="card-details">
                         <p>By 2040, almost 1 in 4 children will live in areas of extremely high water stress.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={ probImg6 } alt="problem image" /></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={ probImg6 } alt="problem" /></Card.CardImg>
                 </Card>
                 <Card className="cards">
                     <Card.CardDetails className="card-details">
                         <p>Rising sea levels are causing fresh water to become salty, compromising the water resources millions of people rely on.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={ probImg5 } alt="problem image" /></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={ probImg5 } alt="problem" /></Card.CardImg>
                 </Card>
                 <Card className="cards alternate-cards">
                     <Card.CardDetails className="card-details">
                         <p>The effects of climate change are first felt through water – through droughts, floods or storms. When these disasters hit, they can wipe out entire water supplies or leave them contaminated, risking the lives of millions of children.</p>
                     </Card.CardDetails>
-                    <Card.CardImg className="card-imgs"><img src={ probImg3 } alt="problem image" /></Card.CardImg>
+                    <Card.CardImg className="card-imgs"><img src={ probImg3 } alt="problem" /></Card.CardImg>
                 </Card>
             </div>
         </div>

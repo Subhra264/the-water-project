@@ -87,7 +87,7 @@ export default function Profile (props) {
                             <div className="profile-pic">
                                 {
                                     profile.profile_pic? 
-                                        <img src={profile.profile_pic} title='Profile Pic' className='profile-pic-user-img' />
+                                        <img src={profile.profile_pic} title='Profile Pic' alt='Profile' className='profile-pic-user-img' />
                                     :
                                         <FontAwesomeIcon icon={`${props.isNGO? 'users' : 'user-circle'}`} className='profile-pic-user-circle' />
                                 }
@@ -132,7 +132,7 @@ export default function Profile (props) {
                                                     <span className="member-profile-pic">
                                                         {
                                                             profile.owner.profile_pic?
-                                                                <img src={profile.owner.profile_pic} className='profile-pic-user-img' />
+                                                                <img src={profile.owner.profile_pic} alt='Owner' className='profile-pic-user-img' />
                                                             :
                                                                 <FontAwesomeIcon icon='user-circle' className='profile-pic-user-circle' />
                                                         }
@@ -151,7 +151,7 @@ export default function Profile (props) {
                                                                 <span className="member-profile-pic">
                                                                     {
                                                                         member.profile_pic?
-                                                                            <img src={member.profile_pic} className='profile-pic-user-img' title='Profile Pic' />
+                                                                            <img src={member.profile_pic} alt='Member' className='profile-pic-user-img' title='Profile Pic' />
                                                                         :
                                                                             <FontAwesomeIcon icon='user-circle' className='profile-pic-user-circle' />
                                                                     }
