@@ -133,7 +133,13 @@ export default function TopicEditor (props) {
                     </div>
                 </div>
                 {
-                    (userState.owned_orgs.length || userState.membered_orgs.length) &&
+                    (
+                        userState && 
+                        (
+                            (userState.owned_orgs && userState.owned_orgs.length) ||
+                            (userState.membered_orgs && userState.membered_orgs.length)
+                        )
+                    ) &&
                         <div className="topic-address"  >
                             <div className="topic-address-label">Want To Post as NGO?</div>
                             <div className="topic-address-input">
