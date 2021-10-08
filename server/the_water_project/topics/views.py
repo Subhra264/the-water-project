@@ -8,9 +8,9 @@ from the_water_project.utils.permissions import (
 )
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from the_water_project.tags.models import Tag
-from the_water_project.tags.serializers import TagSerializer
 from the_water_project.users.models import Organization
 from the_water_project.users.serializers import UserSerializer
+from the_water_project.utils.tags import TagAddOrRemoveObject
 from .models import Topic, Issue, Contribution
 from rest_framework.exceptions import NotFound, APIException
 from the_water_project.comments.models import StartingComment
@@ -371,100 +371,22 @@ class TopicContributors(ListAPIView):
         return topic.contributors.all()
 
 
-class TagAddToTopic(UpdateAPIView):
+class TagAddToIssue(TagAddOrRemoveObject):
+    permission_classes = (IsAuthenticated, IsIssueOwnerOrMemberOrReject)
+    model_class = Issue
+
+
+class TagAddToTopic(TagAddOrRemoveObject):
     permission_classes = (IsAuthenticated, IsTopicOwnerOrMemberOrReject)
-    serializer_class = TagSerializer
-
-    def get_object(self):
-        topic_id = self.request.data.get("id")
-        try:
-            topic = Topic.objects.get(id=topic_id)
-            self.topic = topic
-        except Exception:
-            raise NotFound("Either topic with the specified id not found or you not provided the id")
-        else:
-            return topic
-
-    def partial_update(self, request, *args, **kwargs):
-        try:
-            tag_name = request.data["tag"]
-        except Exception:
-            raise APIException("tag is required")
-        else:
-            topic = self.get_object()
-            self.check_object_permissions(request, topic)
-            try:
-                tag_name = tag_name.lower()
-                tag, _ = Tag.objects.get_or_create(name=tag_name)
-                tag.topic_set.add(topic)
-                return Response(self.get_serializer(tag).data)
-            except Exception:
-                raise APIException("something went wrong while adding tag")
+    model_class = Topic
 
 
 class TagRemoveFromTopic(TagAddToTopic):
-    def partial_update(self, request, *args, **kwargs):
-        try:
-            tag_name = request.data["tag"]
-        except Exception:
-            raise APIException("tag is required")
-        else:
-            topic = self.get_object()
-            self.check_object_permissions(request, topic)
-            try:
-                tag_name = tag_name.lower()
-                tag = topic.tag_set.get(name=tag_name)
-                topic.tag_set.remove(tag)
-            except Exception:
-                raise APIException("Something went wrong while remove tag")
-
-
-class TagAddToIssue(UpdateAPIView):
-    permission_classes = (IsAuthenticated, IsIssueOwnerOrMemberOrReject)
-    serializer_class = TagSerializer
-
-    def get_object(self):
-        # topic_id = self.kwargs["topic_id"]
-        issue_id = self.request.data.get("id")
-        try:
-            issue = Issue.objects.get(id=issue_id)
-        except Exception:
-            raise NotFound("Either topic with the specified id not found or you not provided the id")
-        else:
-            return issue
-
-    def partial_update(self, request, *args, **kwargs):
-        try:
-            tag_name = request.data["tag"]
-        except Exception:
-            raise APIException("tag is required")
-        else:
-            issue = self.get_object()
-            self.check_object_permissions(request, issue)
-            try:
-                tag_name = tag_name.lower()
-                tag, _ = Tag.objects.get_or_create(name=tag_name)
-                tag.issue_set.add(issue)
-                return Response(self.get_serializer(tag).data)
-            except Exception:
-                raise APIException("something went wrong while adding tag")
+    remove_tag = True
 
 
 class TagRemoveFromIssue(TagAddToIssue):
-    def partial_update(self, request, *args, **kwargs):
-        try:
-            tag_name = request.data["tag"]
-        except Exception:
-            raise APIException("tag is required")
-        else:
-            issue = self.get_object()
-            self.check_object_permissions(request, issue)
-            try:
-                tag_name = tag_name.lower()
-                tag = issue.tag_set.get(name=tag_name)
-                issue.tag_set.remove(tag)
-            except Exception:
-                raise APIException("Something went wrong while remove tag")
+    remove_tag = True
 
 
 # TODO:

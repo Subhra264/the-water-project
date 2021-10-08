@@ -9,6 +9,7 @@ from the_water_project.tags.models import Tag
 from .models import Blog, BLOG_CHOICES
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import api_view
+from the_water_project.utils.tags import TagAddOrRemoveObject
 
 
 class BlogViewSet(ModelViewSet):
@@ -174,3 +175,12 @@ class ProblemViewSet(TypeOfBlogsViewSet):
 
 class OthersViewSet(TypeOfBlogsViewSet):
     _type = "o"
+
+
+class TagAddToBlog(TagAddOrRemoveObject):
+    model_class = Blog
+    permission_classes = (IsAuthenticated, IsOwnerOrReject)
+
+
+class TagRemoveFromBlog(TagAddToBlog):
+    remove_tag = True
