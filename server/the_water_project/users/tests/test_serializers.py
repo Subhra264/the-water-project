@@ -7,7 +7,9 @@ from the_water_project.topics.models import Topic
 import json
 from freezegun import freeze_time
 from the_water_project.users.serializers import UserSerializer, OrgSerializer
+from pytest import importorskip
 
+importorskip("random_hello")
 User = get_user_model()
 
 
@@ -35,7 +37,9 @@ class TestSerializers(TestCase):
             "id": 1,
             "age": None,
             "address": None,
-            "country": "IN",
+            "country": "INDIA",
+            "profile_pic": None,
+            "no_of_contributions": 0,
             "date_joined": self.DATE,
             "email": "john@email.com",
             "first_name": "John",
@@ -61,7 +65,6 @@ class TestSerializers(TestCase):
         org = Organization.objects.create_org(
             name="The NGO",
             email="ngo@email.com",
-            password="org@3423",
             address="bla bla bla",
             phone_number="+919999999999",
             owner=self.user,
