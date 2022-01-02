@@ -29,7 +29,7 @@ function IssueList (props) {
         // TODO: Fetch the issues Api for a topic
         getRequest(`/topics/${topicId}/issues/`, getAccessTokenFromStorage(), successHandler, errorHandler)
 
-    }, []);
+    }, [topicId]);
 
     return (
         <>

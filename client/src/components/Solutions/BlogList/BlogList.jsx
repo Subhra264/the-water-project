@@ -31,7 +31,7 @@ export default function BlogList (props) {
             errorHandler
         );
 
-    }, []);
+    }, [blogCategoryId]);
 
     return (
         <div className="blog-list-container">

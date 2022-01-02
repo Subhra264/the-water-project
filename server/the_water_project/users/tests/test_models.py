@@ -53,7 +53,6 @@ class TestModels(TestCase):
         org = Organization.objects.create_org(
             name="The NGO",
             email="ngo@email.com",
-            password="org@3423",
             address="bla bla bla",
             phone_number="+919999999999",
             owner=owner,

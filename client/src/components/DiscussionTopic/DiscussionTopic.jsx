@@ -103,6 +103,7 @@ export default function DiscussionTopic(props) {
                                             <img 
                                                 src={topicDetails.creator.org.profile_pic} 
                                                 title='NGO profile pic'
+                                                alt='NGO profile pic'
                                                 className='profile-pic-user-img'
                                             />
                                         :

@@ -31,7 +31,7 @@ export default function Blog (props) {
         
         // Load the blog
         getRequest(`/blogs/${blogId}`, accessToken, successHandler, errorHandler);
-    }, []);
+    }, [blogId]);
 
     return (
         <div className={`blog ${isMobile? 'mobile' : ''}`}>
@@ -48,7 +48,7 @@ export default function Blog (props) {
                             <div className="blog-date">Last Updated on {parseDate(blog.updated_on)}</div>
                         </div>
                         <div className="blog-content">
-                            {blog.front_img && <img src={blog.front_img} title={`Front image of ${blog.title}`} />}
+                            {blog.front_img && <img src={blog.front_img} title={`Front image of ${blog.title}`} alt={`${blog.title}`} />}
                             {parseHTML(blog.content)}
                         </div>
                         <div className="blog-impressions">

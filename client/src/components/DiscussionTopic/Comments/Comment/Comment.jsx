@@ -16,7 +16,11 @@ export default function Comment (props) {
                     <div className="topic-comment-by-profile-img">
                         {
                             props.creator.profile_pic? 
-                                <img src={props.creator.profile_pic} title={`Profile Pic of ${props.creator.username}`} className='profile-pic-user-img' />
+                                <img 
+                                    src={props.creator.profile_pic}
+                                    alt={`Profile Pic of ${props.creator.username}`}
+                                    className='profile-pic-user-img'
+                                />
                             :
                                 <FontAwesomeIcon icon='user-circle' className='profile-pic-user-circle'/>
                         }

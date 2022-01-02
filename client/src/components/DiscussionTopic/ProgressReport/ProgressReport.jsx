@@ -166,7 +166,7 @@ export default function ProgressReport (props) {
             errorHandler
         );
 
-    }, []);
+    }, [topicId]);
 
     return (
         <div className="progress-report">

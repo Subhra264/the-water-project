@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TopicContext, UserContext } from '../../../utils/contexts';
+import { TopicContext } from '../../../utils/contexts';
 import { protectedRequest } from '../../../utils/fetch-request';
 import { getAccessTokenFromStorage } from '../../../utils/manage-tokens';
 import ContentEditor from '../ContentEditor';
@@ -11,7 +11,6 @@ export default function IssueEditor (props) {
     const history = useHistory();
     const contentEditorProps = useRef(null);
     const onSubmitClick = useRef(null);
-    const { userState } = useContext(UserContext);
 
     onSubmitClick.current = (issue) => {
         console.log('Clicked Create Issue button!', issue);

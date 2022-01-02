@@ -33,7 +33,7 @@ export default function NGOProfile (props) {
 
             let indexOfMemberToRemove;
             for (const member in members) {
-                if (members[member].id = userId) {
+                if (members[member].id === userId) {
                     indexOfMemberToRemove = member;
                     break;
                 }
@@ -107,18 +107,16 @@ export default function NGOProfile (props) {
 
     useEffect(() => {
         if (userState) {
-            // if (userState.owned_orgs.includes(+profileId)) {
             if (includesOrg(userState.owned_orgs, profileId)) {
-                setProfileProps({
+                setProfileProps(profileProps => ({
                     ...profileProps,
                     isPresident: true
-                });
-            // } else if (userState.membered_orgs.includes(+profileId)) {
+                }));
             } else if (includesOrg(userState.membered_orgs, profileId)) {
-                setProfileProps({
+                setProfileProps(profileProps => ({
                     ...profileProps,
                     isMember: true
-                });
+                }));
             }
         } else {
             if (profileProps.isMember || profileProps.isPresident) {

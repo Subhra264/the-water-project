@@ -92,7 +92,10 @@ export default function SearchResult(props) {
                         <Card className='result-box'>
                             <Card.CardImg className='result-image'>
                                 <div className="result-img">
-                                    <img src={topic.img? topic.img : defaultTopicThumbnail} title={`Thumbnail image for ${topic.title}`} />
+                                    <img 
+                                        src={topic.img? topic.img : defaultTopicThumbnail}
+                                        alt={`Thumbnail for ${topic.title}`}
+                                    />
                                 </div>
                             </Card.CardImg>
                             <Card.CardDetails className='result-data'>
@@ -111,6 +114,7 @@ export default function SearchResult(props) {
                                                             <img 
                                                                 src={topic.topic_details.opened_by.org.profile_pic} 
                                                                 title='NGO profile pic'
+                                                                alt='NGO profile pic'
                                                                 className='profile-pic-user-img'
                                                             />
                                                         :
@@ -127,6 +131,7 @@ export default function SearchResult(props) {
                                                         <img 
                                                             src={topic.topic_details.opened_by.user.profile_pic}
                                                             title={`Profile Pic of ${topic.topic_details.opened_by.user.username}`}
+                                                            alt={`Profile Pic of ${topic.topic_details.opened_by.user.username}`}
                                                             className='profile-pic-user-img' 
                                                         />
                                                     :

@@ -44,6 +44,10 @@
     .topic-comment-description {
         padding: 1em;
         background-color: #fff5f5;
+        
+        a {
+            color: $blue !important;
+        }
 
         img {
             width: 100%;
