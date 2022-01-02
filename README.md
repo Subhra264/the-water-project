@@ -14,7 +14,6 @@ The Water Project is a web app that provides a platform to access data related t
   - [The architecture](#the-architecture)
   - [Long description](#long-description)
   - [Demos](#demos)
-  - [Project roadmap](#project-roadmap)
   - [Getting started](#getting-started)
   - [Authors](#authors)
   - [License](#license)
@@ -48,9 +47,6 @@ Although the amount of people not having proper internet access, are huge in num
 
 ## Demos
 [All demos](./docs/DEMOS.md)
-
-## Project roadmap
-![Project Roadmap](./docs/the-water-project-roadmap.png)
 
 ## Getting started
 ### Pre-requisite :
