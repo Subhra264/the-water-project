@@ -1,0 +1,14 @@
+version: "3.0"
+services:
+  server:
+    build: ./server
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver"
+    ports:
+      - 8000:8000
+  client:
+    build: ./client
+    command: "yarn start"
+    depends_on:
+      - server
+    ports:
+      - 3000:3000
