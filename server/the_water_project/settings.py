@@ -129,7 +129,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "the_water_project.wsgi.application"
 
-CORS_ORIGIN_WHITELIST = ("http://localhost:3000",)
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ("http://localhost:3000", "http://localhost")
 
 CORS_ALLOW_CREDENTIALS = True
 
