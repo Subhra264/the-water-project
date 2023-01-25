@@ -1,4 +1,5 @@
-const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || "http://localhost:8000";
+export const SERVER_HOST =
+  process.env.REACT_APP_SERVER_HOST || "http://localhost:8000";
 
 // Refreshes both the access token and the refresh token
 // and uses the newly generated access token to retry fetching
