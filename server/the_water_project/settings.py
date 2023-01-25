@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "mongohahahah")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 
 # Application definition
@@ -129,8 +129,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "the_water_project.wsgi.application"
 
+CLIENT_HOST = os.environ.get("CLIENT_HOST", "http://localhost")
+
 # CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = ("http://localhost:3000", "http://localhost")
+CORS_ORIGIN_WHITELIST = ("http://localhost:3000", CLIENT_HOST)
 
 CORS_ALLOW_CREDENTIALS = True
 
