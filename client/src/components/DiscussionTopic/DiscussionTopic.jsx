@@ -5,24 +5,24 @@ import {
   Link,
   Redirect,
   useHistory,
-} from "react-router-dom";
-import { useMatchURL } from "../../hooks/useMatch";
-import { useContext, useEffect, useRef, useState } from "react";
-import useViewport from "../../hooks/useViewport";
-import Slider from "../Slider/Slider";
-import "./DiscussionTopic.scss";
-import Issues from "./Issues/Issues";
-import Comments from "./Comments/Comments";
-import { TopicContext, UserContext } from "../../utils/contexts";
-import ProgressReport from "./ProgressReport/ProgressReport";
-import Loader from "../Loader/Loader";
-import Description from "./Description/Description";
-import { parseDate } from "../../utils/date";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getRequest } from "../../utils/fetch-request";
-import { getAccessTokenFromStorage } from "../../utils/manage-tokens";
-import { includesOrg } from "../../utils/user-utils";
-import Contributors from "./Contributors/Contributors";
+} from 'react-router-dom';
+import { useMatchURL } from '../../hooks/useMatch';
+import { useContext, useEffect, useRef, useState } from 'react';
+import useViewport from '../../hooks/useViewport';
+import Slider from '../Slider/Slider';
+import './DiscussionTopic.scss';
+import Issues from './Issues/Issues';
+import Comments from './Comments/Comments';
+import { TopicContext, UserContext } from '../../utils/contexts';
+import ProgressReport from './ProgressReport/ProgressReport';
+import Loader from '../Loader/Loader';
+import Description from './Description/Description';
+import { parseDate } from '../../utils/date';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getRequest } from '../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
+import { includesOrg } from '../../utils/user-utils';
+import Contributors from './Contributors/Contributors';
 
 export default function DiscussionTopic(props) {
   const { isMobile } = useViewport();
@@ -38,27 +38,27 @@ export default function DiscussionTopic(props) {
   // Labels for the Slider component
   const labels = useRef([
     {
-      name: "Description",
+      name: 'Description',
       linkTo: `${matchURL}/description`,
       ref: useRef(),
     },
     {
-      name: "Issues",
+      name: 'Issues',
       linkTo: `${matchURL}/issues`,
       ref: useRef(),
     },
     {
-      name: "Progress Report",
+      name: 'Progress Report',
       linkTo: `${matchURL}/progress-report`,
       ref: useRef(),
     },
     {
-      name: "Discussion",
+      name: 'Discussion',
       linkTo: `${matchURL}/discussion`,
       ref: useRef(),
     },
     {
-      name: "Contributors",
+      name: 'Contributors',
       linkTo: `${matchURL}/contributors`,
       ref: useRef(),
     },
@@ -72,8 +72,8 @@ export default function DiscussionTopic(props) {
     };
 
     const errorHandler = (errMessage) => {
-      console.log("Error fetching topic details", errMessage);
-      if (errMessage === "page_not_found") history.push("/not-found");
+      console.log('Error fetching topic details', errMessage);
+      if (errMessage === 'page_not_found') history.push('/not-found');
     };
 
     // Fetch the topic
@@ -81,14 +81,14 @@ export default function DiscussionTopic(props) {
       `/topics/${topicId}`,
       getAccessTokenFromStorage(),
       successHandler,
-      errorHandler
+      errorHandler,
     );
   }, [topicId]);
 
   useEffect(() => {
     // Check if the user has administrator access for this topic
     if (userState && topicDetails) {
-      console.log("");
+      console.log('');
       if (
         topicDetails.description.creator.id === +userState.id ||
         (topicDetails.creator.org &&
@@ -130,21 +130,21 @@ export default function DiscussionTopic(props) {
               </div>
             </div>
           )}
-          <div className={`discussion-topic ${isMobile ? "mobile" : ""}`}>
-            <div className={`topic-number ${isMobile ? "mobile" : ""}`}>
+          <div className={`discussion-topic ${isMobile ? 'mobile' : ''}`}>
+            <div className={`topic-number ${isMobile ? 'mobile' : ''}`}>
               #{topicDetails.id}
             </div>
             <div className="topic-details">
               <div className="topic-title">{topicDetails.title}</div>
               <div className="topic-date">
-                Opened by{" "}
+                Opened by{' '}
                 <Link
                   to={`/discussion/users/${topicDetails.description.creator.id}`}
                 >
                   <i className="topic-opened-by">
                     @{topicDetails.description.creator.username}
                   </i>
-                </Link>{" "}
+                </Link>{' '}
                 on {parseDate(topicDetails.date)}
               </div>
               <div className="topic-labels">

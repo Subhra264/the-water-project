@@ -1,28 +1,28 @@
 @import 'src/utils/styles.scss';
 
 .solutions {
+  padding: 0.5em;
+
+  .create-blog-container {
+    background-color: $whiteHoverColor;
     padding: 0.5em;
-    
-    .create-blog-container {
-        background-color: $whiteHoverColor;
-        padding: 0.5em;
-    }
+  }
 
-    .card-body {
-        padding: 0.4em;
-    }
+  .card-body {
+    padding: 0.4em;
+  }
 
-    .card-article-link {
-        display: inline-block;
+  .card-article-link {
+    display: inline-block;
 
-        a {
-            display: block;
-            padding: 0.5em;
-            width: fit-content;
-            cursor: pointer;
-            color: $light;
-            background-color: $blue;
-            margin: 0.3em;
-        }
+    a {
+      display: block;
+      padding: 0.5em;
+      width: fit-content;
+      cursor: pointer;
+      color: $light;
+      background-color: $blue;
+      margin: 0.3em;
     }
+  }
 }

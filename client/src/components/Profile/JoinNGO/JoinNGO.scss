@@ -1,17 +1,17 @@
 @import 'src/utils/styles.scss';
 
 .profile-container {
-    button {
-        margin: 0.5em 0;
-    }
+  button {
+    margin: 0.5em 0;
+  }
 
-    .owner {
-        justify-content: center;
-    }
+  .owner {
+    justify-content: center;
+  }
 
-    .info {
-        margin: 0.4em 0;
-        background-color: $light;
-        padding: 0.5em;
-    }
+  .info {
+    margin: 0.4em 0;
+    background-color: $light;
+    padding: 0.5em;
+  }
 }

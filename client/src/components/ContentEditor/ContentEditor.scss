@@ -1,74 +1,75 @@
 @import 'src/utils/styles.scss';
 
 .new-content-editor-container {
-    padding: 0.8em;
-    display: flex;
-    justify-content: space-evenly;
+  padding: 0.8em;
+  display: flex;
+  justify-content: space-evenly;
 
-    &.mobile {
-        display: block;
+  &.mobile {
+    display: block;
 
-        .new-content-editor, .new-content-meta-data-editor {
-            width: 100%;
-        }
-
-        .new-content-meta-data-editor {
-            max-width: none;
-        }
-    }
-
-    .new-content-editor {
-        padding: 0.4em;
-        width: 70%;        
-
-        .new-content-title {
-            .new-content-title-label {
-                margin-bottom: 0.5em;
-                font-weight: bold;
-            }
-
-            .new-content-title-input {
-                >input {
-                    display: block;
-                    width: 100%;
-                    padding: 0.4em 0.7em;
-                    font-size: 1.1em;
-                    border: 1px solid $yellowOchre;
-                    outline: none;
-                }
-            }
-        }
+    .new-content-editor,
+    .new-content-meta-data-editor {
+      width: 100%;
     }
 
     .new-content-meta-data-editor {
-        width: 30%;
-        max-width: 19em;
+      max-width: none;
+    }
+  }
 
-        .new-content-meta-data {
-            padding: 0.5em;
-            margin: 0.6em 0.2em;
-        }
+  .new-content-editor {
+    padding: 0.4em;
+    width: 70%;
 
-        .content-editor-error {
-            padding: 0.6em 0.9em;
-            background-color: $light;
-            color: $darkRed;
-        }
+    .new-content-title {
+      .new-content-title-label {
+        margin-bottom: 0.5em;
+        font-weight: bold;
+      }
 
-        .create-content {
-            cursor: pointer;
-            padding: 0.4em 0.6em;
-            color: #fff;
-            text-align: center;
-            background-color: $darkYellowOchre;
+      .new-content-title-input {
+        > input {
+          display: block;
+          width: 100%;
+          padding: 0.4em 0.7em;
+          font-size: 1.1em;
+          border: 1px solid $yellowOchre;
+          outline: none;
         }
+      }
+    }
+  }
+
+  .new-content-meta-data-editor {
+    width: 30%;
+    max-width: 19em;
+
+    .new-content-meta-data {
+      padding: 0.5em;
+      margin: 0.6em 0.2em;
     }
 
-    .ck {
-        &.ck-content {
-            &.ck-editor__editable {
-                min-height: 20em;
-            }
-        }
+    .content-editor-error {
+      padding: 0.6em 0.9em;
+      background-color: $light;
+      color: $darkRed;
     }
+
+    .create-content {
+      cursor: pointer;
+      padding: 0.4em 0.6em;
+      color: #fff;
+      text-align: center;
+      background-color: $darkYellowOchre;
+    }
+  }
+
+  .ck {
+    &.ck-content {
+      &.ck-editor__editable {
+        min-height: 20em;
+      }
+    }
+  }
 }

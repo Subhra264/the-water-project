@@ -1,97 +1,97 @@
 @import 'src/utils/styles.scss';
 
 .progress-report {
-    padding: 0.6em;
-    min-height: 15em;
-    position: relative;
+  padding: 0.6em;
+  min-height: 15em;
+  position: relative;
 
-    button {
-        display: inline-block;
-        background-color: $darkYellowOchre;
-        color: white;
-        padding: 0.7em 0.9em;
-        border: none;
+  button {
+    display: inline-block;
+    background-color: $darkYellowOchre;
+    color: white;
+    padding: 0.7em 0.9em;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .create-progress-report {
+    .create-progress-report-banner {
+      padding: 0.6em;
+      font-size: 1.2em;
+      text-align: center;
+    }
+  }
+
+  .create-progress-report-form {
+    padding: 0.4em;
+    margin: 0.4em auto;
+    width: 50%;
+    min-width: 15em;
+
+    .create-progress-report-title {
+      > input {
+        display: block;
+        width: 100%;
+        border: 1px solid $yellowOchre;
         outline: none;
-        cursor: pointer;
+        padding: 0.6em;
+      }
     }
 
-    .create-progress-report  {
-        .create-progress-report-banner {
-            padding: 0.6em;
-            font-size: 1.2em;
-            text-align: center;
+    .create-progress-report-submit {
+      text-align: right;
+      margin: 0.5em 0;
+    }
+  }
+
+  .progress-report-tasks {
+    .progress-report-task {
+      margin: 0.6em 0;
+
+      .task-title {
+        padding: 0.7em 0.6em;
+        color: white;
+        background-color: $blue;
+      }
+
+      .task-description {
+        padding: 0.7em 0.6em;
+        border: 1px solid $yellowOchre;
+      }
+
+      .task-buttons-container {
+        display: flex;
+        justify-content: flex-end;
+
+        .task-buttons {
+          border: 1px solid $darkYellowOchre;
+
+          .task-button {
+            display: inline-block;
+            padding: 0.5em 0.7em;
+            cursor: pointer;
+
+            &:hover {
+              background-color: $whiteHoverColor;
+            }
+          }
+
+          .done-button {
+            color: $darkYellowOchre;
+          }
         }
+      }
     }
 
-    .create-progress-report-form {
-        padding: 0.4em;
-        margin: 0.4em auto;
-        width: 50%;
-        min-width: 15em;
-
-        .create-progress-report-title {
-            >input {
-                display: block;
-                width: 100%;
-                border: 1px solid $yellowOchre;
-                outline: none;
-                padding: 0.6em;
-            }
-        }
-
-        .create-progress-report-submit {
-            text-align: right;
-            margin: 0.5em 0;
-        }
+    .save-changes {
+      text-align: right;
     }
-
-    .progress-report-tasks {
-        .progress-report-task {
-            margin: 0.6em 0;
-
-            .task-title {
-                padding: 0.7em 0.6em;
-                color: white;
-                background-color: $blue;
-            }
-
-            .task-description {
-                padding: 0.7em 0.6em;
-                border: 1px solid $yellowOchre;
-            }
-
-            .task-buttons-container {
-                display: flex;
-                justify-content: flex-end;
-
-                .task-buttons {
-                    border: 1px solid $darkYellowOchre;
-
-                    .task-button {
-                        display: inline-block;
-                        padding: 0.5em 0.7em;
-                        cursor: pointer;
-
-                        &:hover {
-                            background-color: $whiteHoverColor;
-                        }
-                    }
-
-                    .done-button {
-                        color: $darkYellowOchre;
-                    }
-                }
-            }
-        }
-
-        .save-changes {
-            text-align: right;
-        }
-    }
+  }
 }
 
 .mobile {
-    .create-progress-report-form {
-        width: 100%;
-    }
+  .create-progress-report-form {
+    width: 100%;
+  }
 }

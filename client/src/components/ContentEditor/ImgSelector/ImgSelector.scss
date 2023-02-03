@@ -1,35 +1,34 @@
 @import 'src/utils/styles.scss';
 
 .front-img-selector-container {
-    .front-img-label-container {
-        font-weight: 700;
+  .front-img-label-container {
+    font-weight: 700;
+  }
 
+  .front-img-selector {
+    > input {
+      width: 0.1px;
+      height: 0.1px;
+      position: absolute;
+      z-index: -100;
+      opacity: 0;
+      overflow: hidden;
     }
 
-    .front-img-selector {
-        >input {
-            width: 0.1px;
-            height: 0.1px;
-            position: absolute;
-            z-index: -100;
-            opacity: 0;
-            overflow: hidden;
-        }
-
-        >label {
-            display: inline-block;
-            width: 70%;
-            padding: 0.5em 0.9em;
-            margin-top: 0.3em;
-            text-align: center;
-            font-size: 1em;
-            color: $light;
-            background-color: $darkYellowOchre;
-            cursor: pointer;
-        }
-
-        .file-selected-status {
-            font-size: 0.9em;
-        }
+    > label {
+      display: inline-block;
+      width: 70%;
+      padding: 0.5em 0.9em;
+      margin-top: 0.3em;
+      text-align: center;
+      font-size: 1em;
+      color: $light;
+      background-color: $darkYellowOchre;
+      cursor: pointer;
     }
+
+    .file-selected-status {
+      font-size: 0.9em;
+    }
+  }
 }

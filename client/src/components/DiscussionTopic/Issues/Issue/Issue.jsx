@@ -1,16 +1,16 @@
-import Comments from "../../Comments/Comments";
+import Comments from '../../Comments/Comments';
 // import Comment from '../../Comments/Comment/Comment';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState, useRef, useContext } from "react";
-import "./Issue.scss";
-import useViewport from "../../../../hooks/useViewport";
-import { TopicContext } from "../../../../utils/contexts";
-import Loader from "../../../Loader/Loader";
-import Description from "../../Description/Description";
-import { parseDate } from "../../../../utils/date";
-import { getRequest } from "../../../../utils/fetch-request";
-import { getAccessTokenFromStorage } from "../../../../utils/manage-tokens";
-import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState, useRef, useContext } from 'react';
+import './Issue.scss';
+import useViewport from '../../../../hooks/useViewport';
+import { TopicContext } from '../../../../utils/contexts';
+import Loader from '../../../Loader/Loader';
+import Description from '../../Description/Description';
+import { parseDate } from '../../../../utils/date';
+import { getRequest } from '../../../../utils/fetch-request';
+import { getAccessTokenFromStorage } from '../../../../utils/manage-tokens';
+import { Link } from 'react-router-dom';
 
 function IssueThread(props) {
   const [issueDescription, setIssueDescription] = useState({});
@@ -25,7 +25,7 @@ function IssueThread(props) {
     };
 
     const errorHandler = (errMessage) => {
-      console.log("Error fetching issue description", errMessage);
+      console.log('Error fetching issue description', errMessage);
     };
 
     // Fetch the description api
@@ -33,7 +33,7 @@ function IssueThread(props) {
       `/topics/${topicId}/issues/${props.issueId}/description/`,
       getAccessTokenFromStorage(),
       successHandler,
-      errorHandler
+      errorHandler,
     );
   }, []);
 
@@ -74,24 +74,24 @@ export default function Issue(props) {
   return (
     <div className="discussion-topic-issue">
       <div
-        className={`discussion-topic-issue-header ${isMobile ? "mobile" : ""}`}
+        className={`discussion-topic-issue-header ${isMobile ? 'mobile' : ''}`}
       >
         <div className="discussion-topic-issue-is-closed">
           <FontAwesomeIcon
-            icon={["far", `${props.is_closed ? "check-circle" : "dot-circle"}`]}
+            icon={['far', `${props.is_closed ? 'check-circle' : 'dot-circle'}`]}
           />
           &nbsp;
-          {isMobile ? "" : props.is_closed ? "Closed" : "Open"}
+          {isMobile ? '' : props.is_closed ? 'Closed' : 'Open'}
         </div>
         <div className="discussion-topic-issue-title">
           <div className="issue-title">{props.title}</div>
           <div className="issue-meta-data">
             <span>
-              opened by{" "}
+              opened by{' '}
               <Link to={`/discussion/users/${props.creator.user.id}`}>
                 <i>@{props.creator.user.username}</i>
-              </Link>{" "}
-              on {parseDate(props.date)}{" "}
+              </Link>{' '}
+              on {parseDate(props.date)}{' '}
             </span>
             <span className="issue-tags">
               {props.tags.map((tag) => (
@@ -114,14 +114,14 @@ export default function Issue(props) {
             onClick={toggleShowComments}
           >
             <FontAwesomeIcon
-              icon={`${showComments ? "chevron-up" : "chevron-down"}`}
+              icon={`${showComments ? 'chevron-up' : 'chevron-down'}`}
             />
           </div>
         </div>
       </div>
       {shouldLoadComment.current && (
         <IssueThread
-          display={showComments ? "" : "display-none"}
+          display={showComments ? '' : 'display-none'}
           issueId={props.id}
           isClosed={props.is_closed}
         />

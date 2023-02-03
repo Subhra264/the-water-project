@@ -1,40 +1,40 @@
 @import 'src/utils/styles.scss';
 
 .comment-editor {
-    width: 75%;
+  width: 75%;
 
-    &.mobile {
-        width: auto;
+  &.mobile {
+    width: auto;
+  }
+
+  .comment-error {
+    padding: 0.6em;
+    background-color: $light;
+    color: $darkRed;
+  }
+
+  .comment-editor-add-comment {
+    text-align: right;
+
+    .add-comment {
+      display: inline-block;
+      outline: none;
+      border: none;
+      margin: 0.4em 0;
+      padding: 0.5em 1.5em;
+      font-size: 17px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      background-color: $darkYellowOchre;
     }
+  }
 
-    .comment-error {
-        padding: 0.6em;
-        background-color: $light;
-        color: $darkRed;
+  .ck {
+    &.ck-content {
+      &.ck-editor__editable {
+        min-height: 7em;
+      }
     }
-
-    .comment-editor-add-comment {
-        text-align: right;
-
-        .add-comment {
-            display: inline-block;
-            outline: none;
-            border: none;
-            margin: 0.4em 0;
-            padding: 0.5em 1.5em;
-            font-size: 17px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            background-color: $darkYellowOchre;
-        }
-    }
-
-    .ck {
-        &.ck-content {
-            &.ck-editor__editable {
-                min-height: 7em;
-            }
-        }
-    }
+  }
 }

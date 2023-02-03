@@ -1,75 +1,75 @@
 @import 'src/utils/styles.scss';
 
 .discussion-topic-issue {
-    padding: 0.4em;
+  padding: 0.4em;
 
-    .discussion-topic-issue-header {
-        position: sticky;
-        top: 6em;
-        background-color: #fff;
-        padding: 0.6em;
-        display: flex;
-        z-index: 100;
-        align-items: center;
-        border: 2px solid $yellowOchre;
+  .discussion-topic-issue-header {
+    position: sticky;
+    top: 6em;
+    background-color: #fff;
+    padding: 0.6em;
+    display: flex;
+    z-index: 100;
+    align-items: center;
+    border: 2px solid $yellowOchre;
 
-        &.mobile {
-            top: 3em;
+    &.mobile {
+      top: 3em;
 
-            .discussion-topic-issue-meta {
-                flex-direction: column;
-            }
-        }
-
-        .discussion-topic-issue-is-closed {
-            flex-grow: 1;
-            font-size: 0.9em;
-        }
-
-        .discussion-topic-issue-title {
-            flex-grow: 20;
-            max-width: 80%;
-
-            .issue-title {
-                font-size: 1.1em;
-                font-weight: bold;
-            }
-
-            .issue-meta-data {
-                margin: 0.3em 0;
-                font-size: 0.8em;
-
-                .issue-tags {
-                    padding: 0 0.5em;
-                    display: inline-block;
-
-                    .issue-tag {
-                        display: inline-block;
-                        padding: 0.3em 0.6em;
-                        border: 1px solid $blue;
-                        border-radius: 0.6em;
-                        color: $blue;
-                        margin: 0 0.5em;
-                    }
-                }
-            }
-        }
-
-        .discussion-topic-issue-meta {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-
-            .discussion-topic-issue-meta-data {
-                text-align: center;
-                cursor: pointer;
-            }
-        }
+      .discussion-topic-issue-meta {
+        flex-direction: column;
+      }
     }
 
-    .discussion-topic-issue-description {
-        min-height: 5em;
-        position: relative;
+    .discussion-topic-issue-is-closed {
+      flex-grow: 1;
+      font-size: 0.9em;
     }
+
+    .discussion-topic-issue-title {
+      flex-grow: 20;
+      max-width: 80%;
+
+      .issue-title {
+        font-size: 1.1em;
+        font-weight: bold;
+      }
+
+      .issue-meta-data {
+        margin: 0.3em 0;
+        font-size: 0.8em;
+
+        .issue-tags {
+          padding: 0 0.5em;
+          display: inline-block;
+
+          .issue-tag {
+            display: inline-block;
+            padding: 0.3em 0.6em;
+            border: 1px solid $blue;
+            border-radius: 0.6em;
+            color: $blue;
+            margin: 0 0.5em;
+          }
+        }
+      }
+    }
+
+    .discussion-topic-issue-meta {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      .discussion-topic-issue-meta-data {
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .discussion-topic-issue-description {
+    min-height: 5em;
+    position: relative;
+  }
 }

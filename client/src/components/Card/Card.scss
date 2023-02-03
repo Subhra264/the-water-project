@@ -1,35 +1,35 @@
 @import 'src/utils/styles.scss';
 
 .card {
-    width: 80%;
-    padding: 0.4em;
-    margin: 1em auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: 80%;
+  padding: 0.4em;
+  margin: 1em auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    .card-img {
-        width: 45em;
-        height: 11em;
-        padding: 0.5em;
-        background-color: $whiteHoverColor;
-    }
-    
+  .card-img {
+    width: 45em;
+    height: 11em;
+    padding: 0.5em;
+    background-color: $whiteHoverColor;
+  }
+
+  .card-details {
+    padding: 0.5em;
+  }
+
+  &.mobile {
+    flex-direction: column;
+
+    .card-img,
     .card-details {
-        padding: 0.5em;
-        
+      width: 100% !important;
+      // height;
     }
-    
-    &.mobile {
-        flex-direction: column;
-    
-        .card-img, .card-details {
-            width: 100% !important;
-            // height;
-        }
 
-        // .card-details {
-        //     width: 100;
-        // }
-    }
+    // .card-details {
+    //     width: 100;
+    // }
+  }
 }

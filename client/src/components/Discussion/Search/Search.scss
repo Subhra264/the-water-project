@@ -1,100 +1,100 @@
 @import 'src/utils/styles.scss';
 
 .search-field-container {
-    padding: 0.4em;
+  padding: 0.4em;
 
-    .search-bar {
+  .search-bar {
+    display: flex;
+    padding: 0.2em 0.8em;
+    justify-content: space-between;
+
+    .search-form-container {
+      width: 60%;
+      max-width: 25em;
+      min-width: 8em;
+
+      .search-form {
         display: flex;
-        padding: 0.2em 0.8em;
-        justify-content: space-between;
 
-        .search-form-container {
-            width: 60%;
-            max-width: 25em;
-            min-width: 8em;
-
-            .search-form {
-                display: flex;
-
-                .text-input {
-                    width: 100%;
-                    padding: .7em 1.8em;
-                    border: none;
-                    outline: none;
-                    display: inline-block;
-                    background: #C4C4C42f;
-                    border-radius: 1.8em;
-                }
-
-                .search-submit-button {
-                    display: inline-block;
-                    border: none;
-                    outline: none;
-                    background: none;
-                    padding: 0.5em;
-                    cursor: pointer;
-                }
-            }
+        .text-input {
+          width: 100%;
+          padding: 0.7em 1.8em;
+          border: none;
+          outline: none;
+          display: inline-block;
+          background: #c4c4c42f;
+          border-radius: 1.8em;
         }
 
-        .new-problem {
-            a {
-                display: block;
-                height: 100%;
-                padding: 0.4em 1em;
-                background-color: #77e75b;
-                color: #f3ecec;
-                border-radius: 1.5em;
-
-                .new-problem-label {
-                    font-style: normal;
-                }
-            }
+        .search-submit-button {
+          display: inline-block;
+          border: none;
+          outline: none;
+          background: none;
+          padding: 0.5em;
+          cursor: pointer;
         }
+      }
     }
 
-    .labels-container {
+    .new-problem {
+      a {
+        display: block;
+        height: 100%;
+        padding: 0.4em 1em;
+        background-color: #77e75b;
+        color: #f3ecec;
+        border-radius: 1.5em;
+
+        .new-problem-label {
+          font-style: normal;
+        }
+      }
+    }
+  }
+
+  .labels-container {
+    padding: 0.3em;
+    display: flex;
+    align-items: center;
+
+    .clear-filters {
+      display: inline-flex;
+      padding: 0.2em;
+      justify-content: center;
+      align-items: center;
+      color: #c54949;
+      cursor: pointer;
+    }
+
+    .labels {
+      flex-grow: 4;
+      padding: 0.2em;
+      overflow-x: auto;
+
+      .label {
+        display: inline-block;
+        border-radius: 12px;
+        margin: 0 0.4em;
+        background: #fdfafa;
         padding: 0.3em;
-        display: flex;
-        align-items: center;
 
-        .clear-filters {
-            display: inline-flex;
-            padding: 0.2em;
-            justify-content: center;
-            align-items: center;
-            color: #c54949;
-            cursor: pointer;
+        .clear-filter {
+          display: inline-block;
+          width: 1.2em;
+          height: 1.2em;
+          border-radius: 50%;
+          background: #c4c4c42f;
+          color: $darkRed;
+          cursor: pointer;
+          text-align: center;
         }
 
-        .labels {
-            flex-grow: 4;
-            padding: 0.2em;
-            overflow-x: auto;
-
-            .label {
-                display: inline-block;
-                border-radius: 12px;
-                margin: 0 0.4em;
-                background: #fdfafa;
-                padding: 0.3em;
-
-                .clear-filter {
-                    display: inline-block;
-                    width: 1.2em;
-                    height: 1.2em;
-                    border-radius: 50%;
-                    background: #C4C4C42f;
-                    color: $darkRed;
-                    cursor: pointer;
-                    text-align: center;
-                }
-
-                .label-name {
-                    padding: 0 0.3em;
-                    color: $yellowOchre;
-                }
-            }
+        .label-name {
+          padding: 0 0.3em;
+          color: $yellowOchre;
         }
+      }
     }
+  }
 }
