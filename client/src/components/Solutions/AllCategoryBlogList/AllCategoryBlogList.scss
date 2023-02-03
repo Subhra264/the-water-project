@@ -1,41 +1,41 @@
 @import 'src/utils/styles.scss';
 
 .all-category-blog-list {
-    min-height: 15rem;
+  min-height: 15rem;
 
-    .blog-group-container {
-        margin: 0.4em;
+  .blog-group-container {
+    margin: 0.4em;
 
-        .blog-group-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
+    .blog-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
 
-            .blog-group-name {
-                padding: 0.2em 0.5em 0.2em 0.1em;
-                border-bottom: 1px solid $blue;
-                font-size: 1.2em;
-            }
+      .blog-group-name {
+        padding: 0.2em 0.5em 0.2em 0.1em;
+        border-bottom: 1px solid $blue;
+        font-size: 1.2em;
+      }
 
-            .blog-group-see-more {
-                a {
-                    display: inline-block;
-                    padding: 0.5em;
-                    cursor: pointer;
-    
-                    &:hover {
-                        background-color: $whiteHoverColor;
-                    }
-                }
-            }
+      .blog-group-see-more {
+        a {
+          display: inline-block;
+          padding: 0.5em;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $whiteHoverColor;
+          }
         }
-
-        .blog-group {
-            display: flex;
-            overflow-x: auto;
-            padding: 0.3em;
-            min-height: 8em;
-            position: relative;
-        }
+      }
     }
+
+    .blog-group {
+      display: flex;
+      overflow-x: auto;
+      padding: 0.3em;
+      min-height: 8em;
+      position: relative;
+    }
+  }
 }

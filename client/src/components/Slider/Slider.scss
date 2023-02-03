@@ -1,32 +1,32 @@
 @import 'src/utils/styles.scss';
 
 .slider-labels {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .slider-label {
-    a {
-        display: block;
-        padding: 0.5em;
-        text-decoration: none;
+  a {
+    display: block;
+    padding: 0.5em;
+    text-decoration: none;
 
-        &:hover {
-            background-color: $whiteHoverColor;
-        }
+    &:hover {
+      background-color: $whiteHoverColor;
     }
+  }
 }
 
 .slider {
-    position: relative;
-    background-color: #fff;
-    overflow-x: auto;
+  position: relative;
+  background-color: #fff;
+  overflow-x: auto;
 
-    .slider-bar {
-        position: relative;
-        transition: all 0.5s;
-        content: '';
-        height: 0.1em;
-        background-color: $yellowOchre;        
-    }
+  .slider-bar {
+    position: relative;
+    transition: all 0.5s;
+    content: '';
+    height: 0.1em;
+    background-color: $yellowOchre;
+  }
 }

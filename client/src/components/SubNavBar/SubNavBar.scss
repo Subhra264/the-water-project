@@ -1,50 +1,50 @@
 @import 'src/utils/styles.scss';
 
 .sub-navbar {
-    display: flex;
+  display: flex;
 }
 
 .sub-navbar-item {
-    a {
-        display: block;
-        padding: 0.5em;
-        text-decoration: none;
+  a {
+    display: block;
+    padding: 0.5em;
+    text-decoration: none;
 
-        &:hover {
-            background-color: $whiteHoverColor;
-        }
+    &:hover {
+      background-color: $whiteHoverColor;
     }
+  }
 }
 
 .mobile {
-    &.sub-navbar-container {
-        position: fixed;
-        bottom: 0px;
-        width: 100%;
-        border-top: 1px solid $yellowOchre;
-        z-index: 200;
-        
-        .sub-navbar {
-            justify-content: space-evenly;
+  &.sub-navbar-container {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    border-top: 1px solid $yellowOchre;
+    z-index: 200;
 
-            .sub-navbar-item { 
-                flex: 1;
-                text-align: center;
-            }
-        }
+    .sub-navbar {
+      justify-content: space-evenly;
+
+      .sub-navbar-item {
+        flex: 1;
+        text-align: center;
+      }
     }
+  }
 }
 
 .sub-navbar-container {
-    position: relative;
-    background-color: #fff;
+  position: relative;
+  background-color: #fff;
 
-    .selected-bar {
-        position: relative;
-        transition: all 0.5s;
-        content: '';
-        width: 3.7em;
-        height: 0.1em;
-        background-color: $yellowOchre;        
-    }
+  .selected-bar {
+    position: relative;
+    transition: all 0.5s;
+    content: '';
+    width: 3.7em;
+    height: 0.1em;
+    background-color: $yellowOchre;
+  }
 }

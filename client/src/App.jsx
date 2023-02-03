@@ -18,10 +18,7 @@ import Home from './components/Home/Home';
 import Problem from './components/Problem/Problem';
 import NotFound from './components/NotFound/NotFound';
 
-const StickyNavBars = [
-  <NavBar key='navbar' />,
-  <SubNavBar key='subnavbar' />
-];
+const StickyNavBars = [<NavBar key="navbar" />, <SubNavBar key="subnavbar" />];
 
 function App() {
   const { isMobile } = useViewport();
@@ -35,40 +32,37 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={{userState, userDispatch}}>
-      <div className='App'>
-        {
-          isMobile?
-            StickyNavBars
-          :
-            <div className="sticky-navbars">
-              {StickyNavBars}
-            </div>
-        }
+    <UserContext.Provider value={{ userState, userDispatch }}>
+      <div className="App">
+        {isMobile ? (
+          StickyNavBars
+        ) : (
+          <div className="sticky-navbars">{StickyNavBars}</div>
+        )}
         <Switch>
-          <Route path='/' exact>
+          <Route path="/" exact>
             <Home />
           </Route>
-          <Route path='/sign-in' exact>
+          <Route path="/sign-in" exact>
             <SignIn />
           </Route>
-          <Route path='/sign-up' exact>
+          <Route path="/sign-up" exact>
             <SignUp />
           </Route>
-          <Route path='/not-found' exact>
+          <Route path="/not-found" exact>
             <NotFound />
           </Route>
-          <Route path='/problems'>
+          <Route path="/problems">
             <Problem />
           </Route>
-          <Route path='/solutions'>
+          <Route path="/solutions">
             <Solutions />
           </Route>
-          <Route path='/discussion'>
+          <Route path="/discussion">
             <Discussion />
           </Route>
           <Route>
-            <Redirect to='/not-found' />
+            <Redirect to="/not-found" />
           </Route>
         </Switch>
         <Footer />

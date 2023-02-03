@@ -4,38 +4,42 @@ import './Editor.scss';
 import useViewport from '../../hooks/useViewport';
 import { getAccessTokenFromStorage } from '../../utils/manage-tokens';
 
-export default function Editor (props) {
+export default function Editor(props) {
   const { isMobile } = useViewport();
 
   return (
-    <div className={`editor-container ${props.editorClass? props.editorClass : ''}`}>
+    <div
+      className={`editor-container ${
+        props.editorClass ? props.editorClass : ''
+      }`}
+    >
       <CKEditor
-        editor={ ClassicEditor }
+        editor={ClassicEditor}
         key={isMobile}
         config={{
           toolbar: {
-            viewportTopOffset: isMobile? 45 : 100
+            viewportTopOffset: isMobile ? 45 : 100,
           },
           placeholder: props.placeholder,
           ckfinder: {
             uploadUrl: '/ckeditor/upload/',
             headers: {
-              Authorization: `Bearer ${getAccessTokenFromStorage()}`
+              Authorization: `Bearer ${getAccessTokenFromStorage()}`,
             },
-            withCredentials: true
-          }
+            withCredentials: true,
+          },
         }}
         data={props.editorContent}
-        onReady={editor => {
+        onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
-          console.log( 'Editor is ready to use!', editor );
+          console.log('Editor is ready to use!', editor);
         }}
         onChange={props.onContentChange}
-        onBlur={(event, editor ) => {
-          console.log( 'Blur.', editor );
+        onBlur={(event, editor) => {
+          console.log('Blur.', editor);
         }}
-        onFocus={(event, editor ) => {
-          console.log( 'Focus.', editor );
+        onFocus={(event, editor) => {
+          console.log('Focus.', editor);
         }}
       />
     </div>

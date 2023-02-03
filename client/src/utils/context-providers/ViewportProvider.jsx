@@ -1,27 +1,27 @@
-import { ViewportContext } from "../contexts";
-import { useState, useEffect } from "react";
+import { ViewportContext } from '../contexts';
+import { useState, useEffect } from 'react';
 
-export default function ViewportProvider({ children }) { 
-    const [width, setWidth] = useState();
-    const [height, setHeight] = useState();
+export default function ViewportProvider({ children }) {
+  const [width, setWidth] = useState();
+  const [height, setHeight] = useState();
 
-    useEffect(() => {
-        console.log('Viewport provider...');
+  useEffect(() => {
+    console.log('Viewport provider...');
 
-        const handleResizeWindow = () => {
-            setWidth(window.innerWidth);
-            setHeight(window.innerHeight);
-        };
+    const handleResizeWindow = () => {
+      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
+    };
 
-        handleResizeWindow();
-        window.addEventListener('resize', handleResizeWindow);
+    handleResizeWindow();
+    window.addEventListener('resize', handleResizeWindow);
 
-        return () => window.removeEventListener('resize', handleResizeWindow);
-    }, []);
+    return () => window.removeEventListener('resize', handleResizeWindow);
+  }, []);
 
-    return (
-        <ViewportContext.Provider value={{width, height}} >
-            {children}
-        </ViewportContext.Provider>
-    );
+  return (
+    <ViewportContext.Provider value={{ width, height }}>
+      {children}
+    </ViewportContext.Provider>
+  );
 }

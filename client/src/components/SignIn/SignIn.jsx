@@ -1,15 +1,15 @@
-import { useContext, useRef, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { manageUser } from "../../utils/actions/User.action";
-import { UserContext } from "../../utils/contexts";
-import { SERVER_HOST } from "../../utils/fetch-request";
-import AuthenticationForm from "../Form/AuthenticationForm";
+import { useContext, useRef, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { manageUser } from '../../utils/actions/User.action';
+import { UserContext } from '../../utils/contexts';
+import { SERVER_HOST } from '../../utils/fetch-request';
+import AuthenticationForm from '../Form/AuthenticationForm';
 // import authenticate from '../../utils/authenticate';
 
 export default function SignIn(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const formProps = useRef({});
   const history = useHistory();
   const location = useLocation();
@@ -26,15 +26,15 @@ export default function SignIn(props) {
   const signIn = (ev) => {
     ev.preventDefault();
     if (!username || !password) {
-      setError("Fill all the fields!");
+      setError('Fill all the fields!');
       return;
     }
 
     // POST request to sign in
-    fetch(SERVER_HOST + "/get-token/", {
-      method: "POST",
+    fetch(SERVER_HOST + '/get-token/', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username,
@@ -45,19 +45,19 @@ export default function SignIn(props) {
       .then((result) => {
         if (result.status_code && result.status_code !== 200)
           throw new Error(result.detail);
-        console.log("Signed in user", result);
+        console.log('Signed in user', result);
 
         // TODO: Use a better alternative to store the jwt tokens
         // Save the refresh and access tokens in the localstorage
-        localStorage.setItem("refresh_token", result.refresh);
-        localStorage.setItem("access_token", result.access);
-        localStorage.setItem("userState", JSON.stringify(result));
+        localStorage.setItem('refresh_token', result.refresh);
+        localStorage.setItem('access_token', result.access);
+        localStorage.setItem('userState', JSON.stringify(result));
 
         // Update the UserReducer state store
         userDispatch(manageUser(result));
 
         // Path to redirect to
-        let redirectTo = "/";
+        let redirectTo = '/';
 
         // Check if there is any redirectTo path is location.state
         if (location.state) {
@@ -75,15 +75,15 @@ export default function SignIn(props) {
   };
 
   formProps.current = {
-    formTitle: "Sign In",
+    formTitle: 'Sign In',
     fields: {
       username: {
-        type: "text",
+        type: 'text',
         required: true,
         onChange: changeUsername,
       },
       password: {
-        type: "password",
+        type: 'password',
         required: true,
         onChange: changePassword,
       },

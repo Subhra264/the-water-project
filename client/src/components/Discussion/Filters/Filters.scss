@@ -1,54 +1,55 @@
 @import 'src/utils/styles.scss';
 
 .filters-container {
-    width: 25%;
-    max-width: 15em;
-    margin-top: 0.3em;
-    border-right: 1px solid;
-    padding: 0.3em;
-    padding-right: 0.8em;
+  width: 25%;
+  max-width: 15em;
+  margin-top: 0.3em;
+  border-right: 1px solid;
+  padding: 0.3em;
+  padding-right: 0.8em;
 
-    &.mobile {
-        width: 100%;
-        border: none;
-        max-width: none;
+  &.mobile {
+    width: 100%;
+    border: none;
+    max-width: none;
 
-        .filters-label-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    .filters-label-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-            .toggle-filters {
-                cursor: pointer;
-            }
-        }
+      .toggle-filters {
+        cursor: pointer;
+      }
     }
+  }
 
-    .filters-label {
-        font-size: 1.2em;
+  .filters-label {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0.4em 0;
+  }
+
+  .filters {
+    .filter-group {
+      margin: 1em 0;
+
+      .filter-label {
         font-weight: bold;
-        margin: 0.4em 0;
+        margin-bottom: 0.4em;
+      }
+
+      input,
+      select {
+        outline: none;
+        border: 1px solid $yellowOchre;
+        // border-radius: 8px;
+        background: none;
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.4em 0.5em;
+        width: 100%;
+      }
     }
-
-    .filters {
-        .filter-group {
-            margin: 1em 0;
-
-            .filter-label {
-                font-weight: bold;
-                margin-bottom: 0.4em;
-            }
-
-            input, select {
-                outline: none;
-                border: 1px solid $yellowOchre;
-                // border-radius: 8px;
-                background: none;
-                display: inline-block;
-                font-size: 1em;
-                padding: 0.4em 0.5em;
-                width: 100%;
-            }
-        }
-    }
+  }
 }

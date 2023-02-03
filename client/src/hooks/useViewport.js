@@ -5,19 +5,19 @@ const breakpoint = 800;
 
 // This hook returns the current width and height of the window
 export default function useViewport() {
-    const { width, height } = useContext(ViewportContext);
-    const [isMobile, setIsMobile] = useState(width <= breakpoint);
+  const { width, height } = useContext(ViewportContext);
+  const [isMobile, setIsMobile] = useState(width <= breakpoint);
 
-    //TODO: Add tab viewport
+  //TODO: Add tab viewport
 
-    useEffect(() => {
-        setIsMobile(width <= breakpoint);
-    }, [width]);
+  useEffect(() => {
+    setIsMobile(width <= breakpoint);
+  }, [width]);
 
-    // const isMobile = width <= breakpoint;
-    return {
-        width,
-        height,
-        isMobile
-    };
+  // const isMobile = width <= breakpoint;
+  return {
+    width,
+    height,
+    isMobile,
+  };
 }

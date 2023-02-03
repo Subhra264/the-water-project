@@ -1,19 +1,19 @@
-import Card from "../Card/Card";
-import useViewport from "../../hooks/useViewport";
-import "../Home/Home.scss";
-import "./Problem.scss";
-import probImg1 from "../../assets/img/problem_1.jpg";
-import probImg2 from "../../assets/img/problem_2.jpg";
-import probImg3 from "../../assets/img/problem_3.jpg";
-import probImg4 from "../../assets/img/problem_4.jfif";
-import probImg5 from "../../assets/img/problem_5.jpg";
-import probImg6 from "../../assets/img/problem_6.jpg";
+import Card from '../Card/Card';
+import useViewport from '../../hooks/useViewport';
+import '../Home/Home.scss';
+import './Problem.scss';
+import probImg1 from '../../assets/img/problem_1.jpg';
+import probImg2 from '../../assets/img/problem_2.jpg';
+import probImg3 from '../../assets/img/problem_3.jpg';
+import probImg4 from '../../assets/img/problem_4.jfif';
+import probImg5 from '../../assets/img/problem_5.jpg';
+import probImg6 from '../../assets/img/problem_6.jpg';
 
 export default function Problem() {
   const { isMobile } = useViewport();
 
   return (
-    <div className={`problem ${isMobile ? "mobile" : ""}`}>
+    <div className={`problem ${isMobile ? 'mobile' : ''}`}>
       <div className="banner">
         <div className="banner-container">
           <h1>

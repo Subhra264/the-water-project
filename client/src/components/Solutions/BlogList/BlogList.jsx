@@ -7,52 +7,46 @@ import Loader from '../../Loader/Loader';
 import Gig from '../Gigs/Gig/Gig';
 import './BlogList.scss';
 
-export default function BlogList (props) {
-    const { blogCategoryId } = useParams();
-    const [loading, setLoading] = useState(true);
-    const [blogList, setBlogList] = useState([]);
+export default function BlogList(props) {
+  const { blogCategoryId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [blogList, setBlogList] = useState([]);
 
-    useEffect(() => {
+  useEffect(() => {
+    const successHandler = (result) => {
+      setBlogList(result.results);
+      setLoading(false);
+    };
 
-        const successHandler = (result) => {
-            setBlogList(result.results);
-            setLoading(false);
-        };
+    const errorHandler = (errMessage) => {
+      console.log('Error fetching blog-lists', errMessage);
+    };
 
-        const errorHandler = (errMessage) => {
-            console.log('Error fetching blog-lists', errMessage);
-        };
+    // Fetch all the blogs of the given category
+    getRequest(
+      `/blogs/${blogCategoryId}/`,
+      getAccessTokenFromStorage(),
+      successHandler,
+      errorHandler,
+    );
+  }, [blogCategoryId]);
 
-        // Fetch all the blogs of the given category
-        getRequest(
-            `/blogs/${blogCategoryId}/`,
-            getAccessTokenFromStorage(),
-            successHandler,
-            errorHandler
-        );
-
-    }, [blogCategoryId]);
-
-    return (
-        <div className="blog-list-container">
-            <div className="blog-list-title-container">
-                {categoryFromId(blogCategoryId)}
-            </div>
-            <div className="blog-list">
-                {
-                    loading?
-                        <Loader width='5em' />
-                    :
-                        blogList.length?
-                            blogList.map(blog => (
-                                <Gig {...blog} key={blog.id} />
-                            ))
-                        :
-                            <div className="no-results-container">
-                                <div className="no-results">No Blogs Under this Category</div>
-                            </div>
-                }
-            </div>
-        </div>
-    )
+  return (
+    <div className="blog-list-container">
+      <div className="blog-list-title-container">
+        {categoryFromId(blogCategoryId)}
+      </div>
+      <div className="blog-list">
+        {loading ? (
+          <Loader width="5em" />
+        ) : blogList.length ? (
+          blogList.map((blog) => <Gig {...blog} key={blog.id} />)
+        ) : (
+          <div className="no-results-container">
+            <div className="no-results">No Blogs Under this Category</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }

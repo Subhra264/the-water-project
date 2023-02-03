@@ -1,39 +1,38 @@
 @import 'src/utils/styles.scss';
 
 .problem-description {
+  .close-button-container {
+    text-align: right;
+    margin: 0.7em 0;
+    width: 75%;
 
-    .close-button-container {
-        text-align: right;
-        margin: 0.7em 0;
-        width: 75%;
-
-        >button {
-            display: inline-block;
-            padding: 0.7em 1em;
-            color: white;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            background-color: $darkRed;
-        }
+    > button {
+      display: inline-block;
+      padding: 0.7em 1em;
+      color: white;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background-color: $darkRed;
     }
+  }
 
-    .problem-closed {
-        height: 7em;
-        padding-left: 4em;
+  .problem-closed {
+    height: 7em;
+    padding-left: 4em;
 
-        .problem-closed-line {
-            border-left: 1px solid $darkYellowOchre;
-            height: 70%;
-        }
-        .problem-closed-by {
-            color: $yellowOchre;
-        }
+    .problem-closed-line {
+      border-left: 1px solid $darkYellowOchre;
+      height: 70%;
     }
+    .problem-closed-by {
+      color: $yellowOchre;
+    }
+  }
 }
 
 .mobile {
-    .close-button-container {
-        width: 100%;
-    }
+  .close-button-container {
+    width: 100%;
+  }
 }

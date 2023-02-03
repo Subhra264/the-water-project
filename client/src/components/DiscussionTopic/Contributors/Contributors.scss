@@ -1,17 +1,17 @@
 .contributors {
-    padding: 0.8em 0;
+  padding: 0.8em 0;
 
-    .contributor {
-        padding: 0.6em 0.8em;
-        display: flex;
-        align-items: center;
+  .contributor {
+    padding: 0.6em 0.8em;
+    display: flex;
+    align-items: center;
 
-        .contributor-profile-pic {
-            width: 2em;
-            height: 2em;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 0.5em;
-        }
+    .contributor-profile-pic {
+      width: 2em;
+      height: 2em;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.5em;
     }
+  }
 }

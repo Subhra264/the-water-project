@@ -1,118 +1,117 @@
 @import 'src/utils/styles.scss';
 
 .footer {
-    padding: 2em 0.5em 0.8em;
-    background-color: #121AD1;
+  padding: 2em 0.5em 0.8em;
+  background-color: #121ad1;
 
-    .footer-contains {
-        display: flex;
-        color: white;
-        position: relative;
-        padding: 0 4em 4em;
-        justify-content: space-between;
+  .footer-contains {
+    display: flex;
+    color: white;
+    position: relative;
+    padding: 0 4em 4em;
+    justify-content: space-between;
 
-        .quote-container::before {
-            content: '\201C';
-            font-size: 3em;
-            color: #6259C7;
-            display: block;
-        }
-
-        .quote-container {
-            background: #121AD1;
-            border-left-color: #6259C7;
-            padding-left: 3em;
-
-            span::before {
-                content: '\2014';
-            }
-
-            span {
-                display: block;
-                margin-top: 1.8em;
-                text-align: right;
-                font-style: normal;
-            }
-        }
-
-        .footer-contain-header {
-            width: 25%;
-            padding: 0em 4em;
-            font-size: 0.8em;
-            display: flex;
-            flex-direction: column;
-
-            h1 {
-                margin-bottom: 0.9em;
-            }
-
-            a {
-                display: block;
-                font-weight: 500;
-                margin: 0.6em;
-                color: white;
-            }
-        }
-
-        .fish-container {
-            position: absolute;
-            bottom: 2em;
-            left: 13em;
-
-            img {
-                width: 9em;
-                height: auto;
-                display: block;
-                z-index: -1;
-            }
-        }
+    .quote-container::before {
+      content: '\201C';
+      font-size: 3em;
+      color: #6259c7;
+      display: block;
     }
-    
-    .line {
-        content: '';
-        width: 70%;
-        margin: auto;
-        height: 2px;
-        background-color: #6259C7;
+
+    .quote-container {
+      background: #121ad1;
+      border-left-color: #6259c7;
+      padding-left: 3em;
+
+      span::before {
+        content: '\2014';
+      }
+
+      span {
+        display: block;
+        margin-top: 1.8em;
+        text-align: right;
+        font-style: normal;
+      }
+    }
+
+    .footer-contain-header {
+      width: 25%;
+      padding: 0em 4em;
+      font-size: 0.8em;
+      display: flex;
+      flex-direction: column;
+
+      h1 {
+        margin-bottom: 0.9em;
+      }
+
+      a {
+        display: block;
+        font-weight: 500;
+        margin: 0.6em;
+        color: white;
+      }
+    }
+
+    .fish-container {
+      position: absolute;
+      bottom: 2em;
+      left: 13em;
+
+      img {
+        width: 9em;
+        height: auto;
+        display: block;
+        z-index: -1;
+      }
+    }
+  }
+
+  .line {
+    content: '';
+    width: 70%;
+    margin: auto;
+    height: 2px;
+    background-color: #6259c7;
+  }
+  .footer-copyright {
+    color: #afc3f4e7;
+    padding: 0.7em;
+    width: fit-content;
+    margin: 0 auto;
+    font-weight: bold;
+  }
+
+  &.mobile {
+    .footer-contains {
+      flex-direction: column;
+      padding: 3em 1em 2em;
+
+      .footer-contain-header {
+        padding-left: 1em;
+        font-size: 1.1em;
+        width: 100%;
+      }
+
+      .fish-container {
+        right: 3em;
+        top: 11em;
+        left: unset;
+        bottom: unset;
+
+        img {
+          width: 6em;
+        }
+      }
+
+      //    .quote-container {
+      //        width: 100%;
+      //    }
     }
     .footer-copyright {
-        color: #afc3f4e7;
-        padding: 0.7em;
-        width: fit-content;
-        margin: 0 auto;
-        font-weight: bold;
+      padding: 1em 0 3em;
+      text-align: center;
     }
-
-    &.mobile {
-       .footer-contains {
-           flex-direction: column;
-           padding: 3em 1em 2em;
-
-           .footer-contain-header {
-                padding-left: 1em;
-                font-size: 1.1em;
-                width: 100%;
-            }
-
-            .fish-container {
-                right: 3em;
-                top: 11em;
-                left: unset;
-                bottom: unset;
-
-                img {
-                    width: 6em;
-                }
-            }
-
-        //    .quote-container {
-        //        width: 100%;
-        //    }
-
-       }
-       .footer-copyright {
-           padding: 1em 0 3em;
-           text-align: center;
-       }
-    }
+  }
 }

@@ -1,12 +1,12 @@
 @import 'src/utils/styles.scss';
 
 .discussion-home {
-    margin: 1em 2em 0;
-    display: flex;
-    border-top: 1px solid $yellowOchre;
+  margin: 1em 2em 0;
+  display: flex;
+  border-top: 1px solid $yellowOchre;
 
-    &.mobile {
-        display: block;
-        margin: 1em 0;
-    }
+  &.mobile {
+    display: block;
+    margin: 1em 0;
+  }
 }

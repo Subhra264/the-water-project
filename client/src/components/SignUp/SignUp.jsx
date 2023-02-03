@@ -1,18 +1,18 @@
-import { useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { SERVER_HOST } from "../../utils/fetch-request";
-import { Country } from "../ContentEditor/TopicEditor/TopicEditor";
-import AuthenticationForm from "../Form/AuthenticationForm";
+import { useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { SERVER_HOST } from '../../utils/fetch-request';
+import { Country } from '../ContentEditor/TopicEditor/TopicEditor';
+import AuthenticationForm from '../Form/AuthenticationForm';
 // import authenticate from '../../utils/authenticate';
 
 export default function SignUp(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [error, setError] = useState("");
-  const [age, setAge] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [error, setError] = useState('');
+  const [age, setAge] = useState('');
   const country = useRef(null);
   const formProps = useRef({});
   const history = useHistory();
@@ -46,15 +46,15 @@ export default function SignUp(props) {
 
     // First check if the entered inputs are valid
     if (!username || !password || !email || !country.current.value) {
-      setError("Fill all the required fields!");
+      setError('Fill all the required fields!');
       return;
     }
 
     // POST request to register the user
-    fetch(SERVER_HOST + "/user/register/", {
-      method: "POST",
+    fetch(SERVER_HOST + '/user/register/', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username,
@@ -70,7 +70,7 @@ export default function SignUp(props) {
       .then((result) => {
         if (result.status_code && result.status_code !== 200)
           throw new Error(result.detail);
-        history.push("/sign-in");
+        history.push('/sign-in');
       })
       .catch((err) => {
         setError(err.message);
@@ -78,44 +78,44 @@ export default function SignUp(props) {
   };
 
   formProps.current = {
-    formTitle: "Sign Up",
+    formTitle: 'Sign Up',
     fields: {
       username: {
-        type: "text",
+        type: 'text',
         required: true,
-        placeholder: "username (Required)",
+        placeholder: 'username (Required)',
         onChange: changeUsername,
       },
       password: {
-        type: "password",
+        type: 'password',
         required: true,
-        placeholder: "password (Required)",
+        placeholder: 'password (Required)',
         onChange: changePassword,
       },
       email: {
-        type: "email",
+        type: 'email',
         required: true,
-        placeholder: "email (Required)",
+        placeholder: 'email (Required)',
         onChange: changeEmail,
       },
       age: {
-        type: "number",
+        type: 'number',
         required: false,
-        placeholder: "Your Age(Optional)",
-        min: "10",
-        max: "100",
+        placeholder: 'Your Age(Optional)',
+        min: '10',
+        max: '100',
         onChange: changeAge,
       },
       firstName: {
-        type: "text",
+        type: 'text',
         required: false,
-        placeholder: "First Name(Optional)",
+        placeholder: 'First Name(Optional)',
         onChange: changeFirstName,
       },
       lastName: {
-        type: "text",
+        type: 'text',
         required: false,
-        placeholder: "Last Name(Optional)",
+        placeholder: 'Last Name(Optional)',
         onChange: changeLastName,
       },
     },
