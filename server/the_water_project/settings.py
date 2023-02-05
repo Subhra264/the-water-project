@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 # Application definition
 
 INSTALLED_APPS = [
+    "cloudinary",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -205,6 +207,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATIC_ROOT = os.environ.get("DJANGO_STATIC_ROOT", os.path.join(BASE_DIR, "static"))
 
 # media files path
+CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME")
+CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY")
+CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET")
+
+cloudinary.config(
+    cloud_name = CLOUDINARY_CLOUD_NAME,
+    api_key = CLOUDINARY_API_KEY,
+    api_secret = CLOUDINARY_API_SECRET
+)
 
 
 MEDIA_ROOT = os.environ.get("DJANGO_MEDIA_ROOT", os.path.join(BASE_DIR.parent, "media"))

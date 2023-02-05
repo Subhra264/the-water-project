@@ -4,14 +4,12 @@ from the_water_project.users.models import Organization
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
+from cloudinary.models import CloudinaryField
 from the_water_project.utils import COUNTRY_CHOICES
 from the_water_project.tags.models import Tag
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
-
-def unique_file_path(instance, filename):
-    return "topics/{}_{}".format(instance.id, filename)
 
 
 class Topic(models.Model):
@@ -24,7 +22,7 @@ class Topic(models.Model):
         ProgressReport, on_delete=models.CASCADE, blank=True, null=True, related_name="topic"
     )
     date = models.DateTimeField(auto_now_add=True)
-    img = models.ImageField(null=True, blank=True, upload_to=unique_file_path)
+    img = CloudinaryField('image')
     description = models.OneToOneField("comments.StartingComment", on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
     closed_on = models.DateTimeField(blank=True, null=True)

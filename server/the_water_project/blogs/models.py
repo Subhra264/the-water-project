@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from the_water_project.tags.models import Tag
+from cloudinary.models import CloudinaryField
 
 
 BLOG_CHOICES = [
@@ -14,12 +15,8 @@ BLOG_CHOICES = [
 ]
 
 
-def unique_file_path(instance, filname):
-    return "blogs/{}_{}".format(instance.id, filname)
-
-
 class Blog(models.Model):
-    front_img = models.ImageField(blank=True, null=True, upload_to=unique_file_path)
+    front_img = CloudinaryField('image')
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     content = models.TextField()
