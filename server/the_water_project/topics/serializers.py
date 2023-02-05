@@ -5,6 +5,7 @@ from the_water_project.users.serializers import OnlyIdAndNameUserSerializer, Onl
 from the_water_project.comments.serializers import StartingCommentSerializer
 from the_water_project.tags.serializers import TagSerializer
 from django.utils.text import Truncator
+from django.conf import settings
 from .models import Topic, Issue, Contribution
 from django.contrib.auth import get_user_model
 
@@ -77,6 +78,9 @@ class TopicSerializer(serializers.ModelSerializer):
             "img",
             "contributors",
         )
+
+    def get_img(self, obj):
+        return'{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.img)
 
 
 class IssueSerializer(serializers.ModelSerializer):
