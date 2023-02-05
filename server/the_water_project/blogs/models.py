@@ -18,7 +18,7 @@ BLOG_CHOICES = [
 class Blog(models.Model):
     front_img = CloudinaryField()
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=150)
     content = models.TextField()
     _type = models.CharField(choices=BLOG_CHOICES, max_length=30)
     no_of_comments = models.PositiveIntegerField(default=0)

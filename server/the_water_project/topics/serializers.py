@@ -55,6 +55,7 @@ class TopicSerializer(serializers.ModelSerializer):
     contributors = ContributorField(queryset=get_user_model().objects.all())
     description = StartingCommentField(read_only=True)
     tags = TagField(queryset=Tag.objects.all(), required=False)
+    img = serializers.SerializerMethodField()
 
     class Meta:
         model = Topic
