@@ -28,9 +28,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "mongohahahah")
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 DEV = os.environ.get("DJANGO_DEV", "") != "False"
 
-ALLOWED_HOSTS = []
-if not DEV:
-    ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS').split(' ')]
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS').split(' ')]
 
 
 # Application definition
