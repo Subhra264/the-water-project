@@ -35,7 +35,7 @@ class TheUserManager(UserManager):
 
 
 class User(AbstractUser):
-    profile_pic = CloudinaryField('image')
+    profile_pic = CloudinaryField()
     country = models.CharField(max_length=60, choices=COUNTRY_CHOICES)
     age = models.PositiveIntegerField(blank=True, null=True)
     address = models.CharField(max_length=200, null=True, blank=True)
@@ -68,7 +68,7 @@ class OrganizationManager(BaseUserManager):
 
 
 class Organization(AbstractBaseUser):
-    profile_pic = CloudinaryField('image')
+    profile_pic = CloudinaryField()
     name = models.CharField(max_length=120)
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=200)
