@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
+from cloudinary.models import CloudinaryField
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, UserManager
 from the_water_project.utils import COUNTRY_CHOICES
@@ -10,13 +11,6 @@ from django.core.validators import RegexValidator
 
 
 # TODO: need to check whether the organization is govt registered or not
-
-
-def unique_file_path(instance, filename):
-    if type(instance).__name__ == "User":
-        return "users/{}_{}".format(instance.id, filename)
-    else:
-        return "orgs/{}_{}".format(instance.id, filename)
 
 
 class TheUserManager(UserManager):
@@ -41,7 +35,7 @@ class TheUserManager(UserManager):
 
 
 class User(AbstractUser):
-    profile_pic = models.ImageField(blank=True, null=True, upload_to=unique_file_path)
+    profile_pic = CloudinaryField('image')
     country = models.CharField(max_length=60, choices=COUNTRY_CHOICES)
     age = models.PositiveIntegerField(blank=True, null=True)
     address = models.CharField(max_length=200, null=True, blank=True)
@@ -74,7 +68,7 @@ class OrganizationManager(BaseUserManager):
 
 
 class Organization(AbstractBaseUser):
-    profile_pic = models.ImageField(null=True, blank=True, upload_to=unique_file_path)
+    profile_pic = CloudinaryField('image')
     name = models.CharField(max_length=120)
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=200)
