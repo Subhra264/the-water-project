@@ -59,8 +59,8 @@ class BlogViewSet(ModelViewSet):
                         tag_name = tag_name.lower()
                         tag, _ = Tag.objects.get_or_create(name=tag_name)
                         tag.blog_set.add(blog)
-        except Exception:
-            raise APIException("something went wrong while creating the blog")
+        except Exception as e:
+            raise APIException(str(e))
         blog_serialized = self.get_serializer(blog).data
         return Response(blog_serialized)
 

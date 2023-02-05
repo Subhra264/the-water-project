@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Organization
+from django.conf import settings
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -17,6 +18,9 @@ class UserSerializer(serializers.ModelSerializer):
     def get_country(self, obj):
         return obj.get_country_display()
 
+    def get_profile_pic(self, obj):
+        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
+
     class Meta:
         model = User
         exclude = ["password", "is_staff", "is_active", "is_superuser", "user_permissions", "groups"]
@@ -31,6 +35,8 @@ class OnlyIdAndNameUserSerializer(serializers.ModelSerializer):
             "profile_pic",
         )
 
+    def get_profile_pic(self, obj):
+        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
 
 class OwnerField(serializers.RelatedField):
     def to_representation(self, value):
@@ -41,6 +47,9 @@ class ReadOnlyOrgSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = ("address", "phone_number", "profile_pic")
+
+    def get_profile_pic(self, obj):
+        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
 
 
 class OrgSerializer(serializers.ModelSerializer):
@@ -60,6 +69,9 @@ class OrgSerializer(serializers.ModelSerializer):
         org = self.Meta.model.objects.create_org(**validated_data)
         return org
 
+    def get_profile_pic(self, obj):
+        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
+
 
 class OnlyIdAndNameOrgSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,6 +81,9 @@ class OnlyIdAndNameOrgSerializer(serializers.ModelSerializer):
             "name",
             "profile_pic",
         )
+
+    def get_profile_pic(self, obj):
+        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):

@@ -2,6 +2,7 @@ from the_water_project.tags.serializers import TagSerializer
 from the_water_project.tags.models import Tag
 from the_water_project.users.serializers import OnlyIdAndNameUserSerializer
 from django.utils.text import Truncator
+from django.conf import settings
 from .models import Blog, Like
 from rest_framework import serializers
 
@@ -46,3 +47,6 @@ class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = "__all__"
+
+    def get_front_img(self, obj):
+        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.front_img)
