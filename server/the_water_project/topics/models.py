@@ -22,7 +22,7 @@ class Topic(models.Model):
         ProgressReport, on_delete=models.CASCADE, blank=True, null=True, related_name="topic"
     )
     date = models.DateTimeField(auto_now_add=True)
-    img = CloudinaryField('image')
+    img = CloudinaryField()
     description = models.OneToOneField("comments.StartingComment", on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
     closed_on = models.DateTimeField(blank=True, null=True)
