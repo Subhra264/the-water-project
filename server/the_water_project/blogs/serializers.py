@@ -50,4 +50,7 @@ class BlogSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_front_img(self, obj):
-        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.front_img)
+        try:
+            return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.front_img)
+        except Exception as e:
+            print(e)
