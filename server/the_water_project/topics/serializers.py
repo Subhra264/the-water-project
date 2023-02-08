@@ -81,7 +81,11 @@ class TopicSerializer(serializers.ModelSerializer):
         )
 
     def get_img(self, obj):
-        return'{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.img)
+        try:
+            return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.img)
+        except Exception as e:
+            print(e)
+            raise e
 
 
 class IssueSerializer(serializers.ModelSerializer):

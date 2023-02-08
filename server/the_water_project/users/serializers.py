@@ -38,7 +38,10 @@ class OnlyIdAndNameUserSerializer(serializers.ModelSerializer):
         )
 
     def get_profile_pic(self, obj):
-        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
+        try:
+            return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
+        except Exception as e:
+            print(e)
 
 class OwnerField(serializers.RelatedField):
     def to_representation(self, value):
