@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Organization
 from django.conf import settings
+from utils.serializers import CloudinaryImageField
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -11,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(read_only=True)
     rating = serializers.FloatField(read_only=True)
     country = serializers.SerializerMethodField()
-    profile_pic = serializers.SerializerMethodField()
+    profile_pic = CloudinaryImageField(source='profile_pic')
 
     def get_no_of_contributions(self, obj):
         return obj.get_no_of_contributions()
@@ -19,16 +20,13 @@ class UserSerializer(serializers.ModelSerializer):
     def get_country(self, obj):
         return obj.get_country_display()
 
-    def get_profile_pic(self, obj):
-        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
-
     class Meta:
         model = User
         exclude = ["password", "is_staff", "is_active", "is_superuser", "user_permissions", "groups"]
 
 
 class OnlyIdAndNameUserSerializer(serializers.ModelSerializer):
-    profile_pic = serializers.SerializerMethodField()
+    profile_pic = CloudinaryImageField(source='profile_pic')
     class Meta:
         model = User
         fields = (
@@ -37,11 +35,6 @@ class OnlyIdAndNameUserSerializer(serializers.ModelSerializer):
             "profile_pic",
         )
 
-    def get_profile_pic(self, obj):
-        try:
-            return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
-        except Exception as e:
-            print(e)
 
 class OwnerField(serializers.RelatedField):
     def to_representation(self, value):
@@ -55,7 +48,7 @@ class ReadOnlyOrgSerializer(serializers.ModelSerializer):
         fields = ("address", "phone_number", "profile_pic")
 
     def get_profile_pic(self, obj):
-        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
+        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic.url)
 
 
 class OrgSerializer(serializers.ModelSerializer):
@@ -64,7 +57,7 @@ class OrgSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(read_only=True)
     rating = serializers.FloatField(read_only=True)
     no_of_members = serializers.IntegerField(read_only=True)
-    profile_pic = serializers.SerializerMethodField()
+    profile_pic = CloudinaryImageField(source='profile_pic')
 
     class Meta:
         model = Organization
@@ -76,12 +69,9 @@ class OrgSerializer(serializers.ModelSerializer):
         org = self.Meta.model.objects.create_org(**validated_data)
         return org
 
-    def get_profile_pic(self, obj):
-        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
-
 
 class OnlyIdAndNameOrgSerializer(serializers.ModelSerializer):
-    profile_pic = serializers.SerializerMethodField()
+    profile_pic = CloudinaryImageField(source='profile_pic')
     class Meta:
         model = Organization
         fields = (
@@ -89,9 +79,6 @@ class OnlyIdAndNameOrgSerializer(serializers.ModelSerializer):
             "name",
             "profile_pic",
         )
-
-    def get_profile_pic(self, obj):
-        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic)
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):

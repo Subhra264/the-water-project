@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from utils.serializers import CloudinaryImageField
 from the_water_project.tags.models import Tag
 from the_water_project.users.models import Organization
 from the_water_project.users.serializers import OnlyIdAndNameUserSerializer, OnlyIdAndNameOrgSerializer
@@ -55,7 +56,7 @@ class TopicSerializer(serializers.ModelSerializer):
     contributors = ContributorField(queryset=get_user_model().objects.all())
     description = StartingCommentField(read_only=True)
     tags = TagField(queryset=Tag.objects.all(), required=False)
-    img = serializers.SerializerMethodField()
+    img = CloudinaryImageField(source='img')
 
     class Meta:
         model = Topic
@@ -79,13 +80,6 @@ class TopicSerializer(serializers.ModelSerializer):
             "img",
             "contributors",
         )
-
-    def get_img(self, obj):
-        try:
-            return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.img)
-        except Exception as e:
-            print(e)
-            raise e
 
 
 class IssueSerializer(serializers.ModelSerializer):
