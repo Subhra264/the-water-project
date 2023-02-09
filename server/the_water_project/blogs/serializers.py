@@ -4,6 +4,7 @@ from the_water_project.users.serializers import OnlyIdAndNameUserSerializer
 from django.utils.text import Truncator
 from django.conf import settings
 from .models import Blog, Like
+from utils.serializers import CloudinaryImageField
 from rest_framework import serializers
 
 
@@ -43,14 +44,8 @@ class BlogSerializer(serializers.ModelSerializer):
     content = ContentField(read_only=True)
     creator = OnlyIdAndNameUserSerializer()
     tags = TagSerializer(Tag.objects.all(), many=True, required=False)
-    front_img = serializers.SerializerMethodField()
+    front_img = CloudinaryImageField(source='front_img')
 
     class Meta:
         model = Blog
         fields = "__all__"
-
-    def get_front_img(self, obj):
-        try:
-            return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.front_img)
-        except Exception as e:
-            print(e)
