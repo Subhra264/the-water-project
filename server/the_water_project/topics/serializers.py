@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from utils.serializers import CloudinaryImageField
+from the_water_project.utils.serializers import CloudinaryImageField
 from the_water_project.tags.models import Tag
 from the_water_project.users.models import Organization
 from the_water_project.users.serializers import OnlyIdAndNameUserSerializer, OnlyIdAndNameOrgSerializer

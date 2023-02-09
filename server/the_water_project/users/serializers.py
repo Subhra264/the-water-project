@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Organization
 from django.conf import settings
-from utils.serializers import CloudinaryImageField
+from the_water_project.utils.serializers import CloudinaryImageField
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

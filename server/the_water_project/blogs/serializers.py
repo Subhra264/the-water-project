@@ -4,7 +4,7 @@ from the_water_project.users.serializers import OnlyIdAndNameUserSerializer
 from django.utils.text import Truncator
 from django.conf import settings
 from .models import Blog, Like
-from utils.serializers import CloudinaryImageField
+from the_water_project.utils.serializers import CloudinaryImageField
 from rest_framework import serializers
 
 
