@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(read_only=True)
     rating = serializers.FloatField(read_only=True)
     country = serializers.SerializerMethodField()
-    profile_pic = CloudinaryImageField(source='profile_pic')
+    profile_pic = CloudinaryImageField()
 
     def get_no_of_contributions(self, obj):
         return obj.get_no_of_contributions()
@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class OnlyIdAndNameUserSerializer(serializers.ModelSerializer):
-    profile_pic = CloudinaryImageField(source='profile_pic')
+    profile_pic = CloudinaryImageField()
     class Meta:
         model = User
         fields = (
@@ -49,7 +49,7 @@ class ReadOnlyOrgSerializer(serializers.ModelSerializer):
 
     def get_profile_pic(self, obj):
         if obj.profile_pic and hasattr(obj.profile_pic, 'url'):
-            return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic.url)
+            return obj.profile_pic.url
         return None
 
 
@@ -59,7 +59,7 @@ class OrgSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(read_only=True)
     rating = serializers.FloatField(read_only=True)
     no_of_members = serializers.IntegerField(read_only=True)
-    profile_pic = CloudinaryImageField(source='profile_pic')
+    profile_pic = CloudinaryImageField()
 
     class Meta:
         model = Organization
