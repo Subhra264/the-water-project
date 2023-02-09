@@ -48,7 +48,9 @@ class ReadOnlyOrgSerializer(serializers.ModelSerializer):
         fields = ("address", "phone_number", "profile_pic")
 
     def get_profile_pic(self, obj):
-        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic.url)
+        if obj.profile_pic and hasattr(obj.profile_pic, 'url'):
+            return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, obj.profile_pic.url)
+        return None
 
 
 class OrgSerializer(serializers.ModelSerializer):
