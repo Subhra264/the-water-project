@@ -44,7 +44,7 @@ class BlogSerializer(serializers.ModelSerializer):
     content = ContentField(read_only=True)
     creator = OnlyIdAndNameUserSerializer()
     tags = TagSerializer(Tag.objects.all(), many=True, required=False)
-    front_img = CloudinaryImageField(source='front_img')
+    front_img = CloudinaryImageField()
 
     class Meta:
         model = Blog
